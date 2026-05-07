@@ -57,7 +57,7 @@ export function ArticleForm({
           <CardContent className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="title">{dictionary.forms.title}</Label>
-              <Input id="title" name="title" defaultValue={defaults?.title ?? ""} required />
+              <Input id="title" name="title" defaultValue={defaults?.title ?? ""} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="subtitle">{dictionary.forms.subtitle}</Label>
@@ -65,7 +65,7 @@ export function ArticleForm({
             </div>
             <div className="space-y-2">
               <Label htmlFor="abstract">{dictionary.forms.abstract}</Label>
-              <Textarea id="abstract" name="abstract" defaultValue={defaults?.abstract ?? ""} className="min-h-[150px]" required />
+              <Textarea id="abstract" name="abstract" defaultValue={defaults?.abstract ?? ""} className="min-h-[150px]" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="content">{dictionary.forms.content}</Label>
@@ -93,7 +93,7 @@ export function ArticleForm({
                 name="categoryId"
                 defaultValue={defaults?.categoryId ?? ""}
                 className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                required
+               
               >
                 <option value="" disabled>
                   {dictionary.forms.selectCategory}
@@ -112,7 +112,7 @@ export function ArticleForm({
                 name="language"
                 defaultValue={defaults?.language ?? "az"}
                 className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                required
+               
               >
                 {locales.map((language) => (
                   <option key={language} value={language}>
@@ -127,6 +127,10 @@ export function ArticleForm({
               <Input id="tags" name="tags" defaultValue={defaults?.tags?.join(", ") ?? ""} />
             </div>
             
+            <div className="space-y-2">
+              <Label htmlFor="coverImage">{dictionary.forms.uploadCover}</Label>
+              <Input id="coverImage" name="coverImage" type="file" accept="image/png,image/jpeg,image/webp" />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="coverImageUrl">{dictionary.forms.coverUrl}</Label>
               <Input id="coverImageUrl" name="coverImageUrl" defaultValue={defaults?.coverImageUrl ?? ""} />

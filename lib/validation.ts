@@ -40,15 +40,15 @@ export const articleIntentSchema = z.enum(["draft", "pending_review"]);
 export const articleLanguageSchema = z.enum(["en", "az", "ru"]);
 
 export const articleSchema = z.object({
-  title: z.string().max(180),
-  subtitle: z.string().max(220).optional().or(z.literal("")),
+  title: z.string().max(1000).optional().or(z.literal("")),
+  subtitle: z.string().max(2000).optional().or(z.literal("")),
   categoryId: z.string().optional().or(z.literal("")),
-  language: articleLanguageSchema,
-  tags: z.string().max(240).optional().or(z.literal("")),
-  abstract: z.string().max(900),
-  content: z.string().max(50000),
-  sources: z.string().max(4000).optional().or(z.literal("")),
-  coverImageUrl: z.string().optional().or(z.literal("")),
+  language: articleLanguageSchema.default("az"),
+  tags: z.string().max(5000).optional().or(z.literal("")),
+  abstract: z.string().max(10000).optional().or(z.literal("")),
+  content: z.string().max(500000).optional().or(z.literal("")),
+  sources: z.string().max(50000).optional().or(z.literal("")),
+  coverImageUrl: z.string().max(5000).optional().or(z.literal("")),
   intent: articleIntentSchema
 });
 
