@@ -191,7 +191,7 @@ export async function updateArticleAdminAction(_previous: ActionState, formData:
 
   await requireRole(["editor", "admin"], "/admin");
   const supabase = await createServerSupabaseClient();
-  const sanitizedContent = sanitizeArticleContent(appendAdminSources(parsed.data.content, parsed.data.sources, dictionary.messages.sourcesHeading));
+  const sanitizedContent = sanitizeArticleContent(appendAdminSources(parsed.data.content ?? "", parsed.data.sources ?? "", dictionary.messages.sourcesHeading ?? ""));
 
   const { error } = await supabase
     .from("articles")
