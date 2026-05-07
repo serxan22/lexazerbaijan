@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { getCurrentProfile } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { HeaderClient } from "@/components/layout/site-header-client";
@@ -23,3 +24,5 @@ export async function SiteHeader() {
     />
   );
 }
+
+<ThemeToggle />

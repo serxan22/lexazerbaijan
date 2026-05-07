@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
 
 import "@/app/globals.css";
@@ -28,8 +29,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale}>
       <body className="min-h-screen font-sans">
+    <ThemeProvider>
         <SiteHeader />
-        <main>{children}</main>
+        <main>{children}
+    </ThemeProvider></main>
         <SiteFooter />
       </body>
     </html>
