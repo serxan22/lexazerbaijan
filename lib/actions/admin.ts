@@ -196,9 +196,9 @@ export async function updateArticleAdminAction(_previous: ActionState, formData:
   const { error } = await supabase
     .from("articles")
     .update({
-      title: plainText(parsed.data.title),
+      title: plainText(parsed.data.title ?? ""),
       subtitle: parsed.data.subtitle ? plainText(parsed.data.subtitle) : null,
-      abstract: plainText(parsed.data.abstract),
+      abstract: plainText(parsed.data.abstract ?? ""),
       content: sanitizedContent,
       cover_image_url: parsed.data.coverImageUrl || null,
       language: parsed.data.language,
