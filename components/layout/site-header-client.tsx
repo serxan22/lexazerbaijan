@@ -1,0 +1,216 @@
+"use client";
+
+import Link from "next/link";
+import { BookOpen, ChevronDown, LayoutDashboard, LogIn, LogOut, Menu, PenSquare, ShieldCheck, UserRound } from "lucide-react";
+
+import { siteConfig } from "@/config/site";
+import type { Dictionary } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n-config";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { Logo } from "@/components/layout/logo";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { initials } from "@/lib/utils";
+import type { UserRole } from "@/types/database";
+
+type HeaderProfile = {
+  fullName: string | null;
+  username: string | null;
+  avatarUrl: string | null;
+  role: UserRole;
+};
+
+export function HeaderClient({
+  profile,
+  locale,
+  dictionary
+}: {
+  profile: HeaderProfile | null;
+  locale: Locale;
+  dictionary: Dictionary;
+}) {
+  const isAdmin = profile?.role === "admin";
+  const navItems = [
+    { title: dictionary.nav.articles, href: "/articles" },
+    { title: dictionary.nav.categories, href: "/categories" },
+    { title: dictionary.nav.authors, href: "/authors" },
+    { title: dictionary.nav.about, href: "/about" }
+  ];
+
+  return (
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/92 backdrop-blur supports-[backdrop-filter]:bg-white/82">
+      <div className="legal-container flex h-20 items-center justify-between gap-6">
+        <Logo tagline={dictionary.site.journal} />
+
+        <nav className="hidden items-center gap-1 lg:flex" aria-label={dictionary.nav.navigation}>
+          {navItems.map((item) => (
+            <Button key={item.href} variant="ghost" asChild>
+              <Link href={item.href}>{item.title}</Link>
+            </Button>
+          ))}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                {dictionary.nav.practiceAreas}
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="grid w-[520px] grid-cols-2 gap-1 p-2">
+              {siteConfig.categories.map((category) => {
+                const slug = category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+                const translated =
+                  dictionary.categories[slug as keyof typeof dictionary.categories]?.name ?? category;
+                return (
+                  <DropdownMenuItem key={category} asChild>
+                    <Link href={`/articles?category=${slug}`} className="rounded-md px-3 py-2">
+                      {translated}
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </nav>
+
+        <div className="hidden items-center gap-3 lg:flex">
+          <Button variant="outline" asChild>
+            <Link href="/articles">
+              <BookOpen className="h-4 w-4" />
+              {dictionary.nav.explore}
+            </Link>
+          </Button>
+          <Button variant="gold" asChild>
+            <Link href="/submit">
+              <PenSquare className="h-4 w-4" />
+              {dictionary.nav.submitArticle}
+            </Link>
+          </Button>
+          <LanguageSwitcher locale={locale} label={dictionary.nav.language} />
+          {profile ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage src={profile.avatarUrl ?? undefined} alt={profile.fullName ?? dictionary.nav.publicProfile} />
+                    <AvatarFallback>{initials(profile.fullName)}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>
+                  <span className="block">{profile.fullName ?? dictionary.site.fallbackMember}</span>
+                  <span className="text-xs font-normal text-slate-500">@{profile.username ?? "profile"}</span>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    {dictionary.nav.dashboard}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href={`/authors/${profile.username ?? ""}`}>
+                    <UserRound className="mr-2 h-4 w-4" />
+                    {dictionary.nav.publicProfile}
+                  </Link>
+                </DropdownMenuItem>
+                {isAdmin ? (
+                  <DropdownMenuItem asChild>
+                    <Link href="/admin">
+                      <ShieldCheck className="mr-2 h-4 w-4" />
+                      {dictionary.nav.admin}
+                    </Link>
+                  </DropdownMenuItem>
+                ) : null}
+                <DropdownMenuSeparator />
+                <form action="/auth/logout" method="post">
+                  <DropdownMenuItem asChild>
+                    <button type="submit" className="w-full">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      {dictionary.nav.signOut}
+                    </button>
+                  </DropdownMenuItem>
+                </form>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="ghost" asChild>
+              <Link href="/login">
+                <LogIn className="h-4 w-4" />
+                {dictionary.nav.login}
+              </Link>
+            </Button>
+          )}
+        </div>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="icon" className="lg:hidden" aria-label={dictionary.nav.navigation}>
+              <Menu className="h-5 w-5" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="top-6 translate-y-0 sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>{dictionary.nav.navigation}</DialogTitle>
+              <DialogDescription>{dictionary.site.description}</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-2">
+              {[...navItems, { title: dictionary.nav.submitArticle, href: "/submit" }].map((item) => (
+                <Button key={item.href} variant="ghost" asChild className="justify-start">
+                  <Link href={item.href}>{item.title}</Link>
+                </Button>
+              ))}
+              <div className="my-2 border-t" />
+              <Button variant="outline" asChild className="justify-start">
+                <Link href="/articles">
+                  <BookOpen className="h-4 w-4" />
+                  {dictionary.nav.exploreArticles}
+                </Link>
+              </Button>
+              <LanguageSwitcher locale={locale} label={dictionary.nav.language} />
+              {profile ? (
+                <>
+                  <Button variant="outline" asChild className="justify-start">
+                    <Link href="/dashboard">
+                      <LayoutDashboard className="h-4 w-4" />
+                      {dictionary.nav.dashboard}
+                    </Link>
+                  </Button>
+                  <form action="/auth/logout" method="post">
+                    <Button variant="ghost" className="w-full justify-start">
+                      <LogOut className="h-4 w-4" />
+                      {dictionary.nav.signOut}
+                    </Button>
+                  </form>
+                </>
+              ) : (
+                <Button variant="gold" asChild className="justify-start">
+                  <Link href="/login">
+                    <LogIn className="h-4 w-4" />
+                    {dictionary.nav.login}
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </header>
+  );
+}

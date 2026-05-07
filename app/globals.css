@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: Inter;
+    --font-newsreader: Georgia;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 64% 14%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 213 88% 28%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 213 88% 28%;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  ::selection {
+    background: rgba(184, 137, 74, 0.22);
+  }
+}
+
+@layer components {
+  .legal-container {
+    @apply container max-w-7xl;
+  }
+
+  .section-shell {
+    @apply py-16 md:py-24;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-gold;
+  }
+
+  .article-prose {
+    @apply font-serif text-lg leading-8 text-slate-800;
+  }
+
+  .article-prose h2 {
+    @apply mt-12 scroll-mt-24 font-sans text-2xl font-semibold text-slate-950;
+  }
+
+  .article-prose h3 {
+    @apply mt-9 scroll-mt-24 font-sans text-xl font-semibold text-slate-950;
+  }
+
+  .article-prose h4 {
+    @apply mt-8 scroll-mt-24 font-sans text-lg font-semibold text-slate-950;
+  }
+
+  .article-prose p {
+    @apply mt-6;
+  }
+
+  .article-prose a {
+    @apply text-blue-800 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-950;
+  }
+
+  .article-prose blockquote {
+    @apply my-8 border-l-2 border-gold bg-gold-muted px-6 py-4 font-sans text-base leading-7 text-slate-700;
+  }
+
+  .article-prose ul,
+  .article-prose ol {
+    @apply mt-6 pl-7;
+  }
+
+  .article-prose li {
+    @apply mt-2;
+  }
+
+  .article-prose code {
+    @apply rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm;
+  }
+
+  .article-prose pre {
+    @apply mt-6 overflow-x-auto rounded-md bg-slate-950 p-5 text-sm text-slate-50;
+  }
+}
