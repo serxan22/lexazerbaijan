@@ -1,6 +1,3 @@
 
 
-NEXT_PUBLIC_SUPABASE_URL=https://tjyxysgksjzynqkrfysd.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqeXh5c2drc2p6eW5xa3JmeXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTk4NjYsImV4cCI6MjA5MzczNTg2Nn0.1q72VteqCq3SkldmwMATsqf_RlG7pV3DzdmJTusAEl0
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
