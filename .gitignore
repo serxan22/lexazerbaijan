@@ -8,3 +8,5 @@ coverage
 *.tsbuildinfo
 vercel
 .DS_Store
+.env.local
+lex.env.local.md
