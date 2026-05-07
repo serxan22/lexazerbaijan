@@ -125,3 +125,4 @@ npm run typecheck
 ## Legal Disclaimer
 
 Articles published on the platform are for educational and informational purposes only. They do not constitute legal advice, do not replace consultation with a qualified lawyer, and do not create a lawyer-client relationship.
+# lexazerbaijan
