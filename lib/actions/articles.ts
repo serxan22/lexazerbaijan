@@ -128,12 +128,12 @@ export async function submitArticleAction(_previous: ActionState, formData: Form
     };
   }
 
-  const sanitizedContent = sanitizeArticleContent(appendSources(parsed.data.content, parsed.data.sources, dictionary.messages.sourcesHeading));
+  const sanitizedContent = sanitizeArticleContent(appendSources(parsed.data.content ?? "", parsed.data.sources ?? "", dictionary.messages.sourcesHeading ?? ""));
   const article = {
-    title: plainText(parsed.data.title),
-    slug: `${createSlug(parsed.data.title)}-${crypto.randomUUID().slice(0, 8)}`,
+    title: plainText(parsed.data.title ?? ""),
+    slug: `${createSlug(parsed.data.title ?? "")}-${crypto.randomUUID().slice(0, 8)}`,
     subtitle: parsed.data.subtitle ? plainText(parsed.data.subtitle) : null,
-    abstract: plainText(parsed.data.abstract),
+    abstract: plainText(parsed.data.abstract ?? ""),
     content: sanitizedContent,
     cover_image_url: coverImageUrl,
     language: parsed.data.language,
@@ -198,13 +198,13 @@ export async function updateArticleAction(_previous: ActionState, formData: Form
     };
   }
 
-  const sanitizedContent = sanitizeArticleContent(appendSources(parsed.data.content, parsed.data.sources, dictionary.messages.sourcesHeading));
+  const sanitizedContent = sanitizeArticleContent(appendSources(parsed.data.content ?? "", parsed.data.sources ?? "", dictionary.messages.sourcesHeading ?? ""));
   const { error } = await supabase
     .from("articles")
     .update({
-      title: plainText(parsed.data.title),
+      title: plainText(parsed.data.title ?? ""),
       subtitle: parsed.data.subtitle ? plainText(parsed.data.subtitle) : null,
-      abstract: plainText(parsed.data.abstract),
+      abstract: plainText(parsed.data.abstract ?? ""),
       content: sanitizedContent,
       cover_image_url: coverImageUrl,
       language: parsed.data.language,
