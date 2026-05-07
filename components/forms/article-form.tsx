@@ -126,10 +126,7 @@ export function ArticleForm({
               <Label htmlFor="tags">{dictionary.forms.tags}</Label>
               <Input id="tags" name="tags" defaultValue={defaults?.tags?.join(", ") ?? ""} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="coverImage">{dictionary.forms.uploadCover}</Label>
-              <Input id="coverImage" name="coverImage" type="file" accept="image/png,image/jpeg,image/webp" />
-            </div>
+            
             <div className="space-y-2">
               <Label htmlFor="coverImageUrl">{dictionary.forms.coverUrl}</Label>
               <Input id="coverImageUrl" name="coverImageUrl" defaultValue={defaults?.coverImageUrl ?? ""} />
