@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { BookOpen, ChevronDown, LayoutDashboard, LogIn, LogOut, Menu, PenSquare, ShieldCheck, UserRound } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
@@ -59,6 +60,19 @@ export function HeaderClient({
   }[];
 }) {
   const isAdmin = profile?.role === "admin";
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!profileMenuOpen) return;
+
+    const closeMenu = () => setProfileMenuOpen(false);
+
+    window.addEventListener("scroll", closeMenu, true);
+
+    return () => {
+      window.removeEventListener("scroll", closeMenu, true);
+    };
+  }, [profileMenuOpen]);
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
     { title: dictionary.nav.categories, href: "/discussions" },
@@ -106,7 +120,7 @@ export function HeaderClient({
           ) : null}
 
           {profile ? (
-            <DropdownMenu>
+            <DropdownMenu open={profileMenuOpen} onOpenChange={setProfileMenuOpen}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-9 w-9">
