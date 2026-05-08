@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 
 import { DiscussionReplyForm } from "@/components/discussions/discussion-reply-form";
+import { DiscussionLiveRefresh } from "@/components/discussions/discussion-live-refresh";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getDiscussionReplies, getDiscussionThreadBySlug } from "@/lib/discussions";
 import { getCurrentProfile } from "@/lib/auth";
@@ -22,6 +23,7 @@ export default async function DiscussionThreadPage({ params }: { params: { slug:
 
   return (
     <div className="min-h-screen bg-slate-100">
+      <DiscussionLiveRefresh threadId={thread.id} />
       <section className="sticky top-20 z-20 border-b bg-white/95 backdrop-blur">
         <div className="legal-container flex items-center gap-4 py-4">
           <Link href="/discussions" className="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-950">
