@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import { Bookmark, Heart, Linkedin, Share2 } from "lucide-react";
 
 import { bookmarkArticleAction, likeArticleAction } from "@/lib/actions/articles";
@@ -25,17 +26,44 @@ export function ArticleActions({
   locale: Locale;
 }) {
   const url = absoluteUrl(`/articles/${slug}`);
+  const [liked, setLiked] = useState(false);
+  const [localLikesCount, setLocalLikesCount] = useState(likesCount);
+  const [isPending, startTransition] = useTransition();
+
+  function handleLike() {
+    const nextLiked = !liked;
+
+    setLiked(nextLiked);
+    setLocalLikesCount((count) => Math.max(0, count + (nextLiked ? 1 : -1)));
+
+    const formData = new FormData();
+    formData.set("articleId", articleId);
+    formData.set("slug", slug);
+
+    startTransition(async () => {
+      try {
+        await likeArticleAction(formData);
+      } catch {
+        setLiked(!nextLiked);
+        setLocalLikesCount((count) => Math.max(0, count + (nextLiked ? -1 : 1)));
+      }
+    });
+  }
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <form action={likeArticleAction}>
-        <input type="hidden" name="articleId" value={articleId} />
-        <input type="hidden" name="slug" value={slug} />
-        <Button variant="outline" size="sm">
-          <Heart className="h-4 w-4" />
-          {formatNumber(likesCount, locale)}
-        </Button>
-      </form>
+      <Button
+        type="button"
+        variant={liked ? "default" : "outline"}
+        size="sm"
+        onClick={handleLike}
+        disabled={isPending}
+        aria-pressed={liked}
+      >
+        <Heart className={liked ? "h-4 w-4 fill-current" : "h-4 w-4"} />
+        {formatNumber(localLikesCount, locale)}
+      </Button>
+
       <form action={bookmarkArticleAction}>
         <input type="hidden" name="articleId" value={articleId} />
         <input type="hidden" name="slug" value={slug} />
@@ -44,6 +72,7 @@ export function ArticleActions({
           {dictionary.common.bookmark}
         </Button>
       </form>
+
       <Button variant="ghost" size="sm" asChild>
         <a
           href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
@@ -54,6 +83,7 @@ export function ArticleActions({
           LinkedIn
         </a>
       </Button>
+
       <Button variant="ghost" size="sm" asChild>
         <a
           href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`}
@@ -64,6 +94,7 @@ export function ArticleActions({
           {dictionary.common.share}
         </a>
       </Button>
+
       <ReportArticleDialog articleId={articleId} slug={slug} dictionary={dictionary} />
     </div>
   );
