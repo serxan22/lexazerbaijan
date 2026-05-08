@@ -9,7 +9,6 @@ import type { Locale } from "@/lib/i18n-config";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { Logo } from "@/components/layout/logo";
 import { NotificationBell } from "@/components/layout/notification-bell";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -99,7 +98,6 @@ export function HeaderClient({
             </Link>
           </Button>
           <LanguageSwitcher locale={locale} label={dictionary.nav.language} />
-          <ThemeToggle />
           {profile ? (
             <>
               <NotificationBell userId={profile.id} initialNotifications={notifications ?? []} />
