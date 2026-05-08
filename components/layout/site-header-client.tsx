@@ -7,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n-config";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Logo } from "@/components/layout/logo";
 import { NotificationBell } from "@/components/layout/notification-bell";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -140,6 +141,11 @@ export function HeaderClient({
                     </Link>
                   </DropdownMenuItem>
                 ) : null}
+                <DropdownMenuSeparator />
+                <div className="flex items-center justify-between px-2 py-2">
+                  <span className="text-sm text-slate-600">Dark mode</span>
+                  <ThemeToggle />
+                </div>
                 <DropdownMenuSeparator />
                 <form action="/auth/logout" method="post">
                   <DropdownMenuItem asChild>
