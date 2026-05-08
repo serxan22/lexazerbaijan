@@ -255,11 +255,16 @@ export async function toggleVerifiedWriterAction(formData: FormData) {
 
   const supabase = await createServerSupabaseClient();
 
-  await supabase
+  const { error } = await supabase
     .from("profiles")
     .update({ verified_writer: !verified })
     .eq("id", userId);
 
+  if (error) {
+    throw new Error(error.message);
+  }
+
   revalidatePath("/admin");
   revalidatePath("/authors");
+  revalidatePath("/articles");
 }

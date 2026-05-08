@@ -46,6 +46,7 @@ type ProfileRow = {
   university: string | null;
   workplace: string | null;
   role: UserRole;
+  verified_writer?: boolean | null;
   interests: string[] | null;
   social_links: Json | null;
 };
@@ -92,6 +93,7 @@ function mapAuthor(row?: ProfileRow | null): AuthorSummary {
     interests: row.interests ?? [],
     socialLinks: socialLinks(row.social_links),
     role: row.role,
+    verifiedWriter: Boolean(row.verified_writer),
     totalViews: 0,
     totalLikes: 0,
     publishedCount: 0

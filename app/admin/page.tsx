@@ -186,7 +186,7 @@ export default async function AdminPage() {
                         <input type="hidden" name="userId" value={user.id} />
                         <input type="hidden" name="verified" value={String(user.verifiedWriter ?? false)} />
                         <Button size="sm" variant={user.verifiedWriter ? "gold" : "outline"}>
-                          {user.verifiedWriter ? "Verified Writer" : "Verify Writer"}
+                          {user.verifiedWriter ? "✓ User Verified" : "Verify Writer"}
                         </Button>
                       </form>
 

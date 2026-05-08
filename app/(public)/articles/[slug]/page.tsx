@@ -77,8 +77,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                   <span className="flex items-center gap-2 font-medium">
                     {article.author.fullName}
                     {article.author.verifiedWriter ? (
-                      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
-                        ✓ Verified Writer
+                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
+                        🛡️ Verified
                       </span>
                     ) : null}
                   </span>
