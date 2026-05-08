@@ -28,6 +28,10 @@ export async function CommentsSection({
   } = await supabase.auth.getUser();
   const currentUserId = user?.id ?? null;
 
+  const { data: currentProfile } = user
+    ? await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle()
+    : { data: null };
+
   return (
     <section className="mt-16 rounded-lg border bg-white p-6">
       <div className="flex items-center gap-3">
@@ -64,7 +68,7 @@ export async function CommentsSection({
                 commentId={comment.id}
                 slug={slug}
                 content={comment.content}
-                canManage={Boolean(user && comment.userId === user.id)}
+                canManage={Boolean(user && (comment.userId === user.id || currentProfile?.role === "admin"))}
               />
             </article>
           ))
