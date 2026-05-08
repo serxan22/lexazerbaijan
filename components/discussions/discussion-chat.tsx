@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send } from "lucide-react";
+import { MoreHorizontal, Send } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createClient } from "@/lib/supabase/client";
@@ -38,6 +38,9 @@ export function DiscussionChat({
   const [replies, setReplies] = useState<ChatReply[]>(initialReplies);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingValue, setEditingValue] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   function scrollBottom() {
@@ -54,18 +57,30 @@ export function DiscussionChat({
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "discussion_replies",
           filter: `thread_id=eq.${threadId}`
         },
         async (payload) => {
+          if (payload.eventType === "DELETE") {
+            const oldRow = payload.old as any;
+            setReplies((current) => current.filter((reply) => reply.id !== oldRow.id));
+            return;
+          }
+
           const row = payload.new as any;
 
-          setReplies((current) => {
-            if (current.some((reply) => reply.id === row.id)) return current;
-            return current;
-          });
+          if (payload.eventType === "UPDATE") {
+            setReplies((current) =>
+              current.map((reply) =>
+                reply.id === row.id
+                  ? { ...reply, content: row.content, createdAt: row.updated_at ?? reply.createdAt }
+                  : reply
+              )
+            );
+            return;
+          }
 
           const { data: profile } = await supabase
             .from("profiles")
@@ -98,6 +113,52 @@ export function DiscussionChat({
       supabase.removeChannel(channel);
     };
   }, [supabase, threadId]);
+
+  async function deleteMessage(replyId: string) {
+    setOpenMenuId(null);
+
+    const previous = replies;
+    setReplies((current) => current.filter((reply) => reply.id !== replyId));
+
+    const { error } = await supabase
+      .from("discussion_replies")
+      .delete()
+      .eq("id", replyId);
+
+    if (error) {
+      setReplies(previous);
+      alert(error.message);
+    }
+  }
+
+  async function saveEditedMessage(replyId: string) {
+    const content = editingValue.trim();
+    if (!content) return;
+
+    const previous = replies;
+
+    setReplies((current) =>
+      current.map((reply) =>
+        reply.id === replyId ? { ...reply, content } : reply
+      )
+    );
+
+    setEditingId(null);
+    setEditingValue("");
+
+    const { error } = await supabase
+      .from("discussion_replies")
+      .update({
+        content,
+        updated_at: new Date().toISOString()
+      })
+      .eq("id", replyId);
+
+    if (error) {
+      setReplies(previous);
+      alert(error.message);
+    }
+  }
 
   async function sendMessage() {
     const content = message.trim();
@@ -182,11 +243,79 @@ export function DiscussionChat({
                       : "rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3 text-slate-800 shadow-sm"
                   }
                 >
-                  <div className={isMine ? "mb-1 text-xs text-green-100" : "mb-1 text-xs text-slate-500"}>
-                    {isMine ? "You" : reply.author.fullName} · {formatDate(reply.createdAt)}
-                    {reply.pending ? " · sending..." : ""}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className={isMine ? "mb-1 text-xs text-green-100" : "mb-1 text-xs text-slate-500"}>
+                      {isMine ? "You" : reply.author.fullName} · {formatDate(reply.createdAt)}
+                      {reply.pending ? " · sending..." : ""}
+                    </div>
+
+                    {isMine && !reply.pending ? (
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onClick={() => setOpenMenuId(openMenuId === reply.id ? null : reply.id)}
+                          className={isMine ? "rounded-full p-1 text-green-100 hover:bg-green-700" : "rounded-full p-1 text-slate-500 hover:bg-slate-200"}
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                        </button>
+
+                        {openMenuId === reply.id ? (
+                          <div className="absolute right-0 top-7 z-30 w-28 rounded-md border bg-white p-1 text-sm text-slate-800 shadow-lg">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setEditingId(reply.id);
+                                setEditingValue(reply.content);
+                                setOpenMenuId(null);
+                              }}
+                              className="w-full rounded px-3 py-2 text-left hover:bg-slate-100"
+                            >
+                              Edit
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => deleteMessage(reply.id)}
+                              className="w-full rounded px-3 py-2 text-left text-red-600 hover:bg-red-50"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </div>
-                  <p className="whitespace-pre-line text-sm leading-6">{reply.content}</p>
+
+                  {editingId === reply.id ? (
+                    <div className="mt-2 space-y-2">
+                      <textarea
+                        value={editingValue}
+                        onChange={(event) => setEditingValue(event.target.value)}
+                        className="min-h-[80px] w-full rounded-md border bg-white p-2 text-sm text-slate-900"
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => saveEditedMessage(reply.id)}
+                          className="rounded bg-white px-3 py-1 text-xs font-medium text-green-700"
+                        >
+                          Save
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingId(null);
+                            setEditingValue("");
+                          }}
+                          className="rounded bg-white/70 px-3 py-1 text-xs font-medium text-slate-700"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="whitespace-pre-line text-sm leading-6">{reply.content}</p>
+                  )}
                 </div>
               </div>
             </div>

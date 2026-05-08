@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BarChart3, BookOpen, Edit3, Eye, FileWarning, Heart, ShieldCheck, Trash2, Users } from "lucide-react";
+import { BarChart3, BookOpen, Edit3, Eye, FileWarning, Heart, MessageSquare, ShieldCheck, Trash2, Users } from "lucide-react";
 
 import { CategoryForm } from "@/components/admin/category-form";
 import { RejectArticleForm } from "@/components/admin/reject-article-form";
@@ -38,6 +38,15 @@ export default async function AdminPage() {
           <p className="mt-4 max-w-2xl text-slate-600">
             {dictionary.admin.body}
           </p>
+
+          <div className="mt-6">
+            <Button variant="outline" asChild>
+              <Link href="/admin/discussions">
+                <MessageSquare className="h-4 w-4" />
+                Manage Discussions
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
       <section className="legal-container py-8">

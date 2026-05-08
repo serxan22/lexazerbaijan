@@ -214,3 +214,35 @@ export async function updateArticleAdminAction(_previous: ActionState, formData:
   revalidatePath("/articles");
   return { status: "success", message: dictionary.messages.articleUpdated };
 }
+
+export async function deleteDiscussionThreadAdminAction(formData: FormData) {
+  const threadId = formString(formData, "threadId");
+
+  await requireRole(["admin"], "/admin/discussions");
+
+  const supabase = await createServerSupabaseClient();
+
+  await supabase
+    .from("discussion_threads")
+    .delete()
+    .eq("id", threadId);
+
+  revalidatePath("/admin/discussions");
+  revalidatePath("/discussions");
+}
+
+export async function deleteDiscussionReplyAdminAction(formData: FormData) {
+  const replyId = formString(formData, "replyId");
+
+  await requireRole(["admin"], "/admin/discussions");
+
+  const supabase = await createServerSupabaseClient();
+
+  await supabase
+    .from("discussion_replies")
+    .delete()
+    .eq("id", replyId);
+
+  revalidatePath("/admin/discussions");
+  revalidatePath("/discussions");
+}
