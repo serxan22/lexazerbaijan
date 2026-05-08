@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { CalendarDays, Eye, Heart, Timer } from "lucide-react";
 
 import { ArticleActions } from "@/components/articles/article-actions";
+import { CitationGenerator } from "@/components/articles/citation-generator";
 import { ArticleCard } from "@/components/articles/article-card";
 import { CommentsSection } from "@/components/articles/comments-section";
 import { ArticleViewTracker } from "@/components/articles/article-view-tracker";
@@ -145,6 +146,13 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               </div>
             </div>
           </section>
+          <CitationGenerator
+            title={article.title}
+            author={article.author.fullName}
+            publishedAt={article.publishedAt}
+            url={`${process.env.NEXT_PUBLIC_SITE_URL ?? "https://lexazerbaijan.az"}/articles/${article.slug}`}
+          />
+
           <CommentsSection articleId={article.id} slug={article.slug} dictionary={dictionary} locale={locale} />
         </div>
         <div>
