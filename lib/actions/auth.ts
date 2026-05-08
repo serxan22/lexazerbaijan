@@ -73,8 +73,6 @@ export async function signUpAction(_previous: ActionState, formData: FormData): 
     });
   }
 
-  revalidatePath("/", "layout");
-
   return {
     status: "success",
     message: dictionary.messages.accountCreated
