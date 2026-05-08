@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Bookmark, Heart, Linkedin, Share2 } from "lucide-react";
+import { Bookmark, Check, Copy, Heart, Linkedin } from "lucide-react";
 
 import { bookmarkArticleAction, likeArticleAction } from "@/lib/actions/articles";
 import type { Dictionary } from "@/lib/i18n";
@@ -29,6 +29,7 @@ export function ArticleActions({
   const [liked, setLiked] = useState(false);
   const [localLikesCount, setLocalLikesCount] = useState(likesCount);
   const [isPending, startTransition] = useTransition();
+  const [copied, setCopied] = useState(false);
 
   function handleLike() {
     const nextLiked = !liked;
@@ -48,6 +49,16 @@ export function ArticleActions({
         setLocalLikesCount((count) => Math.max(0, count + (nextLiked ? -1 : 1)));
       }
     });
+  }
+
+  async function handleCopyLink() {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
   }
 
   return (
@@ -84,15 +95,9 @@ export function ArticleActions({
         </a>
       </Button>
 
-      <Button variant="ghost" size="sm" asChild>
-        <a
-          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Share2 className="h-4 w-4" />
-          {dictionary.common.share}
-        </a>
+      <Button type="button" variant="ghost" size="sm" onClick={handleCopyLink}>
+        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+        {copied ? "Copied!" : "Copy link"}
       </Button>
 
       <ReportArticleDialog articleId={articleId} slug={slug} dictionary={dictionary} />
