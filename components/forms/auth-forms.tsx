@@ -70,11 +70,11 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
       <CardContent>
         {isSuccess ? (
           <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-6 text-center">
-            <p className="text-base font-semibold text-green-700 dark:text-green-400">
-              Account created successfully.
+            <p className="text-lg font-semibold text-green-700 dark:text-green-400">
+              Registration successful!
             </p>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              You can now log into your account.
+              Your account has been created. You can log in from here.
             </p>
             <Link
               href="/login"
@@ -84,39 +84,39 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
             </Link>
           </div>
         ) : (
-          <form action={action} className="space-y-5">
-            <div className="grid gap-5 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="fullName">{dictionary.forms.fullName}</Label>
-                <Input id="fullName" name="fullName" autoComplete="name" required />
+          <>
+            <form action={action} className="space-y-5">
+              <div className="grid gap-5 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">{dictionary.forms.fullName}</Label>
+                  <Input id="fullName" name="fullName" autoComplete="name" required />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="username">{dictionary.forms.username}</Label>
+                  <Input id="username" name="username" autoComplete="username" required />
+                </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="username">{dictionary.forms.username}</Label>
-                <Input id="username" name="username" autoComplete="username" required />
+                <Label htmlFor="email">{dictionary.forms.email}</Label>
+                <Input id="email" name="email" type="email" autoComplete="email" required />
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">{dictionary.forms.email}</Label>
-              <Input id="email" name="email" type="email" autoComplete="email" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">{dictionary.forms.password}</Label>
-              <Input id="password" name="password" type="password" autoComplete="new-password" required />
-            </div>
-            <FormMessage message={state.message} status={state.status} />
-            <SubmitButton className="w-full" pendingText={dictionary.forms.signupPending}>
-              {dictionary.forms.createAccount}
-            </SubmitButton>
-          </form>
-        )}
+              <div className="space-y-2">
+                <Label htmlFor="password">{dictionary.forms.password}</Label>
+                <Input id="password" name="password" type="password" autoComplete="new-password" required />
+              </div>
+              <FormMessage message={state.message} status={state.status} />
+              <SubmitButton className="w-full" pendingText={dictionary.forms.signupPending}>
+                {dictionary.forms.createAccount}
+              </SubmitButton>
+            </form>
 
-        {!isSuccess && (
-          <p className="mt-5 text-center text-sm text-slate-500">
-            {dictionary.forms.alreadyHaveAccount}{" "}
-            <Link href="/login" className="font-medium text-blue-800 hover:text-blue-950">
-              {dictionary.nav.login}
-            </Link>
-          </p>
+            <p className="mt-5 text-center text-sm text-slate-500">
+              {dictionary.forms.alreadyHaveAccount}{" "}
+              <Link href="/login" className="font-medium text-blue-800 hover:text-blue-950">
+                {dictionary.nav.login}
+              </Link>
+            </p>
+          </>
         )}
       </CardContent>
     </Card>
