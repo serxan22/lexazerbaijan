@@ -97,6 +97,7 @@ export async function getDiscussionReplies(threadId: string) {
     .select(`
       id,
       content,
+      user_id,
       created_at,
       updated_at,
       profiles:user_id (
@@ -113,6 +114,7 @@ export async function getDiscussionReplies(threadId: string) {
   return (data as any[]).map((reply) => ({
     id: reply.id,
     content: reply.content,
+    userId: reply.user_id,
     createdAt: reply.created_at,
     updatedAt: reply.updated_at,
     author: {
