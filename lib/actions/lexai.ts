@@ -1,19 +1,24 @@
 "use server";
 
-import OpenAI from "openai";
+import Groq from "groq-sdk";
 
 import type { ActionState } from "@/lib/form-state";
 import { formString } from "@/lib/form-data";
 
-function getOpenAI() {
-  const apiKey = process.env.OPENAI_API_KEY;
+function getGroq() {
+  const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey) return null;
 
-  return new OpenAI({ apiKey });
+  return new Groq({
+    apiKey
+  });
 }
 
-export async function askLexAiAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+export async function askLexAiAction(
+  _previous: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const question = formString(formData, "question").trim();
 
   if (question.length < 5) {
@@ -23,42 +28,46 @@ export async function askLexAiAction(_previous: ActionState, formData: FormData)
     };
   }
 
-  const openai = getOpenAI();
+  const groq = getGroq();
 
-  if (!openai) {
+  if (!groq) {
     return {
       status: "error",
-      message: "LexAI is not configured yet. Please add OPENAI_API_KEY in Vercel Environment Variables."
+      message: "Groq API key missing."
     };
   }
 
   try {
-    const response = await openai.responses.create({
-      model: "gpt-5.4-mini",
-      input: [
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
         {
           role: "system",
           content:
-            "You are LexAI, a careful legal research assistant for LexAzerbaijan. Your answers are educational and research-focused, not legal advice. Be structured, clear, and honest about uncertainty. Do not invent laws, case names, or article numbers."
+            "You are LexAI, an educational legal research assistant for LexAzerbaijan. Give structured, accurate, educational answers for law students and researchers. Do not invent laws or cases."
         },
         {
           role: "user",
           content: question
         }
-      ]
+      ],
+      temperature: 0.4,
+      max_tokens: 1400
     });
 
     return {
       status: "success",
-      message: response.output_text || "No answer generated."
+      message:
+        completion.choices?.[0]?.message?.content ??
+        "No response generated."
     };
   } catch (error) {
-    console.error("LexAI error:", error);
+    console.error(error);
 
     return {
       status: "error",
       message:
-        "LexAI could not answer right now. Please check the OpenAI API key, billing status, and model access in your OpenAI account."
+        "LexAI could not answer right now. Check your Groq API configuration."
     };
   }
 }
