@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoreHorizontal } from "lucide-react";
 
 import { deleteCommentAction, updateCommentAction } from "@/lib/actions/articles";
@@ -20,6 +20,18 @@ export function CommentItemActions({
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(content);
   const [reported, setReported] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const closeMenu = () => setOpen(false);
+
+    window.addEventListener("scroll", closeMenu, true);
+
+    return () => {
+      window.removeEventListener("scroll", closeMenu, true);
+    };
+  }, [open]);
 
   if (editing && canManage) {
     return (
