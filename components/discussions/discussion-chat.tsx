@@ -41,6 +41,9 @@ export function DiscussionChat({
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const [typingUsers, setTypingUsers] = useState<string[]>([]);
+  const typingTimeout = useRef<NodeJS.Timeout | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   function scrollBottom() {
@@ -52,6 +55,52 @@ export function DiscussionChat({
   }, [replies.length]);
 
   useEffect(() => {
+    if (currentUser?.id) {
+      supabase
+        .from("discussion_presence")
+        .upsert({
+          thread_id: threadId,
+          user_id: currentUser.id,
+          username: currentUser.username,
+          updated_at: new Date().toISOString()
+        });
+
+      const interval = setInterval(() => {
+        supabase
+          .from("discussion_presence")
+          .upsert({
+            thread_id: threadId,
+            user_id: currentUser.id,
+            username: currentUser.username,
+            updated_at: new Date().toISOString()
+          });
+      }, 15000);
+
+      supabase
+        .from("discussion_presence")
+        .select("*")
+        .eq("thread_id", threadId)
+        .then(({ data }) => {
+          if (!data) return;
+
+          const fresh = data.filter((item: any) => {
+            return Date.now() - new Date(item.updated_at).getTime() < 30000;
+          });
+
+          setOnlineUsers(fresh.map((item: any) => item.username));
+        });
+
+      return () => {
+        clearInterval(interval);
+
+        supabase
+          .from("discussion_presence")
+          .delete()
+          .eq("thread_id", threadId)
+          .eq("user_id", currentUser.id);
+      };
+    }
+
     const channel = supabase
       .channel(`discussion-chat-${threadId}`)
       .on(
@@ -105,6 +154,29 @@ export function DiscussionChat({
             if (current.some((item) => item.id === reply.id)) return current;
             return [...current.filter((item) => !item.pending), reply];
           });
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "discussion_presence",
+          filter: `thread_id=eq.${threadId}`
+        },
+        async () => {
+          const { data } = await supabase
+            .from("discussion_presence")
+            .select("*")
+            .eq("thread_id", threadId);
+
+          if (!data) return;
+
+          const fresh = data.filter((item: any) => {
+            return Date.now() - new Date(item.updated_at).getTime() < 30000;
+          });
+
+          setOnlineUsers(fresh.map((item: any) => item.username));
         }
       )
       .subscribe();
@@ -224,6 +296,32 @@ export function DiscussionChat({
 
   return (
     <div className="rounded-2xl border bg-white p-4 shadow-sm">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b pb-3">
+        <div>
+          <p className="text-sm font-semibold text-slate-900">
+            {onlineUsers.length} online
+          </p>
+
+          <div className="mt-1 flex flex-wrap gap-2">
+            {onlineUsers.map((user) => (
+              <span
+                key={user}
+                className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700"
+              >
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                {user}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {typingUsers.length ? (
+          <div className="text-xs text-slate-500">
+            {typingUsers.join(", ")} typing...
+          </div>
+        ) : null}
+      </div>
+
       <div className="space-y-4">
         {replies.map((reply) => {
           const isMine = currentUser?.id && reply.userId === currentUser.id;
@@ -334,7 +432,26 @@ export function DiscussionChat({
       <div className="mt-6 flex items-end gap-2 border-t pt-4">
         <textarea
           value={message}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(event) => {
+            setMessage(event.target.value);
+
+            if (currentUser?.username) {
+              setTypingUsers((current) => {
+                if (current.includes(currentUser.username)) return current;
+                return [...current, currentUser.username];
+              });
+
+              if (typingTimeout.current) {
+                clearTimeout(typingTimeout.current);
+              }
+
+              typingTimeout.current = setTimeout(() => {
+                setTypingUsers((current) =>
+                  current.filter((item) => item !== currentUser.username)
+                );
+              }, 1500);
+            }
+          }}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
               event.preventDefault();
