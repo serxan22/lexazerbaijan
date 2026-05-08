@@ -55,7 +55,7 @@ export function CommentItemActions({
   }
 
   return (
-    <div className="relative">
+    <div className="relative" onMouseLeave={() => setOpen(false)}>
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
