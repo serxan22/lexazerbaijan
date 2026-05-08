@@ -55,7 +55,7 @@ export function CommentItemActions({
   }
 
   return (
-    <div className="relative" onMouseLeave={() => setOpen(false)}>
+    <div className="relative">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
@@ -66,7 +66,14 @@ export function CommentItemActions({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-7 z-20 w-36 rounded-md border bg-white p-1 text-sm shadow-lg">
+        <>
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="fixed inset-0 z-10 cursor-default bg-transparent"
+            onClick={() => setOpen(false)}
+          />
+          <div className="absolute right-0 top-7 z-20 w-36 rounded-md border bg-white p-1 text-sm shadow-lg">
           {canManage ? (
             <>
               <button
@@ -103,7 +110,8 @@ export function CommentItemActions({
               {reported ? "Reported" : "Report"}
             </button>
           )}
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
