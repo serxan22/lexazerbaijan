@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const locale = await getLocale();
   const dictionary = await getDictionary(locale);
-  const article = await getArticleBySlug(params.slug);
+  const article = await getArticleBySlug(params.slug, { incrementViews: false });
   if (!article) notFound();
 
   const content = sanitizeArticleContent(article.content);
@@ -50,6 +50,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
   return (
     <article className="bg-white">
+      <ArticleViewTracker slug={params.slug} />
       <header className="border-b bg-slate-50">
         <div className="legal-container grid gap-10 py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
@@ -158,6 +159,5 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         </section>
       ) : null}
     </article>
-    </>
   );
 }
