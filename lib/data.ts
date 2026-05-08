@@ -605,3 +605,45 @@ export async function getUserBookmarkedArticles(userId: string) {
 
   return (articles as ArticleRow[]).map(mapArticle);
 }
+
+export async function getAdminComments() {
+  const supabase = await createOptionalServerSupabaseClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("comments")
+    .select(`
+      id,
+      content,
+      created_at,
+      status,
+      articles:article_id (
+        id,
+        title,
+        slug
+      ),
+      profiles:user_id (
+        full_name,
+        username
+      )
+    `)
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error || !data) return [];
+
+  return (data as any[]).map((comment) => ({
+    id: comment.id,
+    content: comment.content,
+    createdAt: comment.created_at,
+    status: comment.status,
+    article: {
+      title: first(comment.articles)?.title ?? "Deleted article",
+      slug: first(comment.articles)?.slug ?? ""
+    },
+    author: {
+      fullName: first(comment.profiles)?.full_name ?? "Unknown user",
+      username: first(comment.profiles)?.username ?? "unknown"
+    }
+  }));
+}

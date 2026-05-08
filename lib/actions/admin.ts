@@ -268,3 +268,18 @@ export async function toggleVerifiedWriterAction(formData: FormData) {
   revalidatePath("/authors");
   revalidatePath("/articles");
 }
+
+export async function deleteCommentAdminAction(formData: FormData) {
+  const commentId = formString(formData, "commentId");
+
+  await requireRole(["admin"], "/admin/comments");
+
+  const supabase = await createServerSupabaseClient();
+
+  await supabase
+    .from("comments")
+    .delete()
+    .eq("id", commentId);
+
+  revalidatePath("/admin/comments");
+}

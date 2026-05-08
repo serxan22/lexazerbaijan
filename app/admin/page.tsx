@@ -41,6 +41,13 @@ export default async function AdminPage() {
 
           <div className="mt-6">
             <Button variant="outline" asChild>
+              <Link href="/admin/comments">
+                <MessageSquare className="h-4 w-4" />
+                Manage Comments
+              </Link>
+            </Button>
+
+            <Button variant="outline" asChild>
               <Link href="/admin/discussions">
                 <MessageSquare className="h-4 w-4" />
                 Manage Discussions
