@@ -40,7 +40,7 @@ export async function GET(request: Request) {
   return NextResponse.json({ liked: Boolean(existing), likesCount });
 }
 
-export async function POST(request: Request, { params }: { params: { slug: string } }) {
+export async function POST(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { articleId } = await request.json();
 
   if (!articleId) {
@@ -53,7 +53,7 @@ export async function POST(request: Request, { params }: { params: { slug: strin
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized", loginUrl: `/login?next=/articles/${params.slug}` }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized", loginUrl: `/login?next=/articles/${(await params).slug}` }, { status: 401 });
   }
 
   const { data: existing } = await supabase
