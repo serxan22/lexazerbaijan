@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Eye, Heart, MessageSquare, PenSquare, UserRound } from "lucide-react";
+import { BookOpen, Bookmark, Eye, Heart, MessageSquare, PenSquare, UserRound } from "lucide-react";
 
 import { DashboardArticleList } from "@/components/dashboard/dashboard-article-list";
 import { StatCard } from "@/components/dashboard/stat-card";
@@ -57,6 +57,13 @@ export default async function DashboardPage() {
                 {dictionary.dashboard.editProfile}
               </Link>
             </Button>
+            <Button variant="outline" asChild>
+              <Link href="/dashboard/bookmarks">
+                <Bookmark className="h-4 w-4" />
+                Saved Articles
+              </Link>
+            </Button>
+
             <Button variant="gold" asChild>
               <Link href="/submit">
                 <PenSquare className="h-4 w-4" />

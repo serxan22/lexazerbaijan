@@ -565,3 +565,103 @@ export async function getArticleComments(articleId: string): Promise<ArticleComm
     }
   }));
 }
+
+export async function getUserBookmarkedArticles(userId: string) {
+  const supabase = await createOptionalServerSupabaseClient();
+
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("bookmarks")
+    .select(`
+      articles (
+        id,
+        slug,
+        title,
+        subtitle,
+        abstract,
+        cover_image_url,
+        language,
+        reading_time,
+        views_count,
+        likes_count,
+        comments_count,
+        published_at,
+        created_at,
+        updated_at,
+        status,
+        tags,
+        categories (
+          id,
+          name,
+          slug,
+          description
+        ),
+        profiles:user_id (
+          id,
+          full_name,
+          username,
+          avatar_url,
+          bio,
+          university,
+          workplace,
+          interests,
+          social_links,
+          role,
+          created_at,
+          updated_at
+        )
+      )
+    `)
+    .eq("user_id", userId);
+
+  if (error || !data) return [];
+
+  return data
+    .map((item: any) => item.articles)
+    .filter(Boolean)
+    .map((article: any) => ({
+      id: article.id,
+      slug: article.slug,
+      title: article.title,
+      subtitle: article.subtitle,
+      abstract: article.abstract,
+      coverImageUrl: article.cover_image_url,
+      language: article.language,
+      readingTime: article.reading_time,
+      viewsCount: article.views_count,
+      likesCount: article.likes_count,
+      commentsCount: article.comments_count,
+      publishedAt: article.published_at,
+      createdAt: article.created_at,
+      updatedAt: article.updated_at,
+      status: article.status,
+      tags: article.tags ?? [],
+      category: article.categories
+        ? {
+            id: article.categories.id,
+            name: article.categories.name,
+            slug: article.categories.slug,
+            description: article.categories.description ?? null
+          }
+        : null,
+      author: {
+        id: article.profiles?.id ?? "",
+        fullName: article.profiles?.full_name ?? "Unknown author",
+        username: article.profiles?.username ?? "unknown",
+        avatarUrl: article.profiles?.avatar_url ?? null,
+        bio: article.profiles?.bio ?? null,
+        university: article.profiles?.university ?? null,
+        workplace: article.profiles?.workplace ?? null,
+        interests: article.profiles?.interests ?? [],
+        socialLinks: article.profiles?.social_links ?? {},
+        role: article.profiles?.role ?? "user",
+        createdAt: article.profiles?.created_at ?? article.created_at,
+        updatedAt: article.profiles?.updated_at ?? article.updated_at,
+        totalArticles: 0,
+        publishedCount: 0,
+        totalViews: 0,
+        totalLikes: 0
+      }
+    }));
+}
