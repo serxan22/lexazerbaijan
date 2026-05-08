@@ -98,13 +98,11 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
                 You can now log into your account.
               </p>
 
-              <Link href="/login">
-                <button
-                  type="button"
-                  className="mt-4 inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700"
-                >
-                  Go to Login
-                </button>
+              <Link
+                href="/login"
+                className="mt-4 inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700"
+              >
+                Go to Login
               </Link>
             </div>
           )}
