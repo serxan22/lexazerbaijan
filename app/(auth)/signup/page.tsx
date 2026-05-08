@@ -1,11 +1,14 @@
 import { SignUpForm } from "@/components/forms/auth-forms";
+import { getDictionary, getLocale } from "@/lib/i18n";
 
 export const metadata = {
   title: "Sign up",
   description: "Create a new account",
 };
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  const locale = await getLocale();
+  const dictionary = await getDictionary(locale);
   return (
     <>
       <style>{`
@@ -36,7 +39,7 @@ export default function SignUpPage() {
       `}</style>
       <main className="auth-page">
         <div className="auth-card">
-          <SignUpForm />
+          <SignUpForm dictionary={dictionary} />
         </div>
       </main>
     </>
