@@ -64,28 +64,11 @@ export function HeaderClient({
               <Link href={item.href}>{item.title}</Link>
             </Button>
           ))}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost">
-                {dictionary.nav.practiceAreas}
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="grid w-[520px] grid-cols-2 gap-1 p-2">
-              {siteConfig.categories.map((category) => {
-                const slug = category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-                const translated =
-                  dictionary.categories[slug as keyof typeof dictionary.categories]?.name ?? category;
-                return (
-                  <DropdownMenuItem key={category} asChild>
-                    <Link href={`/articles?category=${slug}`} className="rounded-md px-3 py-2">
-                      {translated}
-                    </Link>
-                  </DropdownMenuItem>
-                );
-              })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          
+          <Button variant="ghost" asChild>
+            <Link href="/discussions">Discussions</Link>
+          </Button>
+
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
