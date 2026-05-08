@@ -1,148 +1,87 @@
 "use client";
 
+import { useFormState, useFormStatus } from "react-dom";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useFormState } from "react-dom";
+import { signUpAction, initialActionState, type ActionState } from "@/lib/actions/auth";
 
-import { forgotPasswordAction, loginAction, signUpAction } from "@/lib/actions/auth";
-import { initialActionState } from "@/lib/form-state";
-import type { Dictionary } from "@/lib/i18n";
-import { SubmitButton } from "@/components/forms/submit-button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="submit-btn"
+      aria-busy={pending}
+    >
+      {pending ? "Creating account…" : "Create account"}
+    </button>
+  );
+}
 
-function FormMessage({ message, status }: { message?: string; status: string }) {
+function SuccessCard({ message }: { message: string }) {
+  return (
+    <div className="success-card" role="status" aria-live="polite">
+      <div className="success-icon" aria-hidden="true">
+        <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" width="52" height="52">
+          <circle cx="26" cy="26" r="25" stroke="currentColor" strokeWidth="2" />
+          <path d="M14 27l8 8 16-16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <h2 className="success-title">You&apos;re all set!</h2>
+      <p className="success-message">{message}</p>
+      <Link href="/login" className="go-to-login-btn">
+        Go to Login →
+      </Link>
+    </div>
+  );
+}
+
+function ErrorMessage({ message }: { message: string }) {
   if (!message) return null;
-  return <p className={status === "success" ? "text-sm text-emerald-700" : "text-sm text-red-600"}>{message}</p>;
+  return (
+    <div className="error-banner" role="alert" aria-live="assertive">
+      <span className="error-icon" aria-hidden="true">⚠</span>
+      {message}
+    </div>
+  );
 }
 
-export function LoginForm({ dictionary }: { dictionary: Dictionary }) {
-  const [state, action] = useFormState(loginAction, initialActionState);
-  const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/dashboard";
+export function SignUpForm() {
+  const [state, formAction] = useFormState<ActionState, FormData>(
+    signUpAction,
+    initialActionState
+  );
+
+  if (state.status === "success") {
+    return <SuccessCard message={state.message} />;
+  }
 
   return (
-    <Card className="mx-auto w-full max-w-md">
-      <CardHeader>
-        <CardTitle>{dictionary.forms.loginTitle}</CardTitle>
-        <CardDescription>{dictionary.forms.loginDescription}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action={action} className="space-y-5">
-          <input type="hidden" name="next" value={next} />
-          <div className="space-y-2">
-            <Label htmlFor="email">{dictionary.forms.email}</Label>
-            <Input id="email" name="email" type="email" autoComplete="email" required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">{dictionary.forms.password}</Label>
-            <Input id="password" name="password" type="password" autoComplete="current-password" required />
-          </div>
-          <FormMessage message={state.message} status={state.status} />
-          <SubmitButton className="w-full" pendingText={dictionary.forms.loginPending}>
-            {dictionary.nav.login}
-          </SubmitButton>
-        </form>
-        <div className="mt-5 flex justify-between text-sm">
-          <Link href="/forgot-password" className="text-slate-500 hover:text-slate-950">
-            {dictionary.forms.forgotPassword}
-          </Link>
-          <Link href="/signup" className="font-medium text-blue-800 hover:text-blue-950">
-            {dictionary.forms.createAccount}
-          </Link>
+    <div className="signup-form-wrapper">
+      <h1 className="form-title">Create your account</h1>
+      <p className="form-subtitle">Join us today — it only takes a moment.</p>
+
+      {state.status === "error" && <ErrorMessage message={state.message} />}
+
+      <form action={formAction} className="signup-form" noValidate>
+        <div className="field-group">
+          <label htmlFor="name" className="field-label">Full name</label>
+          <input id="name" name="name" type="text" autoComplete="name" required className="field-input" placeholder="Jane Doe" />
         </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
-  const [state, action] = useFormState(signUpAction, initialActionState);
-
-  return (
-    <Card className="mx-auto w-full max-w-xl">
-      <CardHeader>
-        <CardTitle>{dictionary.forms.signupTitle}</CardTitle>
-        <CardDescription>{dictionary.forms.signupDescription}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action={action} className="space-y-5">
-          <div className="grid gap-5 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="fullName">{dictionary.forms.fullName}</Label>
-              <Input id="fullName" name="fullName" autoComplete="name" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="username">{dictionary.forms.username}</Label>
-              <Input id="username" name="username" autoComplete="username" required />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">{dictionary.forms.email}</Label>
-            <Input id="email" name="email" type="email" autoComplete="email" required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">{dictionary.forms.password}</Label>
-            <Input id="password" name="password" type="password" autoComplete="new-password" required />
-          </div>
-          <FormMessage message={state.message} status={state.status} />
-
-          {state.status === "success" && (
-            <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-5 text-center">
-              <p className="text-sm font-medium text-green-700 dark:text-green-400">
-                Account created successfully.
-              </p>
-
-              <p className="mt-1 text-sm text-muted-foreground">
-                You can now log into your account.
-              </p>
-
-              <Link
-                href="/login"
-                className="mt-4 inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700"
-              >
-                Go to Login
-              </Link>
-            </div>
-          )}
-
-          <SubmitButton className="w-full" pendingText={dictionary.forms.signupPending}>
-            {dictionary.forms.createAccount}
-          </SubmitButton>
-        </form>
-        <p className="mt-5 text-center text-sm text-slate-500">
-          {dictionary.forms.alreadyHaveAccount}{" "}
-          <Link href="/login" className="font-medium text-blue-800 hover:text-blue-950">
-            {dictionary.nav.login}
-          </Link>
+        <div className="field-group">
+          <label htmlFor="email" className="field-label">Email address</label>
+          <input id="email" name="email" type="email" autoComplete="email" required className="field-input" placeholder="jane@example.com" />
+        </div>
+        <div className="field-group">
+          <label htmlFor="password" className="field-label">Password</label>
+          <input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} className="field-input" placeholder="At least 8 characters" />
+        </div>
+        <SubmitButton />
+        <p className="login-hint">
+          Already have an account?{" "}
+          <Link href="/login" className="login-link">Log in</Link>
         </p>
-      </CardContent>
-    </Card>
-  );
-}
-
-export function ForgotPasswordForm({ dictionary }: { dictionary: Dictionary }) {
-  const [state, action] = useFormState(forgotPasswordAction, initialActionState);
-
-  return (
-    <Card className="mx-auto w-full max-w-md">
-      <CardHeader>
-        <CardTitle>{dictionary.forms.resetTitle}</CardTitle>
-        <CardDescription>{dictionary.forms.resetDescription}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action={action} className="space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="email">{dictionary.forms.email}</Label>
-            <Input id="email" name="email" type="email" autoComplete="email" required />
-          </div>
-          <FormMessage message={state.message} status={state.status} />
-          <SubmitButton className="w-full" pendingText={dictionary.common.sending}>
-            {dictionary.forms.sendReset}
-          </SubmitButton>
-        </form>
-      </CardContent>
-    </Card>
+      </form>
+    </div>
   );
 }
