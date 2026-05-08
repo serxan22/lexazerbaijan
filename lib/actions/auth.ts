@@ -1,73 +1,154 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export type ActionState = {
-  status: "idle" | "success" | "error";
-  message: string;
-};
+import { siteConfig } from "@/config/site";
+import { formString, optionalFormString, splitCommaList } from "@/lib/form-data";
+import type { ActionState } from "@/lib/form-state";
+import { zodErrors } from "@/lib/form-state";
+import { getDictionary } from "@/lib/i18n";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { forgotPasswordSchema, loginSchema, profileSchema, signUpSchema } from "@/lib/validation";
 
-export const initialActionState: ActionState = {
-  status: "idle",
-  message: "",
-};
+export async function loginAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  const dictionary = await getDictionary();
+  const parsed = loginSchema.safeParse({
+    email: formString(formData, "email"),
+    password: formString(formData, "password")
+  });
 
-export async function signUpAction(
-  prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
-  try {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const name = formData.get("name") as string;
+  if (!parsed.success) {
+    return { status: "error", message: dictionary.messages.checkFields, errors: zodErrors(parsed.error.flatten()) };
+  }
 
-    if (!email || !password) {
-      return {
-        status: "error",
-        message: "Email and password are required.",
-      };
-    }
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase.auth.signInWithPassword(parsed.data);
 
-    const supabase = createClient();
+  if (error) {
+    return { status: "error", message: error.message };
+  }
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name },
-      },
-    });
+  const next = formString(formData, "next") || "/dashboard";
+  revalidatePath("/", "layout");
+  redirect(next);
+}
 
-    if (error) {
-      return {
-        status: "error",
-        message: error.message,
-      };
-    }
+export async function signUpAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  const dictionary = await getDictionary();
+  const parsed = signUpSchema.safeParse({
+    fullName: formString(formData, "fullName"),
+    username: formString(formData, "username"),
+    email: formString(formData, "email"),
+    password: formString(formData, "password")
+  });
 
-    if (data.user) {
-      const { error: profileError } = await supabase.from("profiles").upsert({
-        id: data.user.id,
-        email: data.user.email,
-        full_name: name,
-        updated_at: new Date().toISOString(),
-      });
+  if (!parsed.success) {
+    return { status: "error", message: dictionary.messages.checkFields, errors: zodErrors(parsed.error.flatten()) };
+  }
 
-      if (profileError) {
-        console.error("Profile upsert error:", profileError);
+  const supabase = await createServerSupabaseClient();
+  const { data, error } = await supabase.auth.signUp({
+    email: parsed.data.email,
+    password: parsed.data.password,
+    options: {
+      emailRedirectTo: `${siteConfig.url}/auth/callback?next=/profile-setup`,
+      data: {
+        full_name: parsed.data.fullName,
+        username: parsed.data.username
       }
     }
+  });
 
-    // ✅ redirect() YOX — state-i öldürür. Client Link ilə navigate edir.
-    return {
-      status: "success",
-      message: "Account created successfully. You can now log into your account.",
-    };
-  } catch (err) {
-    console.error("signUpAction error:", err);
-    return {
-      status: "error",
-      message: "An unexpected error occurred. Please try again.",
-    };
+  if (error) {
+    return { status: "error", message: error.message };
   }
+
+  if (data.user) {
+    await supabase.from("profiles").upsert({
+      id: data.user.id,
+      full_name: parsed.data.fullName,
+      username: parsed.data.username,
+      role: "user"
+    });
+  }
+
+  revalidatePath("/", "layout");
+
+  return {
+    status: "success",
+    message: dictionary.messages.accountCreated
+  };
+}
+
+export async function forgotPasswordAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  const dictionary = await getDictionary();
+  const parsed = forgotPasswordSchema.safeParse({
+    email: formString(formData, "email")
+  });
+
+  if (!parsed.success) {
+    return { status: "error", message: dictionary.messages.validEmail, errors: zodErrors(parsed.error.flatten()) };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${siteConfig.url}/auth/callback?next=/profile-setup`
+  });
+
+  if (error) {
+    return { status: "error", message: error.message };
+  }
+
+  return { status: "success", message: dictionary.messages.passwordResetSent };
+}
+
+export async function profileSetupAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  const dictionary = await getDictionary();
+  const parsed = profileSchema.safeParse({
+    fullName: formString(formData, "fullName"),
+    username: formString(formData, "username"),
+    avatarUrl: optionalFormString(formData, "avatarUrl") ?? "",
+    bio: optionalFormString(formData, "bio") ?? "",
+    university: optionalFormString(formData, "university") ?? "",
+    workplace: optionalFormString(formData, "workplace") ?? "",
+    interests: optionalFormString(formData, "interests") ?? "",
+    linkedin: optionalFormString(formData, "linkedin") ?? "",
+    website: optionalFormString(formData, "website") ?? ""
+  });
+
+  if (!parsed.success) {
+    return { status: "error", message: dictionary.messages.checkFields, errors: zodErrors(parsed.error.flatten()) };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login?next=/profile-setup");
+  }
+
+  const { error } = await supabase.from("profiles").upsert({
+    id: user.id,
+    full_name: parsed.data.fullName,
+    username: parsed.data.username,
+    avatar_url: parsed.data.avatarUrl || null,
+    bio: parsed.data.bio || null,
+    university: parsed.data.university || null,
+    workplace: parsed.data.workplace || null,
+    interests: splitCommaList(parsed.data.interests),
+    social_links: {
+      linkedin: parsed.data.linkedin || undefined,
+      website: parsed.data.website || undefined
+    }
+  });
+
+  if (error) {
+    return { status: "error", message: error.message };
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/dashboard");
 }
