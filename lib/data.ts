@@ -417,6 +417,7 @@ export async function getArticleForAdminEdit(id: string) {
 
 export async function getAdminOverview(): Promise<{
   pendingArticles: AdminArticle[];
+  allArticles: AdminArticle[];
   reports: {
     id: string;
     reason: string;
@@ -437,6 +438,7 @@ export async function getAdminOverview(): Promise<{
   if (!supabase) {
     return {
       pendingArticles: [],
+      allArticles: [],
       reports: [],
       users: demoAuthors,
       stats: {
@@ -449,12 +451,17 @@ export async function getAdminOverview(): Promise<{
     };
   }
 
-  const [pendingResult, usersResult, publishedResult, reportsResult] = await Promise.all([
+  const [pendingResult, allArticlesResult, usersResult, publishedResult, reportsResult] = await Promise.all([
     supabase
       .from("articles")
       .select(`${articleSelect}, rejection_reason`)
       .eq("status", "pending_review")
       .order("updated_at", { ascending: false }),
+    supabase
+      .from("articles")
+      .select(`${articleSelect}, rejection_reason`)
+      .order("updated_at", { ascending: false })
+      .limit(100),
     supabase.from("profiles").select("*").order("created_at", { ascending: false }).limit(50),
     supabase
       .from("articles")
@@ -473,6 +480,11 @@ export async function getAdminOverview(): Promise<{
 
   return {
     pendingArticles: ((pendingResult.data ?? []) as ArticleRow[]).map((row) => ({
+      ...mapArticle(row),
+      rejectionReason: row.rejection_reason ?? null,
+      commentsCount: 0
+    })),
+    allArticles: ((allArticlesResult.data ?? []) as ArticleRow[]).map((row) => ({
       ...mapArticle(row),
       rejectionReason: row.rejection_reason ?? null,
       commentsCount: 0

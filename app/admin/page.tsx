@@ -51,6 +51,7 @@ export default async function AdminPage() {
         <Tabs defaultValue="pending" className="mt-8">
           <TabsList className="grid h-auto w-full grid-cols-2 md:inline-flex md:w-auto md:grid-cols-none">
             <TabsTrigger value="pending">{dictionary.admin.pendingArticles}</TabsTrigger>
+            <TabsTrigger value="all">All Articles</TabsTrigger>
             <TabsTrigger value="users">{dictionary.admin.users}</TabsTrigger>
             <TabsTrigger value="categories">{dictionary.admin.categories}</TabsTrigger>
             <TabsTrigger value="reports">{dictionary.admin.reports}</TabsTrigger>
@@ -103,6 +104,60 @@ export default async function AdminPage() {
                 </div>
               ) : null}
             </div>
+          </TabsContent>
+
+
+          <TabsContent value="all" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>All Articles</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-3">
+                {overview.allArticles.map((article) => (
+                  <div key={article.id} className="flex flex-col justify-between gap-4 rounded-md border p-4 md:flex-row md:items-center">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="font-medium text-slate-950">{article.title}</p>
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs uppercase tracking-wide text-slate-600">
+                          {article.status}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-sm text-slate-500">
+                        {article.author.fullName} · {formatDate(article.updatedAt, undefined, locale)}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      <Button size="sm" variant="outline" asChild>
+                        <Link href={`/articles/${article.slug}`}>
+                          <Eye className="h-4 w-4" />
+                          View
+                        </Link>
+                      </Button>
+
+                      <Button size="sm" variant="outline" asChild>
+                        <Link href={`/admin/articles/${article.id}/edit`}>
+                          <Edit3 className="h-4 w-4" />
+                          {dictionary.common.edit}
+                        </Link>
+                      </Button>
+
+                      <form action={deleteArticleAdminAction}>
+                        <input type="hidden" name="articleId" value={article.id} />
+                        <Button size="sm" variant="ghost" className="text-red-600 hover:text-red-700">
+                          <Trash2 className="h-4 w-4" />
+                          {dictionary.common.delete}
+                        </Button>
+                      </form>
+                    </div>
+                  </div>
+                ))}
+
+                {!overview.allArticles.length ? (
+                  <p className="text-sm text-slate-500">No articles yet.</p>
+                ) : null}
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="users" className="mt-6">
