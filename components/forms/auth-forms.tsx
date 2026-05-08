@@ -107,6 +107,10 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
               <div className="space-y-2">
                 <Label htmlFor="password">{dictionary.forms.password}</Label>
                 <Input id="password" name="password" type="password" autoComplete="new-password" required />
+
+              <p className="text-xs text-slate-500">
+                Password must be at least 8 characters long and include a mix of letters, numbers, and special characters.
+              </p>
               </div>
               <FormMessage message={state.message} status={state.status} />
               <SubmitButton className="w-full" pendingText={dictionary.forms.signupPending}>
