@@ -4,6 +4,7 @@ import { CommentForm } from "@/components/articles/comment-form";
 import { CommentItemActions } from "@/components/articles/comment-item-actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getArticleComments } from "@/lib/data";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Dictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n-config";
 import { formatDate, initials } from "@/lib/utils";
@@ -20,6 +21,10 @@ export async function CommentsSection({
   locale: Locale;
 }) {
   const comments = await getArticleComments(articleId);
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
   return (
     <section className="mt-16 rounded-lg border bg-white p-6">
@@ -53,6 +58,7 @@ export async function CommentsSection({
                 commentId={comment.id}
                 slug={slug}
                 content={comment.content}
+                canManage={Boolean(user && comment.userId === user.id)}
               />
             </article>
           ))
