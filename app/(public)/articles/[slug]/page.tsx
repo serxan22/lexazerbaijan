@@ -6,6 +6,7 @@ import { CalendarDays, Eye, Heart, Timer } from "lucide-react";
 import { ArticleActions } from "@/components/articles/article-actions";
 import { ArticleCard } from "@/components/articles/article-card";
 import { CommentsSection } from "@/components/articles/comments-section";
+import { ArticleViewTracker } from "@/components/articles/article-view-tracker";
 import { TableOfContents } from "@/components/articles/table-of-contents";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -157,5 +158,6 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         </section>
       ) : null}
     </article>
+    </>
   );
 }
