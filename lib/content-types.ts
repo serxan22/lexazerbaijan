@@ -64,6 +64,7 @@ export type ArticleComment = {
   id: string;
   content: string;
   createdAt: string;
+  userId?: string;
   author: {
     fullName: string;
     username: string;

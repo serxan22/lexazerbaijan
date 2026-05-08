@@ -1,6 +1,7 @@
 import { MessageSquare } from "lucide-react";
 
 import { CommentForm } from "@/components/articles/comment-form";
+import { CommentItemActions } from "@/components/articles/comment-item-actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getArticleComments } from "@/lib/data";
 import type { Dictionary } from "@/lib/i18n";
@@ -47,6 +48,12 @@ export async function CommentsSection({
                 </div>
               </div>
               <p className="mt-3 text-sm leading-6 text-slate-700">{comment.content}</p>
+
+              <CommentItemActions
+                commentId={comment.id}
+                slug={slug}
+                content={comment.content}
+              />
             </article>
           ))
         ) : (

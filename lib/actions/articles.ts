@@ -387,3 +387,61 @@ export async function reportArticleAction(_previous: ActionState, formData: Form
   revalidatePath(`/articles/${slug}`);
   return { status: "success", message: dictionary.messages.reportReceived };
 }
+
+export async function deleteCommentAction(formData: FormData) {
+  const commentId = formString(formData, "commentId");
+  const slug = formString(formData, "slug");
+
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect(`/login?next=/articles/${slug}`);
+
+  const { data: comment } = await supabase
+    .from("comments")
+    .select("user_id")
+    .eq("id", commentId)
+    .maybeSingle();
+
+  if (!comment || comment.user_id !== user.id) {
+    return;
+  }
+
+  await supabase.from("comments").delete().eq("id", commentId);
+
+  revalidatePath(`/articles/${slug}`);
+}
+
+export async function updateCommentAction(formData: FormData) {
+  const commentId = formString(formData, "commentId");
+  const slug = formString(formData, "slug");
+  const content = plainText(formString(formData, "content"));
+
+  const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect(`/login?next=/articles/${slug}`);
+
+  const { data: comment } = await supabase
+    .from("comments")
+    .select("user_id")
+    .eq("id", commentId)
+    .maybeSingle();
+
+  if (!comment || comment.user_id !== user.id) {
+    return;
+  }
+
+  await supabase
+    .from("comments")
+    .update({ content })
+    .eq("id", commentId);
+
+  revalidatePath(`/articles/${slug}`);
+}

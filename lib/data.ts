@@ -525,6 +525,7 @@ export async function getArticleComments(articleId: string): Promise<ArticleComm
       id,
       content,
       created_at,
+      user_id,
       profiles:user_id (
         full_name,
         username,
@@ -542,6 +543,7 @@ export async function getArticleComments(articleId: string): Promise<ArticleComm
     id: string;
     content: string;
     created_at: string;
+    user_id: string;
     profiles: {
       full_name: string | null;
       username: string | null;
@@ -555,6 +557,7 @@ export async function getArticleComments(articleId: string): Promise<ArticleComm
     id: comment.id,
     content: comment.content,
     createdAt: comment.created_at,
+    userId: comment.user_id,
     author: {
       fullName: first(comment.profiles)?.full_name ?? "LexAzerbaijan reader",
       username: first(comment.profiles)?.username ?? "reader",
