@@ -48,7 +48,7 @@ export function HeaderClient({
   const isAdmin = profile?.role === "admin";
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
-    { title: dictionary.nav.categories, href: "/categories" },
+    { title: dictionary.nav.categories, href: "/discussions" },
     { title: dictionary.nav.authors, href: "/authors" },
     { title: dictionary.nav.about, href: "/about" }
   ];
