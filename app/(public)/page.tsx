@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, CheckCircle2, GraduationCap, Library, PenSquare, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { Bot, ArrowRight, BookOpen, CheckCircle2, GraduationCap, Library, PenSquare, ShieldCheck, Sparkles, Users } from "lucide-react";
 
 import { ArticleCard } from "@/components/articles/article-card";
 import { AuthorCard } from "@/components/articles/author-card";
