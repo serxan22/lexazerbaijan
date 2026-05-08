@@ -55,54 +55,36 @@ export function DiscussionChat({
   }, [replies.length]);
 
   useEffect(() => {
-    if (currentUser?.id) {
-      supabase
-        .from("discussion_presence")
-        .upsert({
-          thread_id: threadId,
-          user_id: currentUser.id,
-          username: currentUser.username,
-          updated_at: new Date().toISOString()
+    const channel = supabase.channel(`discussion-room-${threadId}`, {
+      config: {
+        presence: {
+          key: currentUser?.id ?? `guest-${Math.random()}`
+        }
+      }
+    });
+
+    channel
+      .on("presence", { event: "sync" }, () => {
+        const state = channel.presenceState();
+        const users = Object.values(state)
+          .flat()
+          .map((item: any) => item.username)
+          .filter(Boolean);
+
+        setOnlineUsers(Array.from(new Set(users)));
+      })
+      .on("broadcast", { event: "typing" }, ({ payload }) => {
+        if (!payload?.username || payload.username === currentUser?.username) return;
+
+        setTypingUsers((current) => {
+          if (current.includes(payload.username)) return current;
+          return [...current, payload.username];
         });
 
-      const interval = setInterval(() => {
-        supabase
-          .from("discussion_presence")
-          .upsert({
-            thread_id: threadId,
-            user_id: currentUser.id,
-            username: currentUser.username,
-            updated_at: new Date().toISOString()
-          });
-      }, 15000);
-
-      supabase
-        .from("discussion_presence")
-        .select("*")
-        .eq("thread_id", threadId)
-        .then(({ data }) => {
-          if (!data) return;
-
-          const fresh = data.filter((item: any) => {
-            return Date.now() - new Date(item.updated_at).getTime() < 30000;
-          });
-
-          setOnlineUsers(fresh.map((item: any) => item.username));
-        });
-
-      return () => {
-        clearInterval(interval);
-
-        supabase
-          .from("discussion_presence")
-          .delete()
-          .eq("thread_id", threadId)
-          .eq("user_id", currentUser.id);
-      };
-    }
-
-    const channel = supabase
-      .channel(`discussion-chat-${threadId}`)
+        window.setTimeout(() => {
+          setTypingUsers((current) => current.filter((item) => item !== payload.username));
+        }, 1600);
+      })
       .on(
         "postgres_changes",
         {
@@ -156,35 +138,22 @@ export function DiscussionChat({
           });
         }
       )
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "discussion_presence",
-          filter: `thread_id=eq.${threadId}`
-        },
-        async () => {
-          const { data } = await supabase
-            .from("discussion_presence")
-            .select("*")
-            .eq("thread_id", threadId);
-
-          if (!data) return;
-
-          const fresh = data.filter((item: any) => {
-            return Date.now() - new Date(item.updated_at).getTime() < 30000;
+      .subscribe(async (status) => {
+        if (status === "SUBSCRIBED" && currentUser?.id) {
+          await channel.track({
+            userId: currentUser.id,
+            username: currentUser.username,
+            fullName: currentUser.fullName,
+            onlineAt: new Date().toISOString()
           });
-
-          setOnlineUsers(fresh.map((item: any) => item.username));
         }
-      )
-      .subscribe();
+      });
 
     return () => {
+      channel.untrack();
       supabase.removeChannel(channel);
     };
-  }, [supabase, threadId]);
+  }, [supabase, threadId, currentUser?.id, currentUser?.username, currentUser?.fullName]);
 
   async function deleteMessage(replyId: string) {
     setOpenMenuId(null);
@@ -436,20 +405,15 @@ export function DiscussionChat({
             setMessage(event.target.value);
 
             if (currentUser?.username) {
-              setTypingUsers((current) => {
-                if (current.includes(currentUser.username)) return current;
-                return [...current, currentUser.username];
+              supabase.channel(`discussion-room-${threadId}`).send({
+                type: "broadcast",
+                event: "typing",
+                payload: { username: currentUser.username }
               });
 
               if (typingTimeout.current) {
                 clearTimeout(typingTimeout.current);
               }
-
-              typingTimeout.current = setTimeout(() => {
-                setTypingUsers((current) =>
-                  current.filter((item) => item !== currentUser.username)
-                );
-              }, 1500);
             }
           }}
           onKeyDown={(event) => {
