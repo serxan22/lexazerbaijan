@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Bookmark, Check, Copy, Heart, Linkedin } from "lucide-react";
 
-import { bookmarkArticleAction } from "@/lib/actions/articles";
 import type { Dictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n-config";
 import { absoluteUrl, formatNumber } from "@/lib/utils";
@@ -26,9 +25,14 @@ export function ArticleActions({
   locale: Locale;
 }) {
   const url = absoluteUrl(`/articles/${slug}`);
+
   const [liked, setLiked] = useState(false);
   const [localLikesCount, setLocalLikesCount] = useState(likesCount);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
+
+  const [bookmarked, setBookmarked] = useState(false);
+  const [isBookmarkLoading, setIsBookmarkLoading] = useState(false);
+
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -39,6 +43,13 @@ export function ArticleActions({
         if (typeof data.likesCount === "number") {
           setLocalLikesCount(data.likesCount);
         }
+      })
+      .catch(() => {});
+
+    fetch(`/api/articles/${slug}/bookmark?articleId=${articleId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setBookmarked(Boolean(data.bookmarked));
       })
       .catch(() => {});
   }, [articleId, slug]);
@@ -82,6 +93,38 @@ export function ArticleActions({
     }
   }
 
+  async function handleBookmark() {
+    if (isBookmarkLoading) return;
+
+    const previousBookmarked = bookmarked;
+    const nextBookmarked = !previousBookmarked;
+
+    setBookmarked(nextBookmarked);
+    setIsBookmarkLoading(true);
+
+    try {
+      const res = await fetch(`/api/articles/${slug}/bookmark`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleId })
+      });
+
+      if (res.status === 401) {
+        window.location.href = `/login?next=/articles/${slug}`;
+        return;
+      }
+
+      if (!res.ok) throw new Error("Failed to toggle bookmark");
+
+      const data = await res.json();
+      setBookmarked(Boolean(data.bookmarked));
+    } catch {
+      setBookmarked(previousBookmarked);
+    } finally {
+      setIsBookmarkLoading(false);
+    }
+  }
+
   async function handleCopyLink() {
     try {
       await navigator.clipboard.writeText(url);
@@ -107,14 +150,18 @@ export function ArticleActions({
         {formatNumber(localLikesCount, locale)}
       </Button>
 
-      <form action={bookmarkArticleAction}>
-        <input type="hidden" name="articleId" value={articleId} />
-        <input type="hidden" name="slug" value={slug} />
-        <Button variant="outline" size="sm">
-          <Bookmark className="h-4 w-4" />
-          {dictionary.common.bookmark}
-        </Button>
-      </form>
+      <Button
+        type="button"
+        variant={bookmarked ? "default" : "outline"}
+        size="sm"
+        onClick={handleBookmark}
+        disabled={isBookmarkLoading}
+        aria-pressed={bookmarked}
+        className={bookmarked ? "bg-blue-700 text-white hover:bg-blue-800" : ""}
+      >
+        <Bookmark className={bookmarked ? "h-4 w-4 fill-current" : "h-4 w-4"} />
+        {bookmarked ? "Bookmarked" : dictionary.common.bookmark}
+      </Button>
 
       <Button variant="ghost" size="sm" asChild>
         <a
