@@ -190,3 +190,58 @@
 .dark .bg-slate-100 {
   background-color: #1e293b !important;
 }
+
+.dark .article-content,
+.dark .prose {
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+
+.dark .article-content p,
+.dark .article-content li,
+.dark .article-content span,
+.dark .prose p,
+.dark .prose li,
+.dark .prose span {
+  color: #e5e7eb !important;
+}
+
+.dark .article-content h1,
+.dark .article-content h2,
+.dark .article-content h3,
+.dark .article-content h4,
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4 {
+  color: #f8fafc !important;
+}
+
+.dark .article-content blockquote,
+.dark .prose blockquote {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-left: 4px solid #60a5fa !important;
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+.dark .article-content a,
+.dark .prose a {
+  color: #93c5fd !important;
+}
+
+.dark .article-content code,
+.dark .prose code {
+  background: #020617 !important;
+  color: #f8fafc !important;
+}
+
+.dark .article-content pre,
+.dark .prose pre {
+  background: #020617 !important;
+  color: #f8fafc !important;
+  border: 1px solid #334155;
+}
