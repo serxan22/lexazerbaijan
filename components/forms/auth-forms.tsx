@@ -94,6 +94,10 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
                 <div className="space-y-2">
                   <Label htmlFor="username">{dictionary.forms.username}</Label>
                   <Input id="username" name="username" autoComplete="username" required />
+
+                  <p className="text-xs text-slate-500">
+                    Username must be 3-30 characters and can only contain lowercase letters, numbers, and underscores.
+                  </p>
                 </div>
               </div>
               <div className="space-y-2">

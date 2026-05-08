@@ -11,9 +11,14 @@ export const signUpSchema = loginSchema.extend({
   fullName: z.string().min(2, "Full name is required.").max(120),
   username: z
     .string()
+    .trim()
+    .toLowerCase()
     .min(3, "Username must be at least 3 characters.")
-    .max(32)
-    .regex(/^[a-z0-9_]+$/, "Use lowercase letters, numbers, and underscores only.")
+    .max(30, "Username must be at most 30 characters.")
+    .regex(
+      /^[a-z0-9_]+$/,
+      "Username can only contain lowercase letters, numbers, and underscores."
+    )
 });
 
 export const forgotPasswordSchema = z.object({
