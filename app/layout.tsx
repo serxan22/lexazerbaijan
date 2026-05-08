@@ -29,11 +29,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale}>
       <body className="min-h-screen font-sans">
-    <ThemeProvider>
-        <SiteHeader />
-        <main>{children}
-    </ThemeProvider></main>
-        <SiteFooter />
+        <ThemeProvider>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+        </ThemeProvider>
       </body>
     </html>
   );

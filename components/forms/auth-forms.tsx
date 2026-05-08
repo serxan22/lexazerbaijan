@@ -87,6 +87,28 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
             <Input id="password" name="password" type="password" autoComplete="new-password" required />
           </div>
           <FormMessage message={state.message} status={state.status} />
+
+          {state.status === "success" && (
+            <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-5 text-center">
+              <p className="text-sm font-medium text-green-700 dark:text-green-400">
+                Account created successfully.
+              </p>
+
+              <p className="mt-1 text-sm text-muted-foreground">
+                You can now log into your account.
+              </p>
+
+              <Link href="/login">
+                <button
+                  type="button"
+                  className="mt-4 inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700"
+                >
+                  Go to Login
+                </button>
+              </Link>
+            </div>
+          )}
+
           <SubmitButton className="w-full" pendingText={dictionary.forms.signupPending}>
             {dictionary.forms.createAccount}
           </SubmitButton>
