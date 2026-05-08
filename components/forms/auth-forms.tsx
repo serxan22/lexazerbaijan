@@ -21,6 +21,7 @@ export function LoginForm({ dictionary }: { dictionary: Dictionary }) {
   const [state, action] = useFormState(loginAction, initialActionState);
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/dashboard";
+  const registered = searchParams.get("registered") === "1";
 
   return (
     <Card className="mx-auto w-full max-w-md">
@@ -29,6 +30,17 @@ export function LoginForm({ dictionary }: { dictionary: Dictionary }) {
         <CardDescription>{dictionary.forms.loginDescription}</CardDescription>
       </CardHeader>
       <CardContent>
+        {registered && (
+          <div className="mb-5 rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-center">
+            <p className="text-sm font-semibold text-green-700 dark:text-green-400">
+              Registration successful!
+            </p>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+              Your account has been created. You can now log in from here.
+            </p>
+          </div>
+        )}
+
         <form action={action} className="space-y-5">
           <input type="hidden" name="next" value={next} />
           <div className="space-y-2">

@@ -73,10 +73,7 @@ export async function signUpAction(_previous: ActionState, formData: FormData): 
     });
   }
 
-  return {
-    status: "success",
-    message: dictionary.messages.accountCreated
-  };
+  redirect("/login?registered=1");
 }
 
 export async function forgotPasswordAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
