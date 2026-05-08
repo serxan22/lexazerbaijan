@@ -234,6 +234,23 @@ export function DiscussionChat({
       .select("id, content, user_id, created_at")
       .single();
 
+    const { data: thread } = await supabase
+      .from("discussion_threads")
+      .select("author_id, title")
+      .eq("id", threadId)
+      .maybeSingle();
+
+    if (thread?.author_id && thread.author_id !== currentUser.id) {
+      await supabase.from("notifications").insert({
+        user_id: thread.author_id,
+        actor_id: currentUser.id,
+        type: "discussion_reply",
+        title: "New reply in your discussion",
+        body: `${currentUser.fullName} replied to: ${thread.title}`,
+        href: `/discussions/${slug}`
+      });
+    }
+
     await supabase
       .from("discussion_threads")
       .update({ updated_at: new Date().toISOString() })

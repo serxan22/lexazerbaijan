@@ -2,18 +2,22 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { getCurrentProfile } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { HeaderClient } from "@/components/layout/site-header-client";
+import { getUserNotifications } from "@/lib/notifications";
 
 export async function SiteHeader() {
   const [profile, locale] = await Promise.all([getCurrentProfile(), getLocale()]);
   const dictionary = await getDictionary(locale);
+  const notifications = profile ? await getUserNotifications(profile.id) : [];
 
   return (
     <HeaderClient
       locale={locale}
       dictionary={dictionary}
+      notifications={notifications}
       profile={
         profile
           ? {
+              id: profile.id,
               fullName: profile.full_name,
               username: profile.username,
               avatarUrl: profile.avatar_url,
