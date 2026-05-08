@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { Bookmark, Check, Copy, Heart, Linkedin } from "lucide-react";
 
-import { bookmarkArticleAction, likeArticleAction } from "@/lib/actions/articles";
+import { bookmarkArticleAction } from "@/lib/actions/articles";
 import type { Dictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n-config";
 import { absoluteUrl, formatNumber } from "@/lib/utils";
@@ -28,27 +28,58 @@ export function ArticleActions({
   const url = absoluteUrl(`/articles/${slug}`);
   const [liked, setLiked] = useState(false);
   const [localLikesCount, setLocalLikesCount] = useState(likesCount);
-  const [isPending, startTransition] = useTransition();
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  function handleLike() {
-    const nextLiked = !liked;
+  useEffect(() => {
+    fetch(`/api/articles/${slug}/like?articleId=${articleId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setLiked(Boolean(data.liked));
+        if (typeof data.likesCount === "number") {
+          setLocalLikesCount(data.likesCount);
+        }
+      })
+      .catch(() => {});
+  }, [articleId, slug]);
+
+  async function handleLike() {
+    if (isLikeLoading) return;
+
+    const previousLiked = liked;
+    const previousCount = localLikesCount;
+    const nextLiked = !previousLiked;
 
     setLiked(nextLiked);
-    setLocalLikesCount((count) => Math.max(0, count + (nextLiked ? 1 : -1)));
+    setLocalLikesCount(Math.max(0, previousCount + (nextLiked ? 1 : -1)));
+    setIsLikeLoading(true);
 
-    const formData = new FormData();
-    formData.set("articleId", articleId);
-    formData.set("slug", slug);
+    try {
+      const res = await fetch(`/api/articles/${slug}/like`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleId })
+      });
 
-    startTransition(async () => {
-      try {
-        await likeArticleAction(formData);
-      } catch {
-        setLiked(!nextLiked);
-        setLocalLikesCount((count) => Math.max(0, count + (nextLiked ? -1 : 1)));
+      if (res.status === 401) {
+        window.location.href = `/login?next=/articles/${slug}`;
+        return;
       }
-    });
+
+      if (!res.ok) throw new Error("Failed to toggle like");
+
+      const data = await res.json();
+      setLiked(Boolean(data.liked));
+
+      if (typeof data.likesCount === "number") {
+        setLocalLikesCount(data.likesCount);
+      }
+    } catch {
+      setLiked(previousLiked);
+      setLocalLikesCount(previousCount);
+    } finally {
+      setIsLikeLoading(false);
+    }
   }
 
   async function handleCopyLink() {
@@ -68,8 +99,9 @@ export function ArticleActions({
         variant={liked ? "default" : "outline"}
         size="sm"
         onClick={handleLike}
-        disabled={isPending}
+        disabled={isLikeLoading}
         aria-pressed={liked}
+        className={liked ? "bg-red-600 text-white hover:bg-red-700" : ""}
       >
         <Heart className={liked ? "h-4 w-4 fill-current" : "h-4 w-4"} />
         {formatNumber(localLikesCount, locale)}
