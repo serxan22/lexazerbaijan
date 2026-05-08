@@ -6,7 +6,7 @@ import { CategoryForm } from "@/components/admin/category-form";
 import { RejectArticleForm } from "@/components/admin/reject-article-form";
 import { RoleUpdateForm } from "@/components/admin/role-update-form";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { approveArticleAction, deleteArticleAdminAction } from "@/lib/actions/admin";
+import { approveArticleAction, deleteArticleAdminAction, toggleVerifiedWriterAction } from "@/lib/actions/admin";
 import { requireRole } from "@/lib/auth";
 import { getAdminOverview, getCategories } from "@/lib/data";
 import { getDictionary, getLocale, localizeCategory } from "@/lib/i18n";
@@ -181,7 +181,17 @@ export default async function AdminPage() {
                       <p className="font-medium text-slate-950">{user.fullName}</p>
                       <p className="text-sm text-slate-500">@{user.username}</p>
                     </div>
-                    <RoleUpdateForm userId={user.id} role={user.role} dictionary={dictionary} />
+                    <div className="flex flex-wrap items-center gap-2">
+                      <form action={toggleVerifiedWriterAction}>
+                        <input type="hidden" name="userId" value={user.id} />
+                        <input type="hidden" name="verified" value={String(user.verifiedWriter ?? false)} />
+                        <Button size="sm" variant={user.verifiedWriter ? "gold" : "outline"}>
+                          {user.verifiedWriter ? "Verified Writer" : "Verify Writer"}
+                        </Button>
+                      </form>
+
+                      <RoleUpdateForm userId={user.id} role={user.role} dictionary={dictionary} />
+                    </div>
                   </div>
                 ))}
               </CardContent>

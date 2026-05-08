@@ -246,3 +246,20 @@ export async function deleteDiscussionReplyAdminAction(formData: FormData) {
   revalidatePath("/admin/discussions");
   revalidatePath("/discussions");
 }
+
+export async function toggleVerifiedWriterAction(formData: FormData) {
+  const userId = formString(formData, "userId");
+  const verified = formString(formData, "verified") === "true";
+
+  await requireRole(["admin"], "/admin");
+
+  const supabase = await createServerSupabaseClient();
+
+  await supabase
+    .from("profiles")
+    .update({ verified_writer: !verified })
+    .eq("id", userId);
+
+  revalidatePath("/admin");
+  revalidatePath("/authors");
+}

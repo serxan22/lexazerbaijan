@@ -74,7 +74,14 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                   <AvatarFallback>{initials(article.author.fullName)}</AvatarFallback>
                 </Avatar>
                 <span>
-                  <span className="block font-medium">{article.author.fullName}</span>
+                  <span className="flex items-center gap-2 font-medium">
+                    {article.author.fullName}
+                    {article.author.verifiedWriter ? (
+                      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
+                        ✓ Verified Writer
+                      </span>
+                    ) : null}
+                  </span>
                   <span className="block text-xs text-slate-500">{article.author.workplace ?? article.author.university ?? dictionary.site.legalAuthor}</span>
                 </span>
               </Link>

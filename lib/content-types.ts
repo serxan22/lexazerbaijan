@@ -23,6 +23,7 @@ export type AuthorSummary = {
     x?: string;
   };
   role: UserRole;
+  verifiedWriter?: boolean;
   totalViews: number;
   totalLikes: number;
   publishedCount: number;
