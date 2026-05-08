@@ -144,6 +144,7 @@ const articleSelect = `
     full_name,
     username,
     avatar_url,
+    verified_writer,
     bio,
     university,
     workplace,
