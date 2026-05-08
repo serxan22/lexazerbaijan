@@ -1,6 +1,7 @@
 import { MessageSquare } from "lucide-react";
 
 import { CommentForm } from "@/components/articles/comment-form";
+import { CommentReactions } from "@/components/articles/comment-reactions";
 import { CommentItemActions } from "@/components/articles/comment-item-actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getArticleComments } from "@/lib/data";
@@ -25,6 +26,7 @@ export async function CommentsSection({
   const {
     data: { user }
   } = await supabase.auth.getUser();
+  const currentUserId = user?.id ?? null;
 
   return (
     <section className="mt-16 rounded-lg border bg-white p-6">
@@ -50,6 +52,10 @@ export async function CommentsSection({
                 <div>
                   <p className="text-sm font-medium text-slate-900">{comment.author.fullName}</p>
                   <p className="text-xs text-slate-500">{formatDate(comment.createdAt, undefined, locale)}</p>
+                <CommentReactions
+                  commentId={comment.id}
+                  currentUserId={currentUserId}
+                />
                 </div>
               </div>
               <p className="mt-3 text-sm leading-6 text-slate-700">{comment.content}</p>
