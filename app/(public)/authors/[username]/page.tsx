@@ -42,7 +42,15 @@ export default async function AuthorProfilePage({ params }: { params: { username
             </Avatar>
             <div>
               <p className="eyebrow">{dictionary.nav.publicProfile}</p>
-              <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{author.fullName}</h1>
+              <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{author.fullName}
+              {author.verifiedWriter ? (
+                <span
+                  title="Verified Writer"
+                  className="ml-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white shadow-sm"
+                >
+                  ✓
+                </span>
+              ) : null}</h1>
               <p className="mt-3 flex flex-wrap items-center gap-2 text-slate-500">
                 <MapPin className="h-4 w-4" />
                 {author.workplace ?? author.university ?? dictionary.site.legalCommunity}
