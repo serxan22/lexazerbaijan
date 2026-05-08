@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { MoreHorizontal, Send } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate, initials } from "@/lib/utils";
 
@@ -12,6 +13,7 @@ type ChatProfile = {
   fullName: string;
   username: string;
   avatarUrl: string | null;
+  verifiedWriter?: boolean;
 };
 
 type ChatReply = {
@@ -329,7 +331,11 @@ export function DiscussionChat({
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className={isMine ? "mb-1 text-xs text-green-100" : "mb-1 text-xs text-slate-500"}>
-                      {isMine ? "You" : reply.author.fullName} · {formatDate(reply.createdAt)}
+                      <span className="inline-flex items-center gap-1">
+                        {isMine ? "You" : reply.author.fullName}
+                        {reply.author.verifiedWriter ? <VerifiedBadge /> : null}
+                      </span>{" "}
+                      · {formatDate(reply.createdAt)}
                       {reply.pending ? " · sending..." : ""}
                     </div>
 

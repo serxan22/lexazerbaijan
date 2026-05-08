@@ -11,6 +11,7 @@ import { ArticleViewTracker } from "@/components/articles/article-view-tracker";
 import { TableOfContents } from "@/components/articles/table-of-contents";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { Separator } from "@/components/ui/separator";
 import { getArticleBySlug } from "@/lib/data";
 import { getDictionary, getLocale, localizeCategory } from "@/lib/i18n";

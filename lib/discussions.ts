@@ -21,7 +21,8 @@ export async function getDiscussionThreads() {
       profiles:author_id (
         full_name,
         username,
-        avatar_url
+        avatar_url,
+        verified_writer
       ),
       discussion_replies (
         id
@@ -42,7 +43,8 @@ export async function getDiscussionThreads() {
     author: {
       fullName: first(thread.profiles)?.full_name ?? "LexAzerbaijan user",
       username: first(thread.profiles)?.username ?? "user",
-      avatarUrl: first(thread.profiles)?.avatar_url ?? null
+      avatarUrl: first(thread.profiles)?.avatar_url ?? null,
+      verifiedWriter: Boolean(first(thread.profiles)?.verified_writer)
     }
   }));
 }
@@ -63,7 +65,8 @@ export async function getDiscussionThreadBySlug(slug: string) {
       profiles:author_id (
         full_name,
         username,
-        avatar_url
+        avatar_url,
+        verified_writer
       )
     `)
     .eq("slug", slug)
@@ -83,7 +86,8 @@ export async function getDiscussionThreadBySlug(slug: string) {
     author: {
       fullName: first(thread.profiles)?.full_name ?? "LexAzerbaijan user",
       username: first(thread.profiles)?.username ?? "user",
-      avatarUrl: first(thread.profiles)?.avatar_url ?? null
+      avatarUrl: first(thread.profiles)?.avatar_url ?? null,
+      verifiedWriter: Boolean(first(thread.profiles)?.verified_writer)
     }
   };
 }
@@ -103,7 +107,8 @@ export async function getDiscussionReplies(threadId: string) {
       profiles:user_id (
         full_name,
         username,
-        avatar_url
+        avatar_url,
+        verified_writer
       )
     `)
     .eq("thread_id", threadId)
@@ -120,7 +125,8 @@ export async function getDiscussionReplies(threadId: string) {
     author: {
       fullName: first(reply.profiles)?.full_name ?? "LexAzerbaijan user",
       username: first(reply.profiles)?.username ?? "user",
-      avatarUrl: first(reply.profiles)?.avatar_url ?? null
+      avatarUrl: first(reply.profiles)?.avatar_url ?? null,
+      verifiedWriter: Boolean(first(reply.profiles)?.verified_writer)
     }
   }));
 }
@@ -141,7 +147,8 @@ export async function getAdminDiscussionThreads() {
       profiles:author_id (
         full_name,
         username,
-        avatar_url
+        avatar_url,
+        verified_writer
       ),
       discussion_replies (
         id,
@@ -167,7 +174,8 @@ export async function getAdminDiscussionThreads() {
     author: {
       fullName: first(thread.profiles)?.full_name ?? "LexAzerbaijan user",
       username: first(thread.profiles)?.username ?? "user",
-      avatarUrl: first(thread.profiles)?.avatar_url ?? null
+      avatarUrl: first(thread.profiles)?.avatar_url ?? null,
+      verifiedWriter: Boolean(first(thread.profiles)?.verified_writer)
     },
     replies: (thread.discussion_replies ?? []).map((reply: any) => ({
       id: reply.id,
