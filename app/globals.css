@@ -245,3 +245,39 @@
   color: #f8fafc !important;
   border: 1px solid #334155;
 }
+
+.dark article p,
+.dark article li,
+.dark article span,
+.dark article div,
+.dark .prose p,
+.dark .prose li,
+.dark .prose span,
+.dark .prose div {
+  color: #e2e8f0 !important;
+}
+
+.dark article h1,
+.dark article h2,
+.dark article h3,
+.dark article h4,
+.dark article h5,
+.dark article h6,
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #f8fafc !important;
+}
+
+.dark article strong,
+.dark .prose strong {
+  color: #ffffff !important;
+}
+
+.dark article a,
+.dark .prose a {
+  color: #93c5fd !important;
+}
