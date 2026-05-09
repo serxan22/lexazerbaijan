@@ -1,6 +1,34 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 
+async function fetchCourtListenerText(url: string, token: string) {
+  try {
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
+
+    if (!response.ok) return "";
+
+    const data = await response.json();
+
+    return (
+      data.plain_text ||
+      data.html ||
+      data.html_lawbox ||
+      data.html_columbia ||
+      ""
+    );
+  } catch {
+    return "";
+  }
+}
+
+function stripHtml(value: string) {
+  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 export async function POST(request: Request) {
   const body = await request.json();
 
@@ -10,6 +38,7 @@ export async function POST(request: Request) {
   const citation = String(body.citation || "");
   const topic = String(body.topic || "");
   const text = String(body.text || "");
+  const sourceUrl = String(body.sourceUrl || "");
 
   if (!title || title.length < 2) {
     return NextResponse.json(
@@ -19,12 +48,33 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.GROQ_API_KEY;
+  const courtListenerToken = process.env.COURTLISTENER_API_TOKEN;
 
   if (!apiKey) {
     return NextResponse.json(
       { error: "GROQ_API_KEY is missing." },
       { status: 500 }
     );
+  }
+
+  let fullText = text;
+
+  if (
+    sourceUrl.includes("courtlistener.com") &&
+    courtListenerToken
+  ) {
+    const apiUrl = sourceUrl
+      .replace("https://www.courtlistener.com", "https://www.courtlistener.com/api/rest/v4")
+      .replace(/\/$/, "");
+
+    const fetched = await fetchCourtListenerText(
+      apiUrl,
+      courtListenerToken
+    );
+
+    if (fetched) {
+      fullText = stripHtml(fetched).slice(0, 12000);
+    }
   }
 
   const groq = new Groq({ apiKey });
@@ -35,11 +85,11 @@ export async function POST(request: Request) {
       {
         role: "system",
         content:
-          "You are LexAI, a professional legal research assistant for law students and researchers. Never invent facts, legal issues, holdings, or procedural history. If the available case text is limited, do NOT speculate or mention missing metadata. Instead, provide a concise professional overview using only the available title, citation, court, and snippet. Avoid phrases like 'metadata is limited', 'cannot determine', or similar disclaimers."
+          "You are LexAI, a professional legal research assistant. Summarize judicial decisions accurately. Never invent holdings or facts. If meaningful text exists, produce a detailed legal summary."
       },
       {
         role: "user",
-        content: `Summarize this case in a clear structured way.
+        content: `Summarize this legal case professionally.
 
 Case title: ${title}
 Citation: ${citation}
@@ -47,26 +97,18 @@ Court: ${court}
 Date: ${date}
 Topic: ${topic}
 
-Available case text / snippet:
-${text}
+Case text:
+${fullText}
 
-Use this format:
-
-1. Overview
-2. Main legal issue
-3. Key reasoning or outcome
-4. Why the case matters
-
-Rules:
-- Be concise and professional.
-- Never speculate.
-- If details are unavailable, focus only on verified available information.
-- Do not mention lack of metadata or unavailable information.
-- Do not write filler text.`
+Format:
+1. Facts
+2. Legal issue
+3. Holding / reasoning
+4. Importance`
       }
     ],
-    temperature: 0.3,
-    max_tokens: 900
+    temperature: 0.2,
+    max_tokens: 1200
   });
 
   return NextResponse.json({

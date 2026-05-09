@@ -37,7 +37,8 @@ export function CasesSearch() {
           title: item.caseName,
           court: item.court,
           date: item.dateFiled,
-          text: item.snippet
+          text: item.snippet,
+          sourceUrl: item.absoluteUrl
         })
       });
 
