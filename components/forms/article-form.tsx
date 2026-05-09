@@ -59,6 +59,8 @@ export function ArticleForm({
   const [consentOpen, setConsentOpen] = useState(false);
   const [consentChecked, setConsentChecked] = useState(false);
   const [pendingIntent, setPendingIntent] = useState<"pending_review" | "draft" | null>(null);
+  const [consentSubmitting, setConsentSubmitting] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   function openConsent(intent: "pending_review" | "draft") {
     setPendingIntent(intent);
@@ -200,7 +202,12 @@ export function ArticleForm({
         </Card>
       </aside>
     
-      <Dialog open={consentOpen} onOpenChange={setConsentOpen}>
+      <Dialog
+        open={consentOpen}
+        onOpenChange={(open) => {
+          if (!consentSubmitting && !formSubmitting) setConsentOpen(open);
+        }}
+      >
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>
