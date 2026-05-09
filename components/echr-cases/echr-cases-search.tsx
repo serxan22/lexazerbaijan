@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Loader2, Search } from "lucide-react";
+import { ArrowUpRight, Loader2, Search, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,47 @@ export function EchrCasesSearch() {
   const [results, setResults] = useState<EchrCaseResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [summaries, setSummaries] = useState<Record<string, string>>({});
+  const [summarizingId, setSummarizingId] = useState<string | null>(null);
+
+  async function summarizeCase(item: EchrCaseResult) {
+    setSummarizingId(item.id);
+
+    try {
+      const response = await fetch("/api/cases/summarize", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: item.caseName,
+          court: item.court,
+          date: item.dateFiled,
+          citation: item.applicationNo,
+          topic: item.type,
+          text: item.conclusion
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Summary failed");
+      }
+
+      setSummaries((prev) => ({
+        ...prev,
+        [item.id]: data.summary
+      }));
+    } catch (err) {
+      setSummaries((prev) => ({
+        ...prev,
+        [item.id]: err instanceof Error ? err.message : "Summary failed"
+      }));
+    } finally {
+      setSummarizingId(null);
+    }
+  }
 
   async function handleSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -95,18 +136,41 @@ export function EchrCasesSearch() {
                 </div>
               </div>
 
-              <Button variant="outline" asChild>
-                <Link href={item.absoluteUrl} target="_blank" rel="noreferrer">
-                  Official HUDOC
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="gold"
+                  onClick={() => summarizeCase(item)}
+                  disabled={summarizingId === item.id}
+                >
+                  {summarizingId === item.id ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="h-4 w-4" />
+                  )}
+                  Summarize case
+                </Button>
+
+                <Button variant="outline" asChild>
+                  <Link href={item.absoluteUrl} target="_blank" rel="noreferrer">
+                    Official HUDOC
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
             </div>
 
             {item.conclusion ? (
               <p className="mt-4 text-sm leading-6 text-slate-600">
                 {item.conclusion}
               </p>
+            ) : null}
+
+            {summaries[item.id] ? (
+              <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+                <p className="mb-2 font-semibold text-slate-950">LexAI case summary</p>
+                {summaries[item.id]}
+              </div>
             ) : null}
           </article>
         ))}

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Search } from "lucide-react";
+import { ArrowUpRight, Loader2, Search, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -92,6 +92,47 @@ const euCases = [
 
 export function EuCasesSearch() {
   const [query, setQuery] = useState("");
+  const [summaries, setSummaries] = useState<Record<string, string>>({});
+  const [summarizingId, setSummarizingId] = useState<string | null>(null);
+
+  async function summarizeCase(item: (typeof euCases)[number]) {
+    setSummarizingId(item.citation);
+
+    try {
+      const response = await fetch("/api/cases/summarize", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: item.title,
+          court: item.court,
+          date: item.year,
+          citation: item.citation,
+          topic: item.topic,
+          text: `${item.title}. ${item.citation}. Topic: ${item.topic}. Court: ${item.court}. Year: ${item.year}.`
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Summary failed");
+      }
+
+      setSummaries((prev) => ({
+        ...prev,
+        [item.citation]: data.summary
+      }));
+    } catch (err) {
+      setSummaries((prev) => ({
+        ...prev,
+        [item.citation]: err instanceof Error ? err.message : "Summary failed"
+      }));
+    } finally {
+      setSummarizingId(null);
+    }
+  }
 
   const results = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -149,13 +190,35 @@ export function EuCasesSearch() {
                 </div>
               </div>
 
-              <Button variant="outline" asChild>
-                <Link href={item.url} target="_blank" rel="noreferrer">
-                  Official source
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="gold"
+                  onClick={() => summarizeCase(item)}
+                  disabled={summarizingId === item.citation}
+                >
+                  {summarizingId === item.citation ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="h-4 w-4" />
+                  )}
+                  Summarize case
+                </Button>
+
+                <Button variant="outline" asChild>
+                  <Link href={item.url} target="_blank" rel="noreferrer">
+                    Official source
+                    <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
             </div>
+            {summaries[item.citation] ? (
+              <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+                <p className="mb-2 font-semibold text-slate-950">LexAI case summary</p>
+                {summaries[item.citation]}
+              </div>
+            ) : null}
           </article>
         ))}
 
