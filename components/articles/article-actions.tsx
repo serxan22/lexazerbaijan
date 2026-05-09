@@ -36,10 +36,18 @@ export function ArticleActions({
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    const likedCacheKey = `lex-liked-${articleId}`;
+    const bookmarkedCacheKey = `lex-bookmarked-${articleId}`;
+
+    setLiked(localStorage.getItem(likedCacheKey) === "1");
+    setBookmarked(localStorage.getItem(bookmarkedCacheKey) === "1");
+
     fetch(`/api/articles/${slug}/like?articleId=${articleId}`)
       .then((res) => res.json())
       .then((data) => {
-        setLiked(Boolean(data.liked));
+        const serverLiked = Boolean(data.liked);
+        setLiked(serverLiked);
+        localStorage.setItem(likedCacheKey, serverLiked ? "1" : "0");
         if (typeof data.likesCount === "number") {
           setLocalLikesCount(data.likesCount);
         }
@@ -49,7 +57,9 @@ export function ArticleActions({
     fetch(`/api/articles/${slug}/bookmark?articleId=${articleId}`)
       .then((res) => res.json())
       .then((data) => {
-        setBookmarked(Boolean(data.bookmarked));
+        const serverBookmarked = Boolean(data.bookmarked);
+        setBookmarked(serverBookmarked);
+        localStorage.setItem(bookmarkedCacheKey, serverBookmarked ? "1" : "0");
       })
       .catch(() => {});
   }, [articleId, slug]);
@@ -62,6 +72,7 @@ export function ArticleActions({
     const nextLiked = !previousLiked;
 
     setLiked(nextLiked);
+    localStorage.setItem(`lex-liked-${articleId}`, nextLiked ? "1" : "0");
     setLocalLikesCount(Math.max(0, previousCount + (nextLiked ? 1 : -1)));
     setIsLikeLoading(true);
 
@@ -80,13 +91,16 @@ export function ArticleActions({
       if (!res.ok) throw new Error("Failed to toggle like");
 
       const data = await res.json();
-      setLiked(Boolean(data.liked));
+      const serverLiked = Boolean(data.liked);
+      setLiked(serverLiked);
+      localStorage.setItem(`lex-liked-${articleId}`, serverLiked ? "1" : "0");
 
       if (typeof data.likesCount === "number") {
         setLocalLikesCount(data.likesCount);
       }
     } catch {
       setLiked(previousLiked);
+      localStorage.setItem(`lex-liked-${articleId}`, previousLiked ? "1" : "0");
       setLocalLikesCount(previousCount);
     } finally {
       setIsLikeLoading(false);
@@ -100,6 +114,7 @@ export function ArticleActions({
     const nextBookmarked = !previousBookmarked;
 
     setBookmarked(nextBookmarked);
+    localStorage.setItem(`lex-bookmarked-${articleId}`, nextBookmarked ? "1" : "0");
     setIsBookmarkLoading(true);
 
     try {
@@ -117,9 +132,12 @@ export function ArticleActions({
       if (!res.ok) throw new Error("Failed to toggle bookmark");
 
       const data = await res.json();
-      setBookmarked(Boolean(data.bookmarked));
+      const serverBookmarked = Boolean(data.bookmarked);
+      setBookmarked(serverBookmarked);
+      localStorage.setItem(`lex-bookmarked-${articleId}`, serverBookmarked ? "1" : "0");
     } catch {
       setBookmarked(previousBookmarked);
+      localStorage.setItem(`lex-bookmarked-${articleId}`, previousBookmarked ? "1" : "0");
     } finally {
       setIsBookmarkLoading(false);
     }
