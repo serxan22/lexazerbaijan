@@ -13,7 +13,6 @@ export async function SiteFooter() {
     { title: dictionary.nav.discussions, href: "/discussions" },
     { title: dictionary.nav.cases, href: "/cases" },
     { title: dictionary.nav.authors, href: "/authors" },
-    { title: dictionary.common.glossary, href: "/glossary" },
     { title: dictionary.nav.askLexAI, href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
   ];
