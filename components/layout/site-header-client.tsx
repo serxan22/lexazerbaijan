@@ -75,9 +75,9 @@ export function HeaderClient({
   }, [profileMenuOpen]);
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
-    { title: "Discussions", href: "/discussions" },
+    { title: dictionary.nav.discussions, href: "/discussions" },
     { title: dictionary.nav.authors, href: "/authors" },
-    { title: "Ask LexAI", href: "/lexai" },
+    { title: dictionary.nav.askLexAI, href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
   ];
 
@@ -104,7 +104,7 @@ export function HeaderClient({
             <DropdownMenuContent align="start" className="w-72">
               <DropdownMenuItem asChild>
                 <Link href="/cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900">US Cases</span>
+                  <span className="font-semibold text-slate-900">{dictionary.nav.usCases}</span>
                   <span className="text-xs text-slate-500">
                     Search American federal and state case-law.
                   </span>
@@ -113,7 +113,7 @@ export function HeaderClient({
 
               <DropdownMenuItem asChild>
                 <Link href="/echr-cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900">ECHR Cases</span>
+                  <span className="font-semibold text-slate-900">{dictionary.nav.echrCases}</span>
                   <span className="text-xs text-slate-500">
                     Explore European Court of Human Rights judgments.
                   </span>
@@ -122,7 +122,7 @@ export function HeaderClient({
 
               <DropdownMenuItem asChild>
                 <Link href="/eu-cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900">EU Cases</span>
+                  <span className="font-semibold text-slate-900">{dictionary.nav.euCases}</span>
                   <span className="text-xs text-slate-500">
                     Search CJEU and General Court case-law.
                   </span>

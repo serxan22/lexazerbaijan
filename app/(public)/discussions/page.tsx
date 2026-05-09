@@ -5,13 +5,14 @@ import { CreateDiscussionForm } from "@/components/discussions/create-discussion
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { getDiscussionThreads } from "@/lib/discussions";
-import { getLocale } from "@/lib/i18n";
+import { getDictionary, getLocale } from "@/lib/i18n";
 import { formatDate, initials } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function DiscussionsPage() {
   const locale = await getLocale();
+  const dictionary = await getDictionary(locale);
   const threads = await getDiscussionThreads();
 
   return (
@@ -19,9 +20,9 @@ export default async function DiscussionsPage() {
       <section className="border-b bg-white py-10">
         <div className="legal-container">
           <p className="eyebrow">Community</p>
-          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">Discussions</h1>
+          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.nav.discussions}</h1>
           <p className="mt-4 max-w-2xl text-slate-600">
-            Start a legal topic, ask a question, or join an ongoing discussion with other users.
+            {dictionary.pages.discussionsBody}
           </p>
         </div>
       </section>
@@ -59,13 +60,13 @@ export default async function DiscussionsPage() {
           ) : (
             <div className="rounded-xl border border-dashed bg-white p-10 text-center text-slate-500">
               <PlusCircle className="mx-auto h-10 w-10" />
-              <p className="mt-3">No discussions yet. Start the first one.</p>
+              <p className="mt-3">{dictionary.pages.noDiscussions}</p>
             </div>
           )}
         </div>
 
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <CreateDiscussionForm />
+          <CreateDiscussionForm dictionary={dictionary} />
         </div>
       </section>
     </div>

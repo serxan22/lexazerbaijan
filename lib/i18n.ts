@@ -298,7 +298,14 @@ export const dictionaries = {
       legalDisclaimerBody:
         "Articles published on this platform are for educational and informational purposes only. They do not constitute legal advice, do not replace consultation with a qualified lawyer, and do not create a lawyer-client relationship. Authors are responsible for their own views and citations.",
       submitTitle: "Publish legal analysis",
-      submitBody: "Drafts are private to you. Submitted work is reviewed before publication."
+      submitBody: "Drafts are private to you. Submitted work is reviewed before publication.",
+      discussionsBody: "Start a legal topic, ask a question, or join ongoing legal discussions with other users.",
+      noDiscussions: "No discussions yet. Start the first discussion.",
+      startDiscussion: "Start a Discussion",
+      discussionTitle: "Discussion title",
+      creatingDiscussion: "Creating discussion...",
+      createDiscussion: "Create Discussion",
+      noMessages: "No messages yet. Start the discussion."
     },
     article: {
       notFound: "Article not found",
@@ -644,7 +651,14 @@ export const dictionaries = {
       legalDisclaimer: "Hüquqi diskleymer",
       legalDisclaimerBody: "Platformada dərc olunan məqalələr yalnız maarifləndirici və məlumat məqsədlidir. Hüquqi məsləhət sayılmır, ixtisaslı hüquqşünasla məsləhətləşməni əvəz etmir və vəkil-müştəri münasibəti yaratmır. Müəlliflər öz fikirləri və istinadlarına görə məsuliyyət daşıyırlar.",
       submitTitle: "Hüquqi təhlil dərc et",
-      submitBody: "Qaralamalar yalnız sizə görünür. Göndərilən yazılar dərcdən əvvəl redaksiya baxışından keçir."
+      submitBody: "Qaralamalar yalnız sizə görünür. Göndərilən yazılar dərcdən əvvəl redaksiya baxışından keçir.",
+      discussionsBody: "Hüquqi mövzu başladın, sual verin və ya digər istifadəçilərlə müzakirələrə qoşulun.",
+      noDiscussions: "Hələ müzakirə yoxdur. İlk müzakirəni başladın.",
+      startDiscussion: "Müzakirə başlat",
+      discussionTitle: "Müzakirə başlığı",
+      creatingDiscussion: "Müzakirə yaradılır...",
+      createDiscussion: "Müzakirə yarat",
+      noMessages: "Hələ mesaj yoxdur. Müzakirəni başladın."
     },
     article: {
       notFound: "Məqalə tapılmadı",
@@ -988,7 +1002,14 @@ export const dictionaries = {
       legalDisclaimer: "Правовой дисклеймер",
       legalDisclaimerBody: "Статьи, опубликованные на платформе, предназначены только для образовательных и информационных целей. Они не являются юридической консультацией, не заменяют консультацию квалифицированного юриста и не создают отношений адвокат-клиент. Авторы несут ответственность за свои взгляды и ссылки.",
       submitTitle: "Опубликовать правовой анализ",
-      submitBody: "Черновики видны только вам. Поданные материалы проходят редакционное рассмотрение до публикации."
+      submitBody: "Черновики видны только вам. Поданные материалы проходят редакционное рассмотрение до публикации.",
+      discussionsBody: "Начните правовую тему, задайте вопрос или присоединитесь к обсуждениям с другими пользователями.",
+      noDiscussions: "Обсуждений пока нет. Начните первое обсуждение.",
+      startDiscussion: "Начать обсуждение",
+      discussionTitle: "Название обсуждения",
+      creatingDiscussion: "Создание обсуждения...",
+      createDiscussion: "Создать обсуждение",
+      noMessages: "Сообщений пока нет. Начните обсуждение."
     },
     article: {
       notFound: "Статья не найдена",
