@@ -9,6 +9,7 @@ import { ArticleCard } from "@/components/articles/article-card";
 import { CommentsSection } from "@/components/articles/comments-section";
 import { ArticleViewTracker } from "@/components/articles/article-view-tracker";
 import { TableOfContents } from "@/components/articles/table-of-contents";
+import { ArticleReferences } from "@/components/articles/article-references";
 import { ArticleCardAiButton } from "@/components/articles/article-card-ai-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -141,6 +142,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
           <div className="article-prose mt-8" dangerouslySetInnerHTML={{ __html: content }} />
           <Separator className="my-12" />
+
+          <ArticleReferences slug={article.slug} />
+
+          <Separator className="my-12" />
+
           <section className="rounded-lg border bg-slate-50 p-6">
             <div className="flex items-start gap-4">
               <Avatar className="h-14 w-14">
