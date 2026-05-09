@@ -204,23 +204,23 @@ export function ArticleForm({
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>
-              Copyright & Author Confirmation
+              {dictionary.forms.consentTitle}
             </DialogTitle>
 
             <DialogDescription className="pt-3 text-sm leading-7 text-slate-600">
-              By submitting this article, you confirm that:
+              {dictionary.forms.consentDescription}
               <br /><br />
-              • the article is your original work or properly licensed;
+              • {dictionary.forms.consentOriginal}
               <br />
-              • you have the right to publish the submitted material;
+              • {dictionary.forms.consentRights}
               <br />
-              • the submission does not infringe copyright or third-party rights;
+              • {dictionary.forms.consentNoInfringement}
               <br />
-              • citations and references are properly attributed;
+              • {dictionary.forms.consentCitations}
               <br />
-              • AI-assisted writing, if used, has been meaningfully reviewed by a human author;
+              • {dictionary.forms.consentAiReview}
               <br />
-              • you agree to the LexAzerbaijan Copyright Policy, AI Content Policy, and Author Agreement.
+              • {dictionary.forms.consentPolicies}
             </DialogDescription>
           </DialogHeader>
 
@@ -237,8 +237,7 @@ export function ArticleForm({
               htmlFor="copyright-consent"
               className="text-sm leading-6 text-slate-700"
             >
-              I confirm that I have read and accepted the copyright,
-              authorship, and AI content policies of LexAzerbaijan.
+              {dictionary.forms.consentCheckbox}
             </label>
           </div>
 
@@ -249,7 +248,7 @@ export function ArticleForm({
               disabled={!consentChecked}
               className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Accept & Submit
+              {dictionary.forms.acceptAndSubmit}
             </button>
           </DialogFooter>
         </DialogContent>

@@ -415,7 +415,17 @@ export const dictionaries = {
       submitForReview: "Submit for review",
       saveEditorialChanges: "Save editorial changes",
       savingChanges: "Saving changes...",
-      savingDraft: "Saving draft..."
+      savingDraft: "Saving draft...",
+      consentTitle: "Copyright & Author Confirmation",
+      consentDescription: "By submitting this article, you confirm that:",
+      consentOriginal: "the article is your original work or properly licensed;",
+      consentRights: "you have the right to publish the submitted material;",
+      consentNoInfringement: "the submission does not infringe copyright or third-party rights;",
+      consentCitations: "citations and references are properly attributed;",
+      consentAiReview: "AI-assisted writing, if used, has been meaningfully reviewed by a human author;",
+      consentPolicies: "you agree to the LexAzerbaijan Copyright Policy, AI Content Policy, and Author Agreement.",
+      consentCheckbox: "I confirm that I have read and accepted the copyright, authorship, and AI content policies of LexAzerbaijan.",
+      acceptAndSubmit: "Accept & Submit"
     },
     dashboard: {
       title: "Dashboard",
@@ -802,7 +812,17 @@ export const dictionaries = {
       submitForReview: "Baxışa göndər",
       saveEditorialChanges: "Redaksiya dəyişikliklərini saxla",
       savingChanges: "Dəyişikliklər saxlanılır...",
-      savingDraft: "Qaralama saxlanılır..."
+      savingDraft: "Qaralama saxlanılır...",
+      consentTitle: "Müəlliflik və hüquqi təsdiq",
+      consentDescription: "Bu məqaləni göndərməklə siz aşağıdakıları təsdiqləyirsiniz:",
+      consentOriginal: "məqalə sizin orijinal işinizdir və ya lazımi icazələrlə istifadə olunur;",
+      consentRights: "təqdim etdiyiniz materialı dərc etmək hüququnuz var;",
+      consentNoInfringement: "göndəriş müəllif hüquqlarını və üçüncü şəxslərin hüquqlarını pozmur;",
+      consentCitations: "istinadlar və mənbələr düzgün göstərilib;",
+      consentAiReview: "AI dəstəyi istifadə olunubsa, məzmun insan müəllif tərəfindən mənalı şəkildə yoxlanılıb;",
+      consentPolicies: "LexAzerbaijan-ın Müəllif hüquqları siyasəti, AI məzmun siyasəti və Müəllif razılaşması ilə razılaşırsınız.",
+      consentCheckbox: "LexAzerbaijan-ın müəllif hüquqları, müəlliflik və AI məzmun qaydalarını oxuduğumu və qəbul etdiyimi təsdiqləyirəm.",
+      acceptAndSubmit: "Qəbul et və göndər"
     },
     dashboard: {
       title: "Panel",
@@ -1189,7 +1209,17 @@ export const dictionaries = {
       submitForReview: "Отправить на рассмотрение",
       saveEditorialChanges: "Сохранить редакционные изменения",
       savingChanges: "Сохранение изменений...",
-      savingDraft: "Сохранение черновика..."
+      savingDraft: "Сохранение черновика...",
+      consentTitle: "Подтверждение авторства и прав",
+      consentDescription: "Отправляя эту статью, вы подтверждаете, что:",
+      consentOriginal: "статья является вашей оригинальной работой или используется на законном основании;",
+      consentRights: "у вас есть право опубликовать представленный материал;",
+      consentNoInfringement: "материал не нарушает авторские права и права третьих лиц;",
+      consentCitations: "цитаты, источники и ссылки указаны корректно;",
+      consentAiReview: "если использовался ИИ, текст был осмысленно проверен человеком-автором;",
+      consentPolicies: "вы соглашаетесь с Политикой авторских прав, Политикой использования ИИ и Соглашением автора LexAzerbaijan.",
+      consentCheckbox: "Я подтверждаю, что прочитал(а) и принимаю правила LexAzerbaijan об авторских правах, авторстве и использовании ИИ.",
+      acceptAndSubmit: "Принять и отправить"
     },
     dashboard: {
       title: "Кабинет",
