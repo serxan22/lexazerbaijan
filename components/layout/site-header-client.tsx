@@ -75,6 +75,7 @@ export function HeaderClient({
   }, [profileMenuOpen]);
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
+    { title: "Discussions", href: "/discussions" },
     { title: dictionary.nav.authors, href: "/authors" },
     { title: "Ask LexAI", href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
