@@ -9,6 +9,7 @@ import { ArticleCard } from "@/components/articles/article-card";
 import { CommentsSection } from "@/components/articles/comments-section";
 import { ArticleViewTracker } from "@/components/articles/article-view-tracker";
 import { TableOfContents } from "@/components/articles/table-of-contents";
+import { ArticleCardAiButton } from "@/components/articles/article-card-ai-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
@@ -128,6 +129,16 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <div className="rounded-lg border bg-gold-muted p-5 text-sm leading-6 text-slate-700">
             {dictionary.article.disclaimer}
           </div>
+
+          <div className="mt-6 rounded-2xl border bg-white p-5 shadow-sm">
+            <ArticleCardAiButton
+              slug={article.slug}
+              label={dictionary.common.summarizeArticle}
+              loadingLabel={dictionary.common.loadingSummary}
+              resultTitle={dictionary.common.articleSummary}
+            />
+          </div>
+
           <div className="article-prose mt-8" dangerouslySetInnerHTML={{ __html: content }} />
           <Separator className="my-12" />
           <section className="rounded-lg border bg-slate-50 p-6">
