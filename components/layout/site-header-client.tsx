@@ -153,7 +153,10 @@ export function HeaderClient({
           ) : null}
 
           {profile ? (
-            <DropdownMenu open={profileMenuOpen} onOpenChange={setProfileMenuOpen}>
+            <div
+              onMouseLeave={() => setProfileMenuOpen(false)}
+            >
+              <DropdownMenu modal={false} open={profileMenuOpen} onOpenChange={setProfileMenuOpen}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-9 w-9">
@@ -203,7 +206,8 @@ export function HeaderClient({
                   </DropdownMenuItem>
                 </form>
               </DropdownMenuContent>
-            </DropdownMenu>
+              </DropdownMenu>
+            </div>
           ) : (
             <Button variant="ghost" asChild>
               <Link href="/login">
