@@ -119,6 +119,15 @@ export function HeaderClient({
                   </span>
                 </Link>
               </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href="/eu-cases" className="flex flex-col items-start gap-1 py-3">
+                  <span className="font-semibold text-slate-900">EU Cases</span>
+                  <span className="text-xs text-slate-500">
+                    Search CJEU and General Court case-law.
+                  </span>
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
