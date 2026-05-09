@@ -18,9 +18,15 @@ export function CategoryCard({
   locale: Locale;
 }) {
   const localized = localizeCategory(category, dictionary) ?? category;
+  const count = category.count ?? 0;
+  const isEmpty = count === 0;
 
   return (
-    <Link href={`/articles?category=${category.slug}`} className="group block h-full">
+    <Link
+      href={isEmpty ? "#" : `/articles?category=${category.slug}`}
+      aria-disabled={isEmpty}
+      className={`group block h-full ${isEmpty ? "pointer-events-none opacity-70" : ""}`}
+    >
       <Card className="h-full border-slate-200 bg-white transition duration-300 group-hover:-translate-y-1 group-hover:shadow-soft">
         <CardContent className="p-5">
           <div className="flex items-start justify-between gap-4">
@@ -32,7 +38,9 @@ export function CategoryCard({
           <h3 className="mt-5 font-serif text-xl font-semibold text-slate-950">{localized.name}</h3>
           <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-600">{localized.description}</p>
           <p className="mt-5 text-xs font-medium uppercase tracking-[0.14em] text-slate-400">
-            {formatNumber(category.count ?? 0, locale)} {dictionary.common.articles}
+            {isEmpty
+              ? dictionary.common.comingSoon
+              : `${formatNumber(count, locale)} ${dictionary.common.articles}`}
           </p>
         </CardContent>
       </Card>

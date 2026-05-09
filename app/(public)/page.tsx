@@ -126,7 +126,10 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.slice(0, 8).map((category) => (
+            {[...categories]
+              .sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
+              .slice(0, 8)
+              .map((category) => (
               <CategoryCard key={category.id} category={category} dictionary={dictionary} locale={locale} />
             ))}
           </div>

@@ -37,6 +37,7 @@ export const dictionaries = {
     },
     nav: {
       articles: "Articles",
+      comingSoon: "Coming soon",
       categories: "Categories",
       authors: "Authors",
       about: "About",
@@ -89,6 +90,7 @@ export const dictionaries = {
       likes: "Likes",
       comments: "Comments",
       articles: "Articles",
+      comingSoon: "Coming soon",
       published: "Published",
       pending: "Pending",
       edit: "Edit",
@@ -497,6 +499,7 @@ export const dictionaries = {
     },
     nav: {
       articles: "Məqalələr",
+      comingSoon: "Tezliklə",
       categories: "Kateqoriyalar",
       authors: "Müəlliflər",
       about: "Haqqında",
@@ -547,6 +550,7 @@ export const dictionaries = {
       likes: "Bəyənmə",
       comments: "Şərhlər",
       articles: "Məqalələr",
+      comingSoon: "Tezliklə",
       published: "Dərc olunub",
       pending: "Gözləmədə",
       edit: "Redaktə et",
@@ -901,6 +905,7 @@ export const dictionaries = {
     },
     nav: {
       articles: "Статьи",
+      comingSoon: "Скоро",
       categories: "Категории",
       authors: "Авторы",
       about: "О проекте",
@@ -951,6 +956,7 @@ export const dictionaries = {
       likes: "Лайки",
       comments: "Комментарии",
       articles: "Статьи",
+      comingSoon: "Скоро",
       published: "Опубликовано",
       pending: "На рассмотрении",
       edit: "Редактировать",

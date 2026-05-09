@@ -32,6 +32,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: article.title,
     description: article.abstract,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://lexazerbaijan.az"}/articles/${article.slug}`
+    },
     openGraph: {
       title: article.title,
       description: article.abstract,
@@ -51,9 +54,32 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
   const content = sanitizeArticleContent(article.content);
   const category = localizeCategory(article.category, dictionary);
+  const articleUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://lexazerbaijan.az"}/articles/${article.slug}`;
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.abstract,
+    image: article.coverImageUrl ? [article.coverImageUrl] : undefined,
+    datePublished: article.publishedAt,
+    dateModified: article.updatedAt,
+    author: {
+      "@type": "Person",
+      name: article.author.fullName
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "LexAzerbaijan"
+    },
+    mainEntityOfPage: articleUrl
+  };
 
   return (
-    <article className="bg-white">
+    <article className="bg-white dark:bg-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <ArticleViewTracker slug={params.slug} />
       <header className="border-b bg-slate-50">
         <div className="legal-container grid gap-10 py-14 lg:grid-cols-[1fr_420px] lg:items-end">
@@ -119,7 +145,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           </div>
           {article.coverImageUrl ? (
             <div className="overflow-hidden rounded-lg border bg-white shadow-soft">
-              <img src={article.coverImageUrl} alt="" className="aspect-[1.25] w-full object-cover" />
+              <img
+                src={article.coverImageUrl}
+                alt={`${article.title} article cover`}
+                className="aspect-[1.25] w-full object-cover"
+              />
             </div>
           ) : null}
         </div>
@@ -140,7 +170,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             />
           </div>
 
-          <div className="article-prose mt-8" dangerouslySetInnerHTML={{ __html: content }} />
+          <div className="article-prose prose prose-slate mt-8 max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: content }} />
           <Separator className="my-12" />
 
           <ArticleReferences slug={article.slug} />
