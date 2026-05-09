@@ -18,6 +18,9 @@ export async function SiteFooter() {
   ];
   const legalLinks = [
     { title: dictionary.footer.editorialPolicy, href: "/editorial-policy" },
+    { title: "Copyright Policy", href: "/copyright-policy" },
+    { title: "AI Content Policy", href: "/ai-content-policy" },
+    { title: "Author Agreement", href: "/author-agreement" },
     { title: dictionary.footer.contact, href: "/contact" },
     { title: dictionary.footer.disclaimer, href: "/editorial-policy#disclaimer" }
   ];
