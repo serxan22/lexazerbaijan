@@ -9,7 +9,7 @@ import { DailyLegalTerms } from "@/components/home/daily-legal-terms";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-import { getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
+import { getArticles, getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
 
 const reasonIcons = [GraduationCap, ShieldCheck, Library];
@@ -17,9 +17,11 @@ const reasonIcons = [GraduationCap, ShieldCheck, Library];
 export default async function HomePage() {
   const locale = await getLocale();
   const dictionary = await getDictionary(locale);
-  const [featured, latest, categories, authors] = await Promise.all([
+  const [featured, latest, mostRead, mostLiked, categories, authors] = await Promise.all([
     getFeaturedArticles(),
     getLatestArticles(6),
+    getArticles({ sort: "most_viewed" }),
+    getArticles({ sort: "most_liked" }),
     getCategories(),
     getTopAuthors()
   ]);
@@ -112,6 +114,42 @@ export default async function HomePage() {
             {latest.map((article) => (
               <ArticleCard key={article.id} article={article} dictionary={dictionary} locale={locale} />
             ))}
+          </div>
+        </div>
+      </section>\n\n      <section className="section-shell bg-slate-50">
+        <div className="legal-container">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Recommended reading</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">
+              Popular with readers
+            </h2>
+            <p className="mt-4 text-slate-600">
+              Discover the most read and most liked legal analysis on LexAzerbaijan.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-8 lg:grid-cols-2">
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-slate-950">
+                Most read
+              </h3>
+              <div className="mt-5 grid gap-5">
+                {mostRead.slice(0, 3).map((article) => (
+                  <ArticleCard key={article.id} article={article} dictionary={dictionary} locale={locale} />
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-slate-950">
+                Most liked
+              </h3>
+              <div className="mt-5 grid gap-5">
+                {mostLiked.slice(0, 3).map((article) => (
+                  <ArticleCard key={article.id} article={article} dictionary={dictionary} locale={locale} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
