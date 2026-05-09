@@ -51,7 +51,13 @@ export const dictionaries = {
       admin: "Admin",
       signOut: "Sign out",
       navigation: "Navigation",
-      language: "Language"
+      language: "Language",
+      discussions: "Discussions",
+      cases: "Cases",
+      usCases: "US Cases",
+      echrCases: "ECHR Cases",
+      euCases: "EU Cases",
+      askLexAI: "Ask LexAI"
     },
     footer: {
       body:
@@ -105,7 +111,10 @@ export const dictionaries = {
       sending: "Sending...",
       submitting: "Submitting...",
       posting: "Posting comment...",
-      noReports: "No reports."
+      noReports: "No reports.",
+      summarizeCase: "Summarize case",
+      officialSource: "Official source",
+      loadingSummary: "Generating summary..."
     },
     status: {
       draft: "Draft",
@@ -442,7 +451,13 @@ export const dictionaries = {
       admin: "Admin",
       signOut: "Çıxış",
       navigation: "Naviqasiya",
-      language: "Dil"
+      language: "Dil",
+      discussions: "Müzakirələr",
+      cases: "Məhkəmə işləri",
+      usCases: "ABŞ məhkəmə işləri",
+      echrCases: "AİHM qərarları",
+      euCases: "Aİ hüququ işləri",
+      askLexAI: "LexAI ilə soruş"
     },
     footer: {
       body: "Azərbaycanın gənc hüquq icması üçün hüquqi araşdırma, məhkəmə qərarı şərhləri, hüquqi rəylər və islahat yönümlü təhlillər platforması.",
@@ -494,7 +509,10 @@ export const dictionaries = {
       sending: "Göndərilir...",
       submitting: "Göndərilir...",
       posting: "Şərh göndərilir...",
-      noReports: "Şikayət yoxdur."
+      noReports: "Şikayət yoxdur.",
+      summarizeCase: "Qərarı xülasə et",
+      officialSource: "Rəsmi mənbə",
+      loadingSummary: "Xülasə hazırlanır..."
     },
     status: {
       draft: "Qaralama",
@@ -777,7 +795,13 @@ export const dictionaries = {
       admin: "Админ",
       signOut: "Выйти",
       navigation: "Навигация",
-      language: "Язык"
+      language: "Язык",
+      discussions: "Обсуждения",
+      cases: "Судебные дела",
+      usCases: "Дела США",
+      echrCases: "Практика ЕСПЧ",
+      euCases: "Дела права ЕС",
+      askLexAI: "Спросить LexAI"
     },
     footer: {
       body: "Профессиональная платформа для правовых исследований, комментариев к судебным решениям, юридических мнений и реформаторского анализа молодого правового сообщества Азербайджана.",
@@ -829,7 +853,10 @@ export const dictionaries = {
       sending: "Отправка...",
       submitting: "Отправка...",
       posting: "Публикация комментария...",
-      noReports: "Жалоб нет."
+      noReports: "Жалоб нет.",
+      summarizeCase: "Кратко изложить дело",
+      officialSource: "Официальный источник",
+      loadingSummary: "Подготовка краткого обзора..."
     },
     status: {
       draft: "Черновик",
