@@ -142,9 +142,12 @@ export function ArticleActions({
         variant={liked ? "default" : "outline"}
         size="sm"
         onClick={handleLike}
-        disabled={isLikeLoading}
         aria-pressed={liked}
-        className={liked ? "bg-red-600 text-white hover:bg-red-700" : ""}
+        className={`transition-all duration-200 active:scale-95 ${
+          liked
+            ? "bg-red-600 text-white hover:bg-red-700"
+            : ""
+        }`}
       >
         <Heart className={liked ? "h-4 w-4 fill-current" : "h-4 w-4"} />
         {formatNumber(localLikesCount, locale)}
@@ -155,9 +158,12 @@ export function ArticleActions({
         variant={bookmarked ? "default" : "outline"}
         size="sm"
         onClick={handleBookmark}
-        disabled={isBookmarkLoading}
         aria-pressed={bookmarked}
-        className={bookmarked ? "bg-blue-700 text-white hover:bg-blue-800" : ""}
+        className={`transition-all duration-200 active:scale-95 ${
+          bookmarked
+            ? "bg-blue-700 text-white hover:bg-blue-800"
+            : ""
+        }`}
       >
         <Bookmark className={bookmarked ? "h-4 w-4 fill-current" : "h-4 w-4"} />
         {bookmarked ? "Bookmarked" : dictionary.common.bookmark}
