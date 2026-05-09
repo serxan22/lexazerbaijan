@@ -5,6 +5,7 @@ import "@/app/globals.css";
 import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { RouteLoadingIndicator } from "@/components/layout/route-loading-indicator";
 import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang={locale}>
       <body className="min-h-screen font-sans">
         <ThemeProvider>
+          <RouteLoadingIndicator />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />
