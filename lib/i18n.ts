@@ -253,7 +253,10 @@ export const dictionaries = {
       viewAuthors: "View authors",
       newsletterTitle: "Follow new legal writing",
       newsletterBody:
-        "Receive editor-selected articles, case comments, and legal reform notes from Azerbaijan's young legal community."
+        "Receive editor-selected articles, case comments, and legal reform notes from Azerbaijan's young legal community.",
+      dailyTermsEyebrow: "Daily Legal Learning",
+      dailyTermsTitle: "Today's Legal Terms",
+      dailyTermsBody: "Learn important legal terminology through short professional explanations updated daily."
     },
     pages: {
       articlesTitle: "Legal analysis library",
@@ -661,7 +664,10 @@ export const dictionaries = {
       topAuthorsTitle: "İcmada etibarlı səslər",
       viewAuthors: "Müəlliflərə bax",
       newsletterTitle: "Yeni hüquqi yazıları izlə",
-      newsletterBody: "Azərbaycanın gənc hüquq icmasından redaktor seçimi məqalələri, qərar şərhlərini və islahat qeydlərini al."
+      newsletterBody: "Azərbaycanın gənc hüquq icmasından redaktor seçimi məqalələri, qərar şərhlərini və islahat qeydlərini al.",
+      dailyTermsEyebrow: "Gündəlik hüquqi öyrənmə",
+      dailyTermsTitle: "Bugünün hüquqi terminləri",
+      dailyTermsBody: "Hər gün yenilənən qısa və professional izahlarla hüquqi terminləri öyrənin."
     },
     pages: {
       articlesTitle: "Hüquqi təhlil kitabxanası",
@@ -1060,7 +1066,10 @@ export const dictionaries = {
       topAuthorsTitle: "Надежные голоса сообщества",
       viewAuthors: "Смотреть авторов",
       newsletterTitle: "Следите за новыми правовыми материалами",
-      newsletterBody: "Получайте статьи, комментарии к судебным решениям и заметки о правовых реформах, выбранные редакцией."
+      newsletterBody: "Получайте статьи, комментарии к судебным решениям и заметки о правовых реформах, выбранные редакцией.",
+      dailyTermsEyebrow: "Ежедневное юридическое обучение",
+      dailyTermsTitle: "Юридические термины дня",
+      dailyTermsBody: "Изучайте важные юридические термины через короткие профессиональные объяснения, обновляемые ежедневно."
     },
     pages: {
       articlesTitle: "Библиотека правового анализа",

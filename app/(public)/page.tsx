@@ -5,6 +5,7 @@ import { ArticleCard } from "@/components/articles/article-card";
 import { AuthorCard } from "@/components/articles/author-card";
 import { CategoryCard } from "@/components/articles/category-card";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
+import { DailyLegalTerms } from "@/components/home/daily-legal-terms";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
@@ -74,6 +75,11 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      <DailyLegalTerms
+        dictionary={dictionary}
+        locale={locale}
+      />
 
       <section className="section-shell bg-slate-50">
         <div className="legal-container">
