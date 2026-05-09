@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormState } from "react-dom";
+import { useRef, useState } from "react";
 
 import { submitArticleAction, updateArticleAction } from "@/lib/actions/articles";
 import { updateArticleAdminAction } from "@/lib/actions/admin";
@@ -13,6 +14,14 @@ import type { ArticleLanguage, ArticleStatus } from "@/types/database";
 import { RichTextEditor } from "@/components/forms/rich-text-editor";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,8 +54,34 @@ export function ArticleForm({
     mode === "admin" ? updateArticleAdminAction : mode === "edit" ? updateArticleAction : submitArticleAction;
   const [state, action] = useFormState(actionToUse, initialActionState);
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [consentOpen, setConsentOpen] = useState(false);
+  const [consentChecked, setConsentChecked] = useState(false);
+  const [pendingIntent, setPendingIntent] = useState<"pending_review" | "draft" | null>(null);
+
+  function openConsent(intent: "pending_review" | "draft") {
+    setPendingIntent(intent);
+    setConsentOpen(true);
+  }
+
+  function handleConfirmedSubmit() {
+    if (!consentChecked || !pendingIntent || !formRef.current) return;
+
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "intent";
+    hiddenInput.value = pendingIntent;
+
+    formRef.current.appendChild(hiddenInput);
+
+    formRef.current.requestSubmit();
+
+    setConsentOpen(false);
+  }
+
   return (
-    <form action={action} className="grid gap-6 lg:grid-cols-[1fr_360px]">
+    <form ref={formRef} action={action} className="grid gap-6 lg:grid-cols-[1fr_360px]">
       {defaults?.id ? <input type="hidden" name="id" value={defaults.id} /> : null}
       <div className="space-y-6">
         <Card>
@@ -143,18 +178,83 @@ export function ArticleForm({
                 </SubmitButton>
               ) : (
                 <>
-                  <SubmitButton name="intent" value="pending_review" variant="gold" pendingText={dictionary.common.submitting}>
+                  <button
+                    type="button"
+                    onClick={() => openConsent("pending_review")}
+                    className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90"
+                  >
                     {dictionary.forms.submitForReview}
-                  </SubmitButton>
-                  <SubmitButton name="intent" value="draft" variant="outline" pendingText={dictionary.forms.savingDraft}>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => openConsent("draft")}
+                    className="inline-flex h-11 items-center justify-center rounded-md border px-6 text-sm font-medium transition hover:bg-slate-50"
+                  >
                     {dictionary.common.saveDraft}
-                  </SubmitButton>
+                  </button>
                 </>
               )}
             </div>
           </CardContent>
         </Card>
       </aside>
-    </form>
+    
+      <Dialog open={consentOpen} onOpenChange={setConsentOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>
+              Copyright & Author Confirmation
+            </DialogTitle>
+
+            <DialogDescription className="pt-3 text-sm leading-7 text-slate-600">
+              By submitting this article, you confirm that:
+              <br /><br />
+              • the article is your original work or properly licensed;
+              <br />
+              • you have the right to publish the submitted material;
+              <br />
+              • the submission does not infringe copyright or third-party rights;
+              <br />
+              • citations and references are properly attributed;
+              <br />
+              • AI-assisted writing, if used, has been meaningfully reviewed by a human author;
+              <br />
+              • you agree to the LexAzerbaijan Copyright Policy, AI Content Policy, and Author Agreement.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex items-start gap-3 rounded-xl border bg-slate-50 p-4">
+            <input
+              id="copyright-consent"
+              type="checkbox"
+              checked={consentChecked}
+              onChange={(event) => setConsentChecked(event.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-slate-300"
+            />
+
+            <label
+              htmlFor="copyright-consent"
+              className="text-sm leading-6 text-slate-700"
+            >
+              I confirm that I have read and accepted the copyright,
+              authorship, and AI content policies of LexAzerbaijan.
+            </label>
+          </div>
+
+          <DialogFooter>
+            <button
+              type="button"
+              onClick={handleConfirmedSubmit}
+              disabled={!consentChecked}
+              className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Accept & Submit
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+</form>
   );
 }
