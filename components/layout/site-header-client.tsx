@@ -78,6 +78,7 @@ export function HeaderClient({
     { title: dictionary.nav.articles, href: "/articles" },
     { title: dictionary.nav.discussions, href: "/discussions" },
     { title: dictionary.nav.authors, href: "/authors" },
+    { title: dictionary.common.glossary, href: "/glossary" },
     { title: dictionary.nav.askLexAI, href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
   ];
