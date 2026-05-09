@@ -75,7 +75,6 @@ export function HeaderClient({
   }, [profileMenuOpen]);
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
-    { title: dictionary.nav.categories, href: "/discussions" },
     { title: dictionary.nav.authors, href: "/authors" },
     { title: "Ask LexAI", href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
@@ -94,7 +93,6 @@ export function HeaderClient({
           ))}
           
           <Button variant="ghost" asChild>
-            <Link href="/categories">Discussions</Link>
           </Button>
 
         </nav>
