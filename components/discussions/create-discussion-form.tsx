@@ -20,7 +20,7 @@ export function CreateDiscussionForm({ dictionary }: { dictionary: Dictionary })
 
       <CardContent>
         <form action={action} className="space-y-4">
-          <Input name="title" placeholder={dictionary.pages.discussionTitle} required />
+          <Input id="discussion-title-input" name="title" placeholder={dictionary.pages.discussionTitle} required />
 
           {state.message ? (
             <p className="text-sm text-red-600">{state.message}</p>

@@ -58,10 +58,13 @@ export default async function DiscussionsPage() {
               </Link>
             ))
           ) : (
-            <div className="rounded-xl border border-dashed bg-white p-10 text-center text-slate-500">
+            <a
+              href="#discussion-title-input"
+              className="block rounded-xl border border-dashed bg-white p-10 text-center text-slate-500 transition hover:-translate-y-1 hover:border-gold hover:text-slate-800 hover:shadow-sm"
+            >
               <PlusCircle className="mx-auto h-10 w-10" />
               <p className="mt-3">{dictionary.pages.noDiscussions}</p>
-            </div>
+            </a>
           )}
         </div>
 
