@@ -13,7 +13,7 @@ export function CreateDiscussionForm({ dictionary }: { dictionary: Dictionary })
   const [state, action] = useFormState(createDiscussionAction, initialActionState);
 
   return (
-    <Card>
+    <Card id="start-discussion">
       <CardHeader>
         <CardTitle>{dictionary.pages.startDiscussion}</CardTitle>
       </CardHeader>
