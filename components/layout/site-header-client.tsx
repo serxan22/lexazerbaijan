@@ -76,6 +76,7 @@ export function HeaderClient({
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
     { title: "Discussions", href: "/discussions" },
+    { title: "Cases", href: "/cases" },
     { title: dictionary.nav.authors, href: "/authors" },
     { title: "Ask LexAI", href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
