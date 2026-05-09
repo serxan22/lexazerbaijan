@@ -152,6 +152,42 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+      </section>\n\n      <section className="section-shell bg-slate-50">
+        <div className="legal-container">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Recommended reading</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">
+              Popular with readers
+            </h2>
+            <p className="mt-4 text-slate-600">
+              Discover the most read and most liked legal analysis on LexAzerbaijan.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-8 lg:grid-cols-2">
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-slate-950">
+                Most read
+              </h3>
+              <div className="mt-5 grid gap-5">
+                {mostRead.slice(0, 3).map((article) => (
+                  <ArticleCard key={article.id} article={article} dictionary={dictionary} locale={locale} />
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-serif text-2xl font-semibold text-slate-950">
+                Most liked
+              </h3>
+              <div className="mt-5 grid gap-5">
+                {mostLiked.slice(0, 3).map((article) => (
+                  <ArticleCard key={article.id} article={article} dictionary={dictionary} locale={locale} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="section-shell bg-slate-50">
