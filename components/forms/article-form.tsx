@@ -63,23 +63,35 @@ export function ArticleForm({
   const [formSubmitting, setFormSubmitting] = useState(false);
 
   function openConsent(intent: "pending_review" | "draft") {
+    if (formSubmitting || consentSubmitting) return;
+
     setPendingIntent(intent);
+    setConsentSubmitting(false);
+    setFormSubmitting(false);
     setConsentOpen(true);
   }
 
   function handleConfirmedSubmit() {
-    if (!consentChecked || !pendingIntent || !formRef.current) return;
+    if (!consentChecked || !pendingIntent || !formRef.current || consentSubmitting || formSubmitting) return;
+
+    setConsentSubmitting(true);
+    setFormSubmitting(true);
+
+    formRef.current
+      .querySelectorAll('input[name="intent"][data-consent-intent="true"]')
+      .forEach((input) => input.remove());
 
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = "intent";
     hiddenInput.value = pendingIntent;
+    hiddenInput.dataset.consentIntent = "true";
 
     formRef.current.appendChild(hiddenInput);
 
-    formRef.current.requestSubmit();
-
-    setConsentOpen(false);
+    window.setTimeout(() => {
+      formRef.current?.requestSubmit();
+    }, 50);
   }
 
   return (
@@ -248,14 +260,26 @@ export function ArticleForm({
             </label>
           </div>
 
+          {(consentSubmitting || formSubmitting) ? (
+            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm leading-6 text-blue-800">
+              <div className="flex items-center gap-3">
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-blue-200 border-t-blue-700" />
+                <span className="font-semibold">{dictionary.common.submitting}</span>
+              </div>
+              <p className="mt-2 text-xs">
+                Your article is being submitted. Please wait and do not click again.
+              </p>
+            </div>
+          ) : null}
+
           <DialogFooter>
             <button
               type="button"
               onClick={handleConfirmedSubmit}
-              disabled={!consentChecked}
+              disabled={!consentChecked || consentSubmitting || formSubmitting}
               className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {dictionary.forms.acceptAndSubmit}
+              {consentSubmitting || formSubmitting ? dictionary.common.submitting : dictionary.forms.acceptAndSubmit}
             </button>
           </DialogFooter>
         </DialogContent>
