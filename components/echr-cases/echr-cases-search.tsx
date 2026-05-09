@@ -117,8 +117,11 @@ export function EchrCasesSearch() {
       ) : null}
 
       <div className="space-y-4">
-        {results.map((item) => (
-          <article key={item.id} className="rounded-2xl border bg-white p-5 shadow-sm">
+        {results.map((item, index) => {
+          const summaryKey = String(item.id || `${item.caseName}-${index}`);
+
+          return (
+          <article key={summaryKey} className="rounded-2xl border bg-white p-5 shadow-sm">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
@@ -140,8 +143,8 @@ export function EchrCasesSearch() {
                 <Button
                   type="button"
                   variant="gold"
-                  onClick={() => summarizeCase(item)}
-                  disabled={summarizingId === item.id}
+                  onClick={() => summarizeCase({ ...item, id: summaryKey })}
+                  disabled={summarizingId === summaryKey}
                 >
                   {summarizingId === item.id ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -166,14 +169,15 @@ export function EchrCasesSearch() {
               </p>
             ) : null}
 
-            {summaries[item.id] ? (
+            {summaries[summaryKey] ? (
               <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
                 <p className="mb-2 font-semibold text-slate-950">LexAI case summary</p>
-                {summaries[item.id]}
+                {summaries[summaryKey]}
               </div>
             ) : null}
           </article>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
