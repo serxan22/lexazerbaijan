@@ -11,6 +11,7 @@ import { VerifiedBadge } from "@/components/ui/verified-badge";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { ArticleCardAiButton } from "@/components/articles/article-card-ai-button";
 
 type ArticleCardProps = {
   article: ArticleCardItem;
@@ -58,6 +59,13 @@ export function ArticleCard({ article, featured = false, showStatus = false, dic
           {article.subtitle ? <p className="mt-2 text-sm leading-6 text-slate-500">{article.subtitle}</p> : null}
           <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{article.abstract}</p>
         </Link>
+
+        <ArticleCardAiButton
+          slug={article.slug}
+          label={dictionary.common.summarizeArticle}
+          loadingLabel={dictionary.common.loadingSummary}
+          resultTitle={dictionary.common.articleSummary}
+        />
 
         <div className="mt-auto pt-5">
           <div className="flex items-center justify-between gap-4 border-t pt-4">

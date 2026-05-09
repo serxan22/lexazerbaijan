@@ -114,7 +114,9 @@ export const dictionaries = {
       noReports: "No reports.",
       summarizeCase: "Summarize case",
       officialSource: "Official source",
-      loadingSummary: "Generating summary..."
+      loadingSummary: "Generating summary...",
+      summarizeArticle: "Summarize article",
+      articleSummary: "LexAI article summary"
     },
     status: {
       draft: "Draft",
@@ -565,7 +567,9 @@ export const dictionaries = {
       noReports: "Şikayət yoxdur.",
       summarizeCase: "Qərarı xülasə et",
       officialSource: "Rəsmi mənbə",
-      loadingSummary: "Xülasə hazırlanır..."
+      loadingSummary: "Xülasə hazırlanır...",
+      summarizeArticle: "Məqaləni xülasə et",
+      articleSummary: "LexAI məqalə xülasəsi"
     },
     status: {
       draft: "Qaralama",
@@ -962,7 +966,9 @@ export const dictionaries = {
       noReports: "Жалоб нет.",
       summarizeCase: "Кратко изложить дело",
       officialSource: "Официальный источник",
-      loadingSummary: "Подготовка краткого обзора..."
+      loadingSummary: "Подготовка краткого обзора...",
+      summarizeArticle: "Кратко изложить статью",
+      articleSummary: "Краткое изложение LexAI"
     },
     status: {
       draft: "Черновик",
