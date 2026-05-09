@@ -76,7 +76,6 @@ export function HeaderClient({
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
     { title: "Discussions", href: "/discussions" },
-    { title: "Cases", href: "/cases" },
     { title: dictionary.nav.authors, href: "/authors" },
     { title: "Ask LexAI", href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
@@ -93,9 +92,35 @@ export function HeaderClient({
               <Link href={item.href}>{item.title}</Link>
             </Button>
           ))}
-          
-          <Button variant="ghost" asChild>
-          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                Cases
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="start" className="w-72">
+              <DropdownMenuItem asChild>
+                <Link href="/cases" className="flex flex-col items-start gap-1 py-3">
+                  <span className="font-semibold text-slate-900">US Cases</span>
+                  <span className="text-xs text-slate-500">
+                    Search American federal and state case-law.
+                  </span>
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href="/echr-cases" className="flex flex-col items-start gap-1 py-3">
+                  <span className="font-semibold text-slate-900">ECHR Cases</span>
+                  <span className="text-xs text-slate-500">
+                    Explore European Court of Human Rights judgments.
+                  </span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
         </nav>
 
