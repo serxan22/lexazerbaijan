@@ -20,7 +20,7 @@ export default async function DiscussionThreadPage({ params }: { params: { slug:
     <div className="min-h-screen bg-slate-100">
       <section className="sticky top-20 z-20 border-b bg-white/95 backdrop-blur">
         <div className="legal-container flex items-center gap-4 py-4">
-          <Link href="/discussions" className="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-950">
+          <Link href="/categories" className="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-950">
             <ArrowLeft className="h-5 w-5" />
           </Link>
 

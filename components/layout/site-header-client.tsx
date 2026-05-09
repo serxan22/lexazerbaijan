@@ -94,7 +94,7 @@ export function HeaderClient({
           ))}
           
           <Button variant="ghost" asChild>
-            <Link href="/discussions">Discussions</Link>
+            <Link href="/categories">Discussions</Link>
           </Button>
 
         </nav>
