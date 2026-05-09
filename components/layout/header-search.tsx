@@ -75,11 +75,11 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
         }
       }}
       className={`relative transition-all duration-300 ${
-        expanded ? "w-[300px]" : "w-12"
+        expanded ? "w-[260px]" : "w-11"
       }`}
     >
       <div
-        className={`flex h-12 items-center gap-2 rounded-xl border bg-white px-4 shadow-sm transition ${
+        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition ${
           expanded ? "border-slate-300" : "justify-center border-slate-200"
         }`}
       >
@@ -115,7 +115,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
       </div>
 
       {open && expanded ? (
-        <div className="absolute right-0 top-14 z-50 w-[420px] overflow-hidden rounded-2xl border bg-white shadow-xl">
+        <div className="absolute right-0 top-13 z-50 w-[380px] overflow-hidden rounded-2xl border bg-white shadow-xl">
           {loading ? (
             <div className="flex items-center gap-2 p-4 text-sm text-slate-500">
               <Loader2 className="h-4 w-4 animate-spin" />
