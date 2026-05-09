@@ -14,10 +14,12 @@ export function DailyLegalTerms({
 }: Props) {
   const daySeed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
 
+  const startIndex = (daySeed * 3) % legalTerms.length;
+
   const selected = [
-    legalTerms[daySeed % legalTerms.length],
-    legalTerms[(daySeed + 2) % legalTerms.length],
-    legalTerms[(daySeed + 4) % legalTerms.length]
+    legalTerms[startIndex % legalTerms.length],
+    legalTerms[(startIndex + 1) % legalTerms.length],
+    legalTerms[(startIndex + 2) % legalTerms.length]
   ];
 
   return (
