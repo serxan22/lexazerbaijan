@@ -68,6 +68,12 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
     <div
       ref={wrapperRef}
       onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => {
+        if (!query.trim()) {
+          setExpanded(false);
+          setOpen(false);
+        }
+      }}
       className={`relative transition-all duration-300 ${
         expanded ? "w-[300px]" : "w-12"
       }`}
