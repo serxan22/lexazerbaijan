@@ -11,6 +11,7 @@ import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Logo } from "@/components/layout/logo";
 import { NotificationBell } from "@/components/layout/notification-bell";
+import { HeaderSearch } from "@/components/layout/header-search";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -134,12 +135,10 @@ export function HeaderClient({
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Button variant="outline" asChild>
-            <Link href="/articles">
-              <BookOpen className="h-4 w-4" />
-              {dictionary.nav.explore}
-            </Link>
-          </Button>
+          <HeaderSearch
+            placeholder={dictionary.common.headerSearchPlaceholder}
+            noResults={dictionary.common.headerSearchNoResults}
+          />
           <Button variant="gold" asChild>
             <Link href="/submit">
               <PenSquare className="h-4 w-4" />
