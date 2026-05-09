@@ -77,6 +77,13 @@ export async function POST(request: Request) {
     }
   }
 
+  if (!fullText || fullText.trim().length < 400) {
+    return NextResponse.json({
+      summary:
+        "LexAI could not generate a reliable summary because the full judicial opinion was not available from the source database for this case."
+    });
+  }
+
   const groq = new Groq({ apiKey });
 
   const completion = await groq.chat.completions.create({
