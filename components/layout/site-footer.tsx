@@ -10,8 +10,10 @@ export async function SiteFooter() {
   const dictionary = await getDictionary(locale);
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
-    { title: dictionary.nav.categories, href: "/discussions" },
+    { title: "Discussions", href: "/discussions" },
+    { title: "Cases", href: "/cases" },
     { title: dictionary.nav.authors, href: "/authors" },
+    { title: "Ask LexAI", href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
   ];
   const legalLinks = [
