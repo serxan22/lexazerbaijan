@@ -328,3 +328,42 @@ a:active,
     opacity: 0.35;
   }
 }
+
+/* Better dark mode readability */
+.dark .bg-white {
+  background-color: rgb(15 23 42);
+}
+
+.dark .bg-slate-50 {
+  background-color: rgb(2 6 23);
+}
+
+.dark .text-slate-950,
+.dark .text-slate-900,
+.dark .text-slate-800 {
+  color: rgb(248 250 252);
+}
+
+.dark .text-slate-700,
+.dark .text-slate-600,
+.dark .text-slate-500 {
+  color: rgb(203 213 225);
+}
+
+.dark .border,
+.dark .border-slate-200 {
+  border-color: rgb(51 65 85);
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: rgb(15 23 42);
+  color: rgb(248 250 252);
+  border-color: rgb(71 85 105);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgb(148 163 184);
+}

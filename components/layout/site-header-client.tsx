@@ -62,6 +62,7 @@ export function HeaderClient({
 }) {
   const isAdmin = profile?.role === "admin";
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     if (!profileMenuOpen) return;
@@ -218,41 +219,46 @@ export function HeaderClient({
           )}
         </div>
 
-        <Dialog>
+        <Dialog open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden" aria-label={dictionary.nav.navigation}>
               <Menu className="h-5 w-5" />
             </Button>
           </DialogTrigger>
-          <DialogContent className="top-6 translate-y-0 sm:max-w-md">
+          <DialogContent className="top-6 max-h-[90vh] overflow-y-auto translate-y-0 border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-white sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>{dictionary.nav.navigation}</DialogTitle>
-              <DialogDescription>{dictionary.site.description}</DialogDescription>
+              <DialogTitle className="text-slate-950 dark:text-white">{dictionary.nav.navigation}</DialogTitle>
+              <DialogDescription className="text-slate-600 dark:text-slate-300">{dictionary.site.description}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-2">
               {[...navItems, { title: dictionary.nav.submitArticle, href: "/submit" }].map((item) => (
-                <Button key={item.href} variant="ghost" asChild className="justify-start">
-                  <Link href={item.href}>{item.title}</Link>
+                <Button key={item.href} variant="ghost" asChild className="justify-start text-slate-800 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900">
+                  <Link href={item.href} onClick={() => setMobileNavOpen(false)}>{item.title}</Link>
                 </Button>
               ))}
               <div className="my-2 border-t" />
-              <Button variant="outline" asChild className="justify-start">
-                <Link href="/articles">
+              <Button variant="outline" asChild className="justify-start border-slate-300 text-slate-800 dark:border-slate-700 dark:text-slate-100">
+                <Link href="/articles" onClick={() => setMobileNavOpen(false)}>
                   <BookOpen className="h-4 w-4" />
                   {dictionary.nav.exploreArticles}
                 </Link>
               </Button>
               <LanguageSwitcher locale={locale} label={dictionary.nav.language} />
+
+              <div className="flex items-center justify-between rounded-lg border px-4 py-3 text-sm text-slate-700 dark:border-slate-800 dark:text-slate-200">
+                <span>Dark mode</span>
+                <ThemeToggle />
+              </div>
               {profile ? (
                 <>
-                  <Button variant="outline" asChild className="justify-start">
-                    <Link href="/dashboard">
+                  <Button variant="outline" asChild className="justify-start border-slate-300 text-slate-800 dark:border-slate-700 dark:text-slate-100">
+                    <Link href="/dashboard" onClick={() => setMobileNavOpen(false)}>
                       <LayoutDashboard className="h-4 w-4" />
                       {dictionary.nav.dashboard}
                     </Link>
                   </Button>
                   <form action="/auth/logout" method="post">
-                    <Button variant="ghost" className="w-full justify-start">
+                    <Button variant="ghost" className="w-full justify-start text-slate-800 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900">
                       <LogOut className="h-4 w-4" />
                       {dictionary.nav.signOut}
                     </Button>
@@ -260,7 +266,7 @@ export function HeaderClient({
                 </>
               ) : (
                 <Button variant="gold" asChild className="justify-start">
-                  <Link href="/login">
+                  <Link href="/login" onClick={() => setMobileNavOpen(false)}>
                     <LogIn className="h-4 w-4" />
                     {dictionary.nav.login}
                   </Link>
