@@ -18,7 +18,13 @@ export function NewsletterForm({ dictionary }: { dictionary: Dictionary }) {
         <label className="relative">
           <span className="sr-only">{dictionary.forms.email}</span>
           <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <Input name="email" type="email" placeholder="you@example.com" required className="pl-9" />
+          <Input
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            required
+            className="pl-9 text-slate-900 placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
+/>
         </label>
         <Button type="submit" variant="gold">
           {dictionary.common.subscribe}
