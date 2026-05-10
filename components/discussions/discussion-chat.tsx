@@ -314,7 +314,7 @@ export function DiscussionChat({
         ) : null}
       </div>
 
-      <div className="min-h-[320px] flex-1 space-y-4 overflow-y-auto pr-2">
+      <div className="max-h-[55vh] min-h-[260px] space-y-4 overflow-y-auto overscroll-contain pr-2">
         {replies.map((reply) => {
           const isMine = currentUser?.id && reply.userId === currentUser.id;
 
@@ -425,7 +425,7 @@ export function DiscussionChat({
         <div ref={bottomRef} />
       </div>
 
-      <div className="mt-6 flex items-end gap-2 border-t pt-4">
+      <div className="mt-4 shrink-0 flex items-end gap-2 border-t pt-4">
         <textarea
           ref={messageInputRef}
           value={message}
