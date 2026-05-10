@@ -314,7 +314,7 @@ export function DiscussionChat({
         ) : null}
       </div>
 
-      <div className="space-y-4">
+      <div className="min-h-[320px] flex-1 space-y-4 overflow-y-auto pr-2">
         {replies.map((reply) => {
           const isMine = currentUser?.id && reply.userId === currentUser.id;
 
