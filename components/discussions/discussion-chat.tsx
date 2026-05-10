@@ -50,8 +50,9 @@ export function DiscussionChat({
   const bottomRef = useRef<HTMLDivElement>(null);
 
   function scrollBottom() {
-    window.setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+    // Disabled: keep the page position stable after sending messages.
   }
+
 
   useEffect(() => {
     scrollBottom();
@@ -205,6 +206,7 @@ export function DiscussionChat({
   }
 
   async function sendMessage() {
+    const preservedScrollY = window.scrollY;
     const content = message.trim();
     if (!content || sending) return;
 

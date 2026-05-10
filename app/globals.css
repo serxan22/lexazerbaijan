@@ -460,3 +460,102 @@ a:active,
 .dark textarea::placeholder {
   color: rgb(148 163 184) !important;
 }
+
+/* HARD FIX: dashboard/profile cards in dark mode */
+html.dark body .bg-white,
+html.dark body .bg-slate-50,
+html.dark body .bg-slate-100,
+html.dark body [class*="bg-white"],
+html.dark body [class*="bg-slate-50"],
+html.dark body [class*="bg-slate-100"],
+[data-theme="dark"] body .bg-white,
+[data-theme="dark"] body .bg-slate-50,
+[data-theme="dark"] body .bg-slate-100,
+[data-theme="dark"] body [class*="bg-white"],
+[data-theme="dark"] body [class*="bg-slate-50"],
+[data-theme="dark"] body [class*="bg-slate-100"] {
+  background-color: #0f172a !important;
+}
+
+html.dark body .rounded-lg.border,
+html.dark body .rounded-xl.border,
+html.dark body .rounded-2xl.border,
+html.dark body .shadow-soft,
+[data-theme="dark"] body .rounded-lg.border,
+[data-theme="dark"] body .rounded-xl.border,
+[data-theme="dark"] body .rounded-2xl.border,
+[data-theme="dark"] body .shadow-soft {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark body p,
+html.dark body span,
+html.dark body h1,
+html.dark body h2,
+html.dark body h3,
+html.dark body h4,
+html.dark body label,
+html.dark body div,
+[data-theme="dark"] body p,
+[data-theme="dark"] body span,
+[data-theme="dark"] body h1,
+[data-theme="dark"] body h2,
+[data-theme="dark"] body h3,
+[data-theme="dark"] body h4,
+[data-theme="dark"] body label,
+[data-theme="dark"] body div {
+  color: inherit;
+}
+
+html.dark body .text-slate-950,
+html.dark body .text-slate-900,
+html.dark body .text-slate-800,
+html.dark body .text-slate-700,
+html.dark body .text-slate-600,
+html.dark body .text-slate-500,
+html.dark body .text-slate-400,
+[data-theme="dark"] body .text-slate-950,
+[data-theme="dark"] body .text-slate-900,
+[data-theme="dark"] body .text-slate-800,
+[data-theme="dark"] body .text-slate-700,
+[data-theme="dark"] body .text-slate-600,
+[data-theme="dark"] body .text-slate-500,
+[data-theme="dark"] body .text-slate-400 {
+  color: #f1f5f9 !important;
+}
+
+html.dark body .text-white,
+[data-theme="dark"] body .text-white {
+  color: #ffffff !important;
+}
+
+html.dark body .bg-blue-50,
+html.dark body .bg-emerald-50,
+html.dark body .bg-amber-50,
+html.dark body .bg-red-50,
+[data-theme="dark"] body .bg-blue-50,
+[data-theme="dark"] body .bg-emerald-50,
+[data-theme="dark"] body .bg-amber-50,
+[data-theme="dark"] body .bg-red-50 {
+  background-color: #1e293b !important;
+}
+
+html.dark body input,
+html.dark body textarea,
+html.dark body select,
+[data-theme="dark"] body input,
+[data-theme="dark"] body textarea,
+[data-theme="dark"] body select {
+  background-color: #020617 !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+html.dark body input::placeholder,
+html.dark body textarea::placeholder,
+[data-theme="dark"] body input::placeholder,
+[data-theme="dark"] body textarea::placeholder {
+  color: #94a3b8 !important;
+}
