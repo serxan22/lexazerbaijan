@@ -160,19 +160,23 @@ export function DiscussionChat({
   }, [supabase, threadId, currentUser?.id, currentUser?.username, currentUser?.fullName]);
 
   async function deleteMessage(replyId: string) {
+    const previousReplies = replies;
+
+    setReplies((current) => current.filter((reply) => reply.id !== replyId));
     setOpenMenuId(null);
 
-    const previous = replies;
-    setReplies((current) => current.filter((reply) => reply.id !== replyId));
+    try {
+      const { error } = await supabase
+        .from("discussion_replies")
+        .delete()
+        .eq("id", replyId);
 
-    const { error } = await supabase
-      .from("discussion_replies")
-      .delete()
-      .eq("id", replyId);
-
-    if (error) {
-      setReplies(previous);
-      alert(error.message);
+      if (error) {
+        setReplies(previousReplies);
+        return;
+      }
+    } catch {
+      setReplies(previousReplies);
     }
   }
 
