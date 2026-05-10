@@ -13,9 +13,9 @@ const buttonVariants = cva(
         accent: "bg-blue-800 text-white shadow-sm hover:bg-blue-900",
         gold: "bg-gold text-white shadow-sm hover:bg-[#A7783F]",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent/10 hover:text-accent",
+        outline: "border border-input bg-background text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-white",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
+        ghost: "text-foreground hover:bg-accent/10 hover:text-accent dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-white",
         link: "text-accent underline-offset-4 hover:underline"
       },
       size: {

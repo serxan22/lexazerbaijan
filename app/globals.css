@@ -718,3 +718,24 @@ html.dark body [data-radix-menu-item]:hover,
 [data-theme="dark"] body [data-radix-menu-item]:hover {
   background-color: #1e293b !important;
 }
+
+/* Hard fix disabled/outline buttons in dark mode */
+html.dark button:disabled,
+html.dark a[aria-disabled="true"],
+html.dark [aria-disabled="true"],
+html.dark .disabled\\:opacity-50:disabled,
+[data-theme="dark"] button:disabled,
+[data-theme="dark"] a[aria-disabled="true"],
+[data-theme="dark"] [aria-disabled="true"],
+[data-theme="dark"] .disabled\\:opacity-50:disabled {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+  opacity: 0.9 !important;
+}
+
+html.dark .bg-background,
+[data-theme="dark"] .bg-background {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
