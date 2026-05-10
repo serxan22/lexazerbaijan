@@ -559,3 +559,162 @@ html.dark body textarea::placeholder,
 [data-theme="dark"] body textarea::placeholder {
   color: #94a3b8 !important;
 }
+
+/* FINAL HARD DARK MODE OVERRIDE */
+html.dark,
+html.dark body,
+[data-theme="dark"],
+[data-theme="dark"] body {
+  background-color: #020617 !important;
+  color: #f8fafc !important;
+}
+
+/* Any white/light surface becomes dark */
+html.dark body [class*="bg-white"],
+html.dark body [class*="bg-slate-50"],
+html.dark body [class*="bg-slate-100"],
+html.dark body [class*="bg-gray-50"],
+html.dark body [class*="bg-gray-100"],
+[data-theme="dark"] body [class*="bg-white"],
+[data-theme="dark"] body [class*="bg-slate-50"],
+[data-theme="dark"] body [class*="bg-slate-100"],
+[data-theme="dark"] body [class*="bg-gray-50"],
+[data-theme="dark"] body [class*="bg-gray-100"] {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Cards, dropdowns, popovers, dialogs */
+html.dark body [role="menu"],
+html.dark body [role="dialog"],
+html.dark body [data-radix-popper-content-wrapper] *,
+html.dark body .rounded-md,
+html.dark body .rounded-lg,
+html.dark body .rounded-xl,
+html.dark body .rounded-2xl,
+[data-theme="dark"] body [role="menu"],
+[data-theme="dark"] body [role="dialog"],
+[data-theme="dark"] body [data-radix-popper-content-wrapper] *,
+[data-theme="dark"] body .rounded-md,
+[data-theme="dark"] body .rounded-lg,
+[data-theme="dark"] body .rounded-xl,
+[data-theme="dark"] body .rounded-2xl {
+  border-color: #334155 !important;
+}
+
+/* Radix dropdown content hard fix */
+html.dark body [data-radix-popper-content-wrapper] [class*="bg-popover"],
+html.dark body [data-radix-popper-content-wrapper] [class*="bg-white"],
+html.dark body [data-radix-popper-content-wrapper] [class*="bg-slate"],
+[data-theme="dark"] body [data-radix-popper-content-wrapper] [class*="bg-popover"],
+[data-theme="dark"] body [data-radix-popper-content-wrapper] [class*="bg-white"],
+[data-theme="dark"] body [data-radix-popper-content-wrapper] [class*="bg-slate"] {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+/* Text contrast everywhere */
+html.dark body [class*="text-slate-950"],
+html.dark body [class*="text-slate-900"],
+html.dark body [class*="text-slate-800"],
+html.dark body [class*="text-slate-700"],
+html.dark body [class*="text-slate-600"],
+html.dark body [class*="text-slate-500"],
+html.dark body [class*="text-gray-950"],
+html.dark body [class*="text-gray-900"],
+html.dark body [class*="text-gray-800"],
+html.dark body [class*="text-gray-700"],
+html.dark body [class*="text-gray-600"],
+html.dark body [class*="text-gray-500"],
+[data-theme="dark"] body [class*="text-slate-950"],
+[data-theme="dark"] body [class*="text-slate-900"],
+[data-theme="dark"] body [class*="text-slate-800"],
+[data-theme="dark"] body [class*="text-slate-700"],
+[data-theme="dark"] body [class*="text-slate-600"],
+[data-theme="dark"] body [class*="text-slate-500"],
+[data-theme="dark"] body [class*="text-gray-950"],
+[data-theme="dark"] body [class*="text-gray-900"],
+[data-theme="dark"] body [class*="text-gray-800"],
+[data-theme="dark"] body [class*="text-gray-700"],
+[data-theme="dark"] body [class*="text-gray-600"],
+[data-theme="dark"] body [class*="text-gray-500"] {
+  color: #f1f5f9 !important;
+}
+
+/* Buttons and links that stay white */
+html.dark body button[class*="bg-white"],
+html.dark body a[class*="bg-white"],
+html.dark body [role="button"][class*="bg-white"],
+html.dark body button[class*="bg-slate-50"],
+html.dark body a[class*="bg-slate-50"],
+[data-theme="dark"] body button[class*="bg-white"],
+[data-theme="dark"] body a[class*="bg-white"],
+[data-theme="dark"] body [role="button"][class*="bg-white"],
+[data-theme="dark"] body button[class*="bg-slate-50"],
+[data-theme="dark"] body a[class*="bg-slate-50"] {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+/* Inputs */
+html.dark body input,
+html.dark body textarea,
+html.dark body select,
+[data-theme="dark"] body input,
+[data-theme="dark"] body textarea,
+[data-theme="dark"] body select {
+  background-color: #020617 !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+html.dark body input::placeholder,
+html.dark body textarea::placeholder,
+[data-theme="dark"] body input::placeholder,
+[data-theme="dark"] body textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Muted colored boxes */
+html.dark body .bg-blue-50,
+html.dark body .bg-emerald-50,
+html.dark body .bg-amber-50,
+html.dark body .bg-red-50,
+html.dark body .bg-gold-muted,
+[data-theme="dark"] body .bg-blue-50,
+[data-theme="dark"] body .bg-emerald-50,
+[data-theme="dark"] body .bg-amber-50,
+[data-theme="dark"] body .bg-red-50,
+[data-theme="dark"] body .bg-gold-muted {
+  background-color: #1e293b !important;
+}
+
+/* Borders */
+html.dark body .border,
+html.dark body [class*="border-slate"],
+html.dark body [class*="border-gray"],
+[data-theme="dark"] body .border,
+[data-theme="dark"] body [class*="border-slate"],
+[data-theme="dark"] body [class*="border-gray"] {
+  border-color: #334155 !important;
+}
+
+/* Profile dropdown specific */
+html.dark body [data-radix-menu-content],
+[data-theme="dark"] body [data-radix-menu-content] {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+html.dark body [data-radix-menu-item],
+[data-theme="dark"] body [data-radix-menu-item] {
+  color: #f8fafc !important;
+}
+
+html.dark body [data-radix-menu-item]:hover,
+[data-theme="dark"] body [data-radix-menu-item]:hover {
+  background-color: #1e293b !important;
+}

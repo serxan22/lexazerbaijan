@@ -103,7 +103,7 @@ export function HeaderClient({
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="start" className="w-72">
+            <DropdownMenuContent align="start" className="w-72 border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-white">
               <DropdownMenuItem asChild>
                 <Link href="/cases" className="flex flex-col items-start gap-1 py-3">
                   <span className="font-semibold text-slate-900">{dictionary.nav.usCases}</span>
@@ -194,7 +194,7 @@ export function HeaderClient({
                 ) : null}
                 <DropdownMenuSeparator />
                 <div className="flex items-center justify-between px-2 py-2">
-                  <span className="text-sm text-slate-600">Dark mode</span>
+                  <span className="text-sm text-slate-600 dark:text-slate-200">Dark mode</span>
                   <ThemeToggle />
                 </div>
                 <DropdownMenuSeparator />
