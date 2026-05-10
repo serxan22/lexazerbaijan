@@ -24,7 +24,7 @@ export async function createDiscussionAction(_previous: ActionState, formData: F
   const body = formString(formData, "body").trim();
 
   if (title.length < 5 || body.length < 10) {
-    return { status: "error", message: "Please write a clear title and discussion text." };
+    return { status: "error", message: "Please write both a discussion title and discussion text." };
   }
 
   const supabase = await createServerSupabaseClient();

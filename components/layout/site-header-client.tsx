@@ -221,7 +221,12 @@ export function HeaderClient({
 
         <Dialog open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline" size="icon" className="lg:hidden" aria-label={dictionary.nav.navigation}>
+            <Button
+              variant="outline"
+              size="icon"
+              className="border-slate-300 bg-white text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-white lg:hidden"
+              aria-label={dictionary.nav.navigation}
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </DialogTrigger>
@@ -236,8 +241,25 @@ export function HeaderClient({
                   <Link href={item.href} onClick={() => setMobileNavOpen(false)}>{item.title}</Link>
                 </Button>
               ))}
+              <div className="rounded-xl border bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                  {dictionary.nav.cases}
+                </p>
+                <div className="grid gap-2">
+                  <Button variant="ghost" asChild className="justify-start text-slate-800 hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800">
+                    <Link href="/cases" onClick={() => setMobileNavOpen(false)}>{dictionary.nav.usCases}</Link>
+                  </Button>
+                  <Button variant="ghost" asChild className="justify-start text-slate-800 hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800">
+                    <Link href="/echr-cases" onClick={() => setMobileNavOpen(false)}>{dictionary.nav.echrCases}</Link>
+                  </Button>
+                  <Button variant="ghost" asChild className="justify-start text-slate-800 hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800">
+                    <Link href="/eu-cases" onClick={() => setMobileNavOpen(false)}>{dictionary.nav.euCases}</Link>
+                  </Button>
+                </div>
+              </div>
+
               <div className="my-2 border-t" />
-              <Button variant="outline" asChild className="justify-start border-slate-300 text-slate-800 dark:border-slate-700 dark:text-slate-100">
+              <Button variant="outline" asChild className="justify-start border-slate-300 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
                 <Link href="/articles" onClick={() => setMobileNavOpen(false)}>
                   <BookOpen className="h-4 w-4" />
                   {dictionary.nav.exploreArticles}
@@ -251,7 +273,7 @@ export function HeaderClient({
               </div>
               {profile ? (
                 <>
-                  <Button variant="outline" asChild className="justify-start border-slate-300 text-slate-800 dark:border-slate-700 dark:text-slate-100">
+                  <Button variant="outline" asChild className="justify-start border-slate-300 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
                     <Link href="/dashboard" onClick={() => setMobileNavOpen(false)}>
                       <LayoutDashboard className="h-4 w-4" />
                       {dictionary.nav.dashboard}
