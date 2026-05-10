@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarDays, Eye, Heart, Timer } from "lucide-react";
@@ -147,9 +148,13 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           </div>
           {article.coverImageUrl ? (
             <div className="overflow-hidden rounded-lg border bg-white shadow-soft">
-              <img
+              <Image
                 src={article.coverImageUrl}
                 alt={`${article.title} article cover`}
+                width={900}
+                height={720}
+                priority
+                sizes="(min-width: 1024px) 420px, 100vw"
                 className="aspect-[1.25] w-full object-cover"
               />
             </div>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, Eye, Heart, Timer } from "lucide-react";
 
@@ -27,12 +28,14 @@ export function ArticleCard({ article, featured = false, showStatus = false, dic
   return (
     <Card className="group h-full overflow-hidden border-slate-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-soft">
       <Link href={`/articles/${article.slug}`} aria-label={article.title}>
-        <div className={featured ? "aspect-[1.65] overflow-hidden bg-slate-100" : "aspect-[1.85] overflow-hidden bg-slate-100"}>
+        <div className={featured ? "relative aspect-[1.65] overflow-hidden bg-slate-100" : "relative aspect-[1.85] overflow-hidden bg-slate-100"}>
           {article.coverImageUrl ? (
-            <img
+            <Image
               src={article.coverImageUrl}
-              alt=""
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+              alt={`${article.title} article cover`}
+              fill
+              sizes={featured ? "(min-width: 1024px) 33vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"}
+              className="object-cover transition duration-500 group-hover:scale-[1.03]"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#0B1220,#1D4ED8)] text-white">
