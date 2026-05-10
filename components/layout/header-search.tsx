@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { Loader2, Search, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Clock, Loader2, Search, Sparkles, X } from "lucide-react";
 
 type SearchResult = {
   id: string;
@@ -17,13 +17,51 @@ type Props = {
   noResults: string;
 };
 
+const POPULAR_SEARCHES = [
+  "AI criminal liability",
+  "Human rights",
+  "ECHR Article 6",
+  "Constitutional law",
+  "Negligence",
+  "Corporate law"
+];
+
 export function HeaderSearch({ placeholder, noResults }: Props) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [recent, setRecent] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const showSuggestions = open && expanded && query.trim().length < 2;
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("lex-recent-searches") || "[]");
+      if (Array.isArray(saved)) setRecent(saved.slice(0, 5));
+    } catch {
+      setRecent([]);
+    }
+  }, []);
+
+  function saveRecentSearch(value: string) {
+    const clean = value.trim();
+    if (clean.length < 2) return;
+
+    const next = [clean, ...recent.filter((item) => item.toLowerCase() !== clean.toLowerCase())].slice(0, 5);
+
+    setRecent(next);
+    localStorage.setItem("lex-recent-searches", JSON.stringify(next));
+  }
+
+  function handleSuggestion(value: string) {
+    setQuery(value);
+    saveRecentSearch(value);
+    setOpen(true);
+    setExpanded(true);
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,7 +80,6 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
 
     if (value.length < 2) {
       setResults([]);
-      setOpen(false);
       return;
     }
 
@@ -67,33 +104,39 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
   return (
     <div
       ref={wrapperRef}
-      onMouseEnter={() => setExpanded(true)}
+      onMouseEnter={() => {
+        setExpanded(true);
+        setOpen(true);
+      }}
       onMouseLeave={() => {
         if (!query.trim()) {
           setExpanded(false);
           setOpen(false);
         }
       }}
-      className={`relative transition-all duration-300 ${
-        expanded ? "w-[260px]" : "w-11"
-      }`}
+      className={`relative transition-all duration-300 ${expanded ? "w-[260px]" : "w-11"}`}
     >
       <div
-        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition ${
-          expanded ? "border-slate-300" : "justify-center border-slate-200"
+        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition dark:bg-slate-900 ${
+          expanded ? "border-slate-300 dark:border-slate-700" : "justify-center border-slate-200 dark:border-slate-700"
         }`}
       >
-        <Search className="h-4 w-4 shrink-0 text-slate-600" />
+        <Search className="h-4 w-4 shrink-0 text-slate-600 dark:text-slate-200" />
 
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onFocus={() => {
             setExpanded(true);
-            if (query.trim().length >= 2) setOpen(true);
+            setOpen(true);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && query.trim()) {
+              saveRecentSearch(query);
+            }
           }}
           placeholder={placeholder}
-          className={`h-full bg-transparent text-sm outline-none placeholder:text-slate-400 transition-all duration-300 ${
+          className={`h-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 transition-all duration-300 dark:text-white dark:placeholder:text-slate-500 ${
             expanded ? "w-full opacity-100" : "w-0 opacity-0"
           }`}
         />
@@ -104,10 +147,9 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
             onClick={() => {
               setQuery("");
               setResults([]);
-              setOpen(false);
-              setExpanded(false);
+              setOpen(true);
             }}
-            className="text-slate-400 hover:text-slate-700"
+            className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
           >
             <X className="h-4 w-4" />
           </button>
@@ -115,9 +157,53 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
       </div>
 
       {open && expanded ? (
-        <div className="absolute right-0 top-13 z-50 w-[380px] overflow-hidden rounded-2xl border bg-white shadow-xl">
-          {loading ? (
-            <div className="flex items-center gap-2 p-4 text-sm text-slate-500">
+        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl border bg-white shadow-xl dark:border-slate-800 dark:bg-slate-950">
+          {showSuggestions ? (
+            <div className="p-4">
+              {recent.length ? (
+                <div>
+                  <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                    <Clock className="h-3.5 w-3.5" />
+                    Recently searched
+                  </p>
+
+                  <div className="flex flex-wrap gap-2">
+                    {recent.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => handleSuggestion(item)}
+                        className="rounded-full border px-3 py-1.5 text-xs text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              <div className={recent.length ? "mt-5" : ""}>
+                <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Popular searches
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  {POPULAR_SEARCHES.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => handleSuggestion(item)}
+                      className="rounded-full border px-3 py-1.5 text-xs text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : loading ? (
+            <div className="flex items-center gap-2 p-4 text-sm text-slate-500 dark:text-slate-300">
               <Loader2 className="h-4 w-4 animate-spin" />
               Searching...
             </div>
@@ -128,29 +214,30 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
                   key={item.id}
                   href={`/articles/${item.slug}`}
                   onClick={() => {
+                    saveRecentSearch(query);
                     setOpen(false);
                     setExpanded(false);
                   }}
-                  className="block rounded-xl p-3 transition hover:bg-slate-50"
+                  className="block rounded-xl p-3 transition hover:bg-slate-50 dark:hover:bg-slate-900"
                 >
                   {item.category ? (
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700 dark:text-blue-300">
                       {item.category}
                     </p>
                   ) : null}
 
-                  <p className="mt-1 font-serif text-lg font-semibold text-slate-950">
+                  <p className="mt-1 font-serif text-lg font-semibold text-slate-950 dark:text-white">
                     {item.title}
                   </p>
 
-                  <p className="mt-1 line-clamp-2 text-sm leading-6 text-slate-600">
+                  <p className="mt-1 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
                     {item.abstract}
                   </p>
                 </Link>
               ))}
             </div>
           ) : (
-            <div className="p-4 text-sm text-slate-500">
+            <div className="p-4 text-sm text-slate-500 dark:text-slate-300">
               {noResults}
             </div>
           )}

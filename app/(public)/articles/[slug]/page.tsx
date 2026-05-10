@@ -8,6 +8,7 @@ import { CitationGenerator } from "@/components/articles/citation-generator";
 import { ArticleCard } from "@/components/articles/article-card";
 import { CommentsSection } from "@/components/articles/comments-section";
 import { ArticleViewTracker } from "@/components/articles/article-view-tracker";
+import { ReadingProgressBar } from "@/components/articles/reading-progress-bar";
 import { TableOfContents } from "@/components/articles/table-of-contents";
 import { ArticleReferences } from "@/components/articles/article-references";
 import { ArticleCardAiButton } from "@/components/articles/article-card-ai-button";
@@ -80,6 +81,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      <ReadingProgressBar />
       <ArticleViewTracker slug={params.slug} />
       <header className="border-b bg-slate-50">
         <div className="legal-container grid gap-10 py-14 lg:grid-cols-[1fr_420px] lg:items-end">
