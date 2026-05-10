@@ -427,6 +427,20 @@ export function DiscussionChat({
         <textarea
           ref={messageInputRef}
           value={message}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && !event.shiftKey) {
+              event.preventDefault();
+              event.stopPropagation();
+
+              const scrollY = window.scrollY;
+              sendMessage();
+
+              window.requestAnimationFrame(() => {
+                window.scrollTo({ top: scrollY, behavior: "auto" });
+                messageInputRef.current?.focus({ preventScroll: true });
+              });
+            }
+          }}
           onChange={(event) => {
             setMessage(event.target.value);
 
@@ -440,12 +454,6 @@ export function DiscussionChat({
               if (typingTimeout.current) {
                 clearTimeout(typingTimeout.current);
               }
-            }
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
-              event.preventDefault();
-              sendMessage();
             }
           }}
           placeholder="Write a message..."

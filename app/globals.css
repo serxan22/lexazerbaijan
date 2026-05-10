@@ -398,3 +398,65 @@ a:active,
 .dark .bg-blue-50 {
   background-color: rgb(30 41 59) !important;
 }
+
+/* Dashboard/profile hard dark-mode fix */
+.dark [class*="bg-white"],
+.dark [class*="bg-slate-50"],
+.dark [class*="bg-slate-100"] {
+  background-color: rgb(15 23 42) !important;
+}
+
+.dark [class*="text-slate-950"],
+.dark [class*="text-slate-900"],
+.dark [class*="text-slate-800"],
+.dark [class*="text-slate-700"],
+.dark [class*="text-slate-600"],
+.dark [class*="text-slate-500"],
+.dark [class*="text-slate-400"] {
+  color: rgb(241 245 249) !important;
+}
+
+.dark [class*="border-slate-200"],
+.dark [class*="border-slate-300"],
+.dark .border {
+  border-color: rgb(51 65 85) !important;
+}
+
+.dark a[class*="bg-white"],
+.dark button[class*="bg-white"],
+.dark [role="button"][class*="bg-white"] {
+  background-color: rgb(30 41 59) !important;
+  color: rgb(248 250 252) !important;
+}
+
+.dark a[class*="border"],
+.dark button[class*="border"] {
+  border-color: rgb(71 85 105) !important;
+}
+
+.dark .bg-blue-50,
+.dark .bg-emerald-50,
+.dark .bg-amber-50,
+.dark .bg-red-50 {
+  background-color: rgb(30 41 59) !important;
+}
+
+.dark .text-blue-700,
+.dark .text-emerald-700,
+.dark .text-amber-800,
+.dark .text-red-700 {
+  color: rgb(191 219 254) !important;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: rgb(15 23 42) !important;
+  color: rgb(248 250 252) !important;
+  border-color: rgb(71 85 105) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgb(148 163 184) !important;
+}
