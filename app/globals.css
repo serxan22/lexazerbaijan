@@ -367,3 +367,34 @@ a:active,
 .dark textarea::placeholder {
   color: rgb(148 163 184);
 }
+
+/* Stronger dark mode contrast for dashboard/profile/stat cards */
+.dark .shadow-soft,
+.dark .rounded-lg.border.bg-white,
+.dark .rounded-xl.border.bg-white,
+.dark .rounded-2xl.border.bg-white,
+.dark .card,
+.dark [class*="bg-white"] {
+  background-color: rgb(15 23 42) !important;
+  color: rgb(248 250 252) !important;
+}
+
+.dark .text-slate-400,
+.dark .text-slate-300 {
+  color: rgb(203 213 225) !important;
+}
+
+.dark .text-slate-500,
+.dark .text-slate-600,
+.dark .text-slate-700 {
+  color: rgb(226 232 240) !important;
+}
+
+.dark button[disabled],
+.dark .opacity-70 {
+  opacity: 0.9 !important;
+}
+
+.dark .bg-blue-50 {
+  background-color: rgb(30 41 59) !important;
+}

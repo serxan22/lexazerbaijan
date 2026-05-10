@@ -39,6 +39,7 @@ export function DiscussionChat({
   const supabase = createClient();
   const [replies, setReplies] = useState<ChatReply[]>(initialReplies);
   const [message, setMessage] = useState("");
+  const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [sending, setSending] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -223,6 +224,7 @@ export function DiscussionChat({
     };
 
     setReplies((current) => [...current, optimistic]);
+    const currentScrollY = window.scrollY;
     setMessage("");
     setSending(true);
 
@@ -423,6 +425,7 @@ export function DiscussionChat({
 
       <div className="mt-6 flex items-end gap-2 border-t pt-4">
         <textarea
+          ref={messageInputRef}
           value={message}
           onChange={(event) => {
             setMessage(event.target.value);
