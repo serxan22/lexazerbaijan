@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website"
+  },
+  verification: {
+    google: "xepOVrbFn0xgib-lMvAR61HFrmAH_weyvIGithHKzPY"
   }
 };
 
