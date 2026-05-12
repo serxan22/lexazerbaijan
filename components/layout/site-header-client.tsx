@@ -198,14 +198,19 @@ export function HeaderClient({
                   <ThemeToggle />
                 </div>
                 <DropdownMenuSeparator />
-                <form action="/auth/logout" method="post">
-                  <DropdownMenuItem asChild>
-                    <button type="submit" className="w-full">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      {dictionary.nav.signOut}
-                    </button>
-                  </DropdownMenuItem>
-                </form>
+                <DropdownMenuItem
+                  onSelect={(event) => {
+                    event.preventDefault();
+                    const form = document.createElement("form");
+                    form.method = "post";
+                    form.action = "/auth/logout";
+                    document.body.appendChild(form);
+                    form.submit();
+                  }}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {dictionary.nav.signOut}
+                </DropdownMenuItem>
               </DropdownMenuContent>
               </DropdownMenu>
             </div>
