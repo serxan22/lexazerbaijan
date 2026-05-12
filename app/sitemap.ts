@@ -19,7 +19,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/discussions",
     "/authors",
     "/about",
-    "/lexai"
+    "/lexai",
+    "/cases",
+    "/contact",
+    "/editorial-policy",
+    "/submit",
+    "/categories",
+    "/terms",
+    "/privacy"
   ];
 
   const staticUrls = staticPages.map((page) => ({
