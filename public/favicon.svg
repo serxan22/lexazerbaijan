@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+width="256" height="256"
+viewBox="0 0 256 256">
+
+<!-- Yumru background -->
+<circle cx="128" cy="128" r="128" fill="#000000"/>
+
+<g stroke="#ffffff"
+   fill="none"
+   stroke-linecap="round"
+   stroke-linejoin="round">
+
+  <!-- Main pole -->
+  <line x1="128" y1="52" x2="128" y2="190" stroke-width="14"/>
+
+  <!-- Base -->
+  <line x1="90" y1="190" x2="166" y2="190" stroke-width="14"/>
+
+  <!-- Top -->
+  <polygon points="128,30 114,54 142,54"
+           fill="#ffffff"
+           stroke="none"/>
+
+  <!-- Curved beam -->
+  <path d="M60,92
+           Q94,72 128,78
+           Q162,72 196,92"
+        stroke-width="13"/>
+
+  <!-- Left scale -->
+  <line x1="74" y1="95" x2="58" y2="138" stroke-width="10"/>
+  <line x1="74" y1="95" x2="90" y2="138" stroke-width="10"/>
+  <path d="M48,138 Q74,168 100,138"
+        stroke-width="12"/>
+  <line x1="45" y1="138" x2="103" y2="138"
+        stroke-width="12"/>
+
+  <!-- Right scale -->
+  <line x1="182" y1="95" x2="166" y2="138" stroke-width="10"/>
+  <line x1="182" y1="95" x2="198" y2="138" stroke-width="10"/>
+  <path d="M156,138 Q182,168 208,138"
+        stroke-width="12"/>
+  <line x1="153" y1="138" x2="211" y2="138"
+        stroke-width="12"/>
+
+  <!-- Side dots -->
+  <circle cx="73" cy="92" r="8"
+          fill="#ffffff"
+          stroke="none"/>
+  <circle cx="183" cy="92" r="8"
+          fill="#ffffff"
+          stroke="none"/>
+</g>
+</svg>
