@@ -22,6 +22,11 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     type: "website"
   },
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/apple-icon.svg"
+  },
   verification: {
     google: "xepOVrbFn0xgib-lMvAR61HFrmAH_weyvIGithHKzPY"
   }
