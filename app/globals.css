@@ -1027,3 +1027,26 @@ header input[placeholder*="search"]:focus {
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.16);
 }
 
+
+
+/* Fix profile dropdown staying behind header effects */
+
+header {
+  isolation: isolate;
+}
+
+header::after {
+  z-index: -1 !important;
+}
+
+header [data-radix-popper-content-wrapper],
+header [data-radix-menu-content],
+header [role="menu"],
+header [data-state="open"] {
+  z-index: 99999 !important;
+}
+
+[data-radix-popper-content-wrapper] {
+  z-index: 99999 !important;
+}
+
