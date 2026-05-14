@@ -739,3 +739,17 @@ html.dark .bg-background,
   background-color: #0f172a !important;
   color: #f8fafc !important;
 }
+
+.article-card {
+  --radius: 12px;
+  border-radius: var(--radius);
+  transition: transform 0.3s ease;
+}
+
+.article-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
