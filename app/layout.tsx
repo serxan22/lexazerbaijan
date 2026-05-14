@@ -5,6 +5,7 @@ import "@/app/globals.css";
 import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { PremiumAnimations } from "@/components/animations/premium-animations";
 import { RouteLoadingIndicator } from "@/components/layout/route-loading-indicator";
 import { getLocale } from "@/lib/i18n";
 
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="min-h-screen font-sans">
         <ThemeProvider>
           <RouteLoadingIndicator />
+          <PremiumAnimations />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

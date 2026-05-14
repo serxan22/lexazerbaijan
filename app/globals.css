@@ -753,3 +753,107 @@ html.dark .bg-background,
   border-radius: inherit;
   pointer-events: none;
 }
+
+
+/* Premium Anime.js Animations */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, hsl(var(--primary)), rgba(255,255,255,0.65));
+}
+
+.cursor-glow {
+  position: fixed;
+  z-index: 0;
+  width: 260px;
+  height: 260px;
+  pointer-events: none;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(99,102,241,0.16), transparent 65%);
+  filter: blur(18px);
+}
+
+.premium-orb {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.22;
+  animation: premiumFloat 14s ease-in-out infinite alternate;
+}
+
+.premium-orb-one {
+  width: 320px;
+  height: 320px;
+  right: 5%;
+  top: 14%;
+  background: rgba(99,102,241,0.35);
+}
+
+.premium-orb-two {
+  width: 280px;
+  height: 280px;
+  left: 4%;
+  bottom: 10%;
+  background: rgba(14,165,233,0.22);
+  animation-delay: 2s;
+}
+
+@keyframes premiumFloat {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(24px, -28px, 0) scale(1.08);
+  }
+}
+
+main,
+header,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+.article-card {
+  --radius: 14px;
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.article-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--mx) var(--my),
+    rgba(255,255,255,0.16),
+    transparent 42%
+  );
+  transition: opacity 0.25s ease;
+}
+
+.article-card:hover::before {
+  opacity: 1;
+}
+
+.article-card:hover {
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+}
+
+/* End Premium Anime.js Animations */
