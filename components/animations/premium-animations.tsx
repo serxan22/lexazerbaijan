@@ -114,6 +114,8 @@ export function PremiumAnimations() {
   return (
     <>
       <div className="scroll-progress" />
+      <div className="premium-grid-bg" />
+      <div className="premium-noise" />
       <div className="cursor-glow" />
       <div className="premium-orb premium-orb-one" />
       <div className="premium-orb premium-orb-two" />

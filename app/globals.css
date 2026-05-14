@@ -857,3 +857,94 @@ footer {
 }
 
 /* End Premium Anime.js Animations */
+
+/* Extra Premium UI Motion */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.45s ease, color 0.45s ease;
+}
+
+header {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition: all 0.35s ease;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+  pointer-events: none;
+}
+
+.premium-grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to bottom, currentColor 1px, transparent 1px);
+  background-size: 46px 46px;
+  animation: gridDrift 24s linear infinite;
+}
+
+.premium-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image:
+    radial-gradient(circle at 20% 20%, currentColor 1px, transparent 1px),
+    radial-gradient(circle at 80% 40%, currentColor 1px, transparent 1px),
+    radial-gradient(circle at 50% 80%, currentColor 1px, transparent 1px);
+  background-size: 18px 18px;
+  animation: noiseMove 2.8s steps(3) infinite;
+}
+
+@keyframes gridDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(46px, 46px, 0); }
+}
+
+@keyframes noiseMove {
+  0% { transform: translate3d(0, 0, 0); }
+  33% { transform: translate3d(1%, -1%, 0); }
+  66% { transform: translate3d(-1%, 1%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+a,
+button,
+.article-card,
+.card,
+[class*="Card"] {
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease,
+    background-color 0.28s ease,
+    color 0.28s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-3px);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* End Extra Premium UI Motion */
