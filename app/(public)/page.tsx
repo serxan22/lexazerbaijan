@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Bot, ArrowRight, BookOpen, CheckCircle2, GraduationCap, Library, PenSquare, ShieldCheck, Sparkles, Users } from "lucide-react";
 
 import { ArticleCard } from "@/components/articles/article-card";
+import { ArticleCardsAnimation } from "@/components/animations/article-cards-animation";
 import { AuthorCard } from "@/components/articles/author-card";
 import { CategoryCard } from "@/components/articles/category-card";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
