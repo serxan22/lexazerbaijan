@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import { ArrowRight, BookOpen, Landmark, MessageSquareText, Scale, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useRef } from "react";
 
 const features = [
   {
@@ -31,8 +32,8 @@ const features = [
 const frameVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 72,
-    scale: 0.96,
+    y: 76,
+    scale: 0.955,
     filter: "blur(18px)",
   },
   visible: {
@@ -41,17 +42,35 @@ const frameVariants: Variants = {
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      duration: 0.9,
+      duration: 1.05,
       ease: [0.16, 1, 0.3, 1],
     },
   },
 };
 
+const lineVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 32,
+    filter: "blur(10px)",
+  },
+  visible: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.85,
+      delay: index * 0.1,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  }),
+};
+
 const cardVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 42,
-    scale: 0.96,
+    y: 46,
+    scale: 0.955,
     filter: "blur(14px)",
   },
   visible: (index: number) => ({
@@ -60,20 +79,67 @@ const cardVariants: Variants = {
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      duration: 0.75,
+      duration: 0.82,
       delay: index * 0.13,
       ease: [0.16, 1, 0.3, 1],
     },
   }),
 };
 
-export function PremiumScrollShowcase() {
+function PremiumOrb() {
   return (
-    <section className="relative isolate overflow-hidden bg-[#050816] text-white">
+    <motion.div
+      initial={{ opacity: 0, y: 26, scale: 0.82, rotate: -8 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+      viewport={{ once: true, amount: 0.45 }}
+      transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+      className="relative mx-auto mb-9 flex h-28 w-28 items-center justify-center rounded-[2rem] border border-white/15 bg-white/[0.08] shadow-2xl shadow-black/40 backdrop-blur-2xl"
+    >
+      <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.32),transparent_34%)]" />
+      <div className="absolute -inset-3 rounded-[2.4rem] border border-white/10" />
+      <div className="absolute -inset-8 rounded-full bg-gold/10 blur-2xl" />
+
+      <motion.div
+        animate={{ y: [0, -7, 0], rotate: [-1.5, 1.5, -1.5] }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+        className="relative"
+      >
+        <Scale className="h-14 w-14 text-white/88" />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export function PremiumScrollShowcase() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const topGlowY = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const bottomGlowY = useTransform(scrollYProgress, [0, 1], [0, -160]);
+  const gridOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.22, 0.34, 0.18]);
+
+  return (
+    <section ref={sectionRef} className="relative isolate overflow-hidden bg-[#050816] text-white">
       <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_10%,rgba(180,140,70,0.20),transparent_23%),radial-gradient(circle_at_78%_72%,rgba(70,95,200,0.16),transparent_28%),linear-gradient(180deg,#050816_0%,#071126_46%,#050816_100%)]" />
-      <div className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px)] bg-[size:64px_64px] opacity-25" />
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-gold/10 blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 left-1/2 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-blue-900/20 blur-[120px]" />
+
+      <motion.div
+        style={{ opacity: gridOpacity }}
+        className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px)] bg-[size:64px_64px]"
+      />
+
+      <motion.div
+        style={{ y: topGlowY }}
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-gold/10 blur-[120px]"
+      />
+
+      <motion.div
+        style={{ y: bottomGlowY }}
+        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-blue-900/20 blur-[120px]"
+      />
 
       <div className="legal-container flex min-h-[calc(100vh-5rem)] items-center justify-center py-24 text-center">
         <motion.div
@@ -83,49 +149,49 @@ export function PremiumScrollShowcase() {
           viewport={{ once: true, amount: 0.42 }}
           className="mx-auto max-w-5xl"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.82, rotate: -8 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-            viewport={{ once: true, amount: 0.45 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mx-auto mb-9 flex h-28 w-28 items-center justify-center rounded-[2rem] border border-white/15 bg-white/[0.08] shadow-2xl shadow-black/40 backdrop-blur-2xl"
-          >
-            <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.28),transparent_32%)]" />
-            <div className="absolute -inset-3 rounded-[2.4rem] border border-white/10" />
-            <motion.div
-              animate={{ y: [0, -7, 0], rotate: [-1.5, 1.5, -1.5] }}
-              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-              className="relative"
-            >
-              <Scale className="h-14 w-14 text-white/88" />
-            </motion.div>
-          </motion.div>
+          <PremiumOrb />
 
           <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            custom={0}
+            variants={lineVariants}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.45 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/75 shadow-2xl shadow-black/20 backdrop-blur-xl"
           >
             <Sparkles className="h-4 w-4 text-gold" />
             Modern legal publishing for Azerbaijan
           </motion.p>
 
-          <h1 className="text-balance text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
+          <motion.h1
+            custom={1}
+            variants={lineVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.45 }}
+            className="text-balance text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl"
+          >
             Legal knowledge, transformed into a premium digital experience.
-          </h1>
+          </motion.h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/65 md:text-lg">
+          <motion.p
+            custom={2}
+            variants={lineVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.45 }}
+            className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/65 md:text-lg"
+          >
             Scroll down to discover articles, discussions, and case exploration through
             a cinematic legal interface built for serious legal minds.
-          </p>
+          </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            custom={3}
+            variants={lineVariants}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.45 }}
-            transition={{ duration: 0.75, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto mt-10 flex w-fit items-center gap-3 rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm text-white/62 backdrop-blur-xl"
           >
             <span className="h-2 w-2 rounded-full bg-gold shadow-[0_0_24px_rgba(212,163,90,0.75)]" />
@@ -143,14 +209,39 @@ export function PremiumScrollShowcase() {
           className="w-full"
         >
           <div className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow text-white/55">Explore the platform</p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold text-white md:text-5xl">
+            <motion.p
+              variants={lineVariants}
+              custom={0}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.35 }}
+              className="eyebrow text-white/55"
+            >
+              Explore the platform
+            </motion.p>
+
+            <motion.h2
+              variants={lineVariants}
+              custom={1}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.35 }}
+              className="mt-4 text-balance text-3xl font-semibold text-white md:text-5xl"
+            >
               Three legal spaces, revealed with purpose.
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-white/58">
+            </motion.h2>
+
+            <motion.p
+              variants={lineVariants}
+              custom={2}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.35 }}
+              className="mx-auto mt-5 max-w-2xl text-white/58"
+            >
               Each area is designed to make legal writing, debate, and case discovery feel
               structured, elegant, and easy to navigate.
-            </p>
+            </motion.p>
           </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">
@@ -176,6 +267,8 @@ export function PremiumScrollShowcase() {
                     <div className="absolute -right-20 -top-20 h-44 w-44 rounded-full bg-gold/15 blur-3xl" />
                     <div className="absolute -bottom-20 -left-20 h-44 w-44 rounded-full bg-blue-500/10 blur-3xl" />
                   </div>
+
+                  <div className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(115deg,transparent,rgba(255,255,255,0.12),transparent)] transition duration-1000 group-hover:translate-x-full" />
 
                   <div className="relative mb-8 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 transition duration-500 group-hover:border-gold/30 group-hover:bg-gold/10">
                     <Icon className="h-6 w-6 text-white/85 transition duration-500 group-hover:text-gold" />
@@ -212,21 +305,51 @@ export function PremiumScrollShowcase() {
           className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-[2.4rem] border border-white/12 bg-white/[0.10] p-8 text-center shadow-2xl shadow-black/50 backdrop-blur-2xl md:p-12"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.16),transparent_35%)]" />
+          <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+
           <div className="relative">
-            <p className="text-sm uppercase tracking-[0.32em] text-white/45">
+            <motion.p
+              variants={lineVariants}
+              custom={0}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.42 }}
+              className="text-sm uppercase tracking-[0.32em] text-white/45"
+            >
               LexAzerbaijan
-            </p>
+            </motion.p>
 
-            <h2 className="mt-5 text-balance text-3xl font-semibold text-white md:text-5xl">
+            <motion.h2
+              variants={lineVariants}
+              custom={1}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.42 }}
+              className="mt-5 text-balance text-3xl font-semibold text-white md:text-5xl"
+            >
               One platform for legal writing, dialogue, and discovery.
-            </h2>
+            </motion.h2>
 
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/62 md:text-base">
+            <motion.p
+              variants={lineVariants}
+              custom={2}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.42 }}
+              className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/62 md:text-base"
+            >
               Designed for students, researchers, lawyers, and legal minds who want
               their ideas to be visible, searchable, and useful for the wider community.
-            </p>
+            </motion.p>
 
-            <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+            <motion.div
+              variants={lineVariants}
+              custom={3}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.42 }}
+              className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"
+            >
               <Link
                 href="/articles"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-slate-950 shadow-2xl shadow-gold/20 transition hover:-translate-y-0.5 hover:bg-gold/90"
@@ -234,13 +357,14 @@ export function PremiumScrollShowcase() {
                 Explore articles
                 <ArrowRight className="h-4 w-4" />
               </Link>
+
               <Link
                 href="/submit"
                 className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-2xl shadow-black/20 backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/15"
               >
                 Submit your article
               </Link>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
