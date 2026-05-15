@@ -13,6 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { getArticles, getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { LegalBalanceScale } from "@/components/interactive/legal-balance-scale";
 
 const reasonIcons = [GraduationCap, ShieldCheck, Library];
 
@@ -64,7 +65,12 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      
+        <div className="legal-container py-10">
+          <LegalBalanceScale />
+        </div>
+
+</section>
 
       <section className="border-b bg-white py-8">
         <div className="legal-container grid gap-4 md:grid-cols-3">
