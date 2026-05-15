@@ -32,7 +32,7 @@ export default async function HomePage() {
   return (
     <>
       <PremiumScrollShowcase />
-      <section className="relative isolate overflow-hidden bg-slate-950 text-white">
+<section className="relative isolate overflow-hidden bg-slate-950 text-white">
         <div
           className="absolute inset-0 -z-20 bg-cover bg-center opacity-34"
           style={{
