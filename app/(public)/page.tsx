@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bot, ArrowRight, BookOpen, CheckCircle2, GraduationCap, Library, PenSquare, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { GraduationCap, Library, ShieldCheck, Sparkles } from "lucide-react";
 
 import { ArticleCard } from "@/components/articles/article-card";
 import { ArticleCardsAnimation } from "@/components/animations/article-cards-animation";
@@ -32,55 +32,6 @@ export default async function HomePage() {
   return (
     <>
       <PremiumScrollShowcase />
-<section className="relative isolate overflow-hidden bg-slate-950 text-white">
-        <div
-          className="absolute inset-0 -z-20 bg-cover bg-center opacity-34"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=1800&q=80')"
-          }}
-        />
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(11,18,32,0.96),rgba(11,18,32,0.78),rgba(11,18,32,0.28))]" />
-        <div className="legal-container grid min-h-[74vh] items-center py-20">
-          <div className="max-w-3xl animate-fade-up">
-            <p className="eyebrow">{dictionary.home.eyebrow}</p>
-            <h1 className="mt-5 font-serif text-5xl font-semibold leading-[1.04] text-white md:text-7xl">
-              {dictionary.home.headline}
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200">
-              {dictionary.home.subheadline}
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" variant="gold" asChild>
-                <Link href="/articles">
-                  {dictionary.nav.exploreArticles}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white hover:text-slate-950" asChild>
-                <Link href="/submit">
-                  {dictionary.nav.submitYourArticle}
-                  <PenSquare className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-</section>
-
-      <section className="border-b bg-white py-8">
-        <div className="legal-container grid gap-4 md:grid-cols-3">
-          {dictionary.home.proof.map(([title, body]) => (
-            <div key={title} className="flex items-start gap-3">
-              <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-gold" />
-              <div>
-                <p className="font-medium text-slate-950">{title}</p>
-                <p className="mt-1 text-sm leading-6 text-slate-500">{body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <DailyLegalTerms
         dictionary={dictionary}
