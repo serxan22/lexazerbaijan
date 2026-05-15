@@ -39,7 +39,7 @@ export function LegalBalanceScale() {
     setTilt((value) => (value <= 0 ? 10 : -10));
   }
 
-  function handleMove(event: React.MouseEvent<HTMLDivElement>) {
+  function handleMove(event: React.MouseEvent<HTMLButtonElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
