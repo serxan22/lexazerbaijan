@@ -21,6 +21,7 @@ import { getArticleBySlug } from "@/lib/data";
 import { getDictionary, getLocale, localizeCategory } from "@/lib/i18n";
 import { sanitizeArticleContent } from "@/lib/sanitize";
 import { formatDate, formatNumber, initials } from "@/lib/utils";
+import { ArticleAudioPlayer } from "@/components/articles/article-audio-player";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const locale = await getLocale();
@@ -176,6 +177,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               resultTitle={dictionary.common.articleSummary}
             />
           </div>
+          <ArticleAudioPlayer
+            title={article.title}
+            content={content}
+          />
+
           <div className="article-prose prose prose-slate mt-8 max-w-none text-slate-800 dark:prose-invert dark:text-slate-100" dangerouslySetInnerHTML={{ __html: content }} />
           <Separator className="my-12" />
 
