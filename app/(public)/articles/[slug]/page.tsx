@@ -84,7 +84,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       />
       <ReadingProgressBar />
       <ArticleViewTracker slug={params.slug} />
-      <header className="relative z-0 border-b bg-slate-50">
+      <header style={{ position: "relative", zIndex: 0 }} className="border-b bg-slate-50">
         <div className="legal-container grid gap-10 py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
             <div className="flex flex-wrap items-center gap-2">

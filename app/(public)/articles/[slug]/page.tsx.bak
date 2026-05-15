@@ -84,7 +84,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       />
       <ReadingProgressBar />
       <ArticleViewTracker slug={params.slug} />
-      <header className="border-b bg-slate-50">
+      <header style={{ position: "relative", zIndex: 0 }} className="border-b bg-slate-50">
         <div className="legal-container grid gap-10 py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
             <div className="flex flex-wrap items-center gap-2">
@@ -162,7 +162,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         </div>
       </header>
 
-      <div className="legal-container grid gap-10 py-12 lg:grid-cols-[1fr_280px]">
+      <div className="legal-container relative z-0 grid gap-10 py-12 lg:grid-cols-[1fr_280px]">
         <div className="mx-auto w-full max-w-3xl">
           <div className="rounded-lg border bg-gold-muted p-5 text-sm leading-6 text-slate-700">
             {dictionary.article.disclaimer}
@@ -176,7 +176,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               resultTitle={dictionary.common.articleSummary}
             />
           </div>
-          <div className="article-prose prose prose-slate mt-8 max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: content }} />
+          <div className="article-prose prose prose-slate mt-8 max-w-none text-slate-800 dark:prose-invert dark:text-slate-100" dangerouslySetInnerHTML={{ __html: content }} />
           <Separator className="my-12" />
 
           <ArticleReferences slug={article.slug} />
