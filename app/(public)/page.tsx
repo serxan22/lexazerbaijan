@@ -13,6 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { getArticles, getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { PremiumScrollShowcase } from "@/components/interactive/premium-scroll-showcase";
 
 const reasonIcons = [GraduationCap, ShieldCheck, Library];
 
@@ -247,6 +248,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+          <PremiumScrollShowcase />
     </>
   );
 }
