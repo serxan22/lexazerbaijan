@@ -24,6 +24,7 @@ import { formatDate, formatNumber, initials } from "@/lib/utils";
 import { ArticleAudioPlayer } from "@/components/articles/article-audio-player";
 import { LegalDictionaryArticle } from "@/components/articles/legal-dictionary-article";
 import { ArticleDebateMode } from "@/components/articles/article-debate-mode";
+import { getArticleDebateEntries } from "@/lib/actions/debates";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const locale = await getLocale();
@@ -57,7 +58,10 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   const article = await getArticleBySlug(params.slug, { incrementViews: false });
   if (!article) notFound();
 
-  const content = sanitizeArticleContent(article.content);
+  
+  const { entries: debateEntries } = await getArticleDebateEntries(article.id);
+
+const content = sanitizeArticleContent(article.content);
   const category = localizeCategory(article.category, dictionary);
   const articleUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://lexazerbaijan.az"}/articles/${article.slug}`;
   const articleJsonLd = {
@@ -215,7 +219,12 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             url={`${process.env.NEXT_PUBLIC_SITE_URL ?? "https://lexazerbaijan.az"}/articles/${article.slug}`}
           />
 
-          <ArticleDebateMode slug={article.slug} title={article.title} />
+          <ArticleDebateMode
+            articleId={article.id}
+            slug={article.slug}
+            title={article.title}
+            initialEntries={debateEntries}
+          />
 
           <CommentsSection articleId={article.id} slug={article.slug} dictionary={dictionary} locale={locale} />
         </div>

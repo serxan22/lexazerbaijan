@@ -1,107 +1,77 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { MessageSquareText, ThumbsDown, ThumbsUp } from "lucide-react";
+import {
+  DebateEntry,
+  DebateSide,
+  upsertArticleDebateEntry,
+} from "@/lib/actions/debates";
 
 type ArticleDebateModeProps = {
+  articleId: string;
   slug: string;
   title: string;
+  initialEntries: DebateEntry[];
 };
 
-type DebateArgument = {
-  id: string;
-  side: "agree" | "disagree";
-  text: string;
-  createdAt: string;
-};
-
-type DebateState = {
-  agree: number;
-  disagree: number;
-  selectedSide: "agree" | "disagree" | null;
-  arguments: DebateArgument[];
-};
-
-function createInitialState(): DebateState {
-  return {
-    agree: 0,
-    disagree: 0,
-    selectedSide: null,
-    arguments: [],
-  };
-}
-
-export function ArticleDebateMode({ slug, title }: ArticleDebateModeProps) {
-  const storageKey = `lexazerbaijan-debate-${slug}`;
-  const [state, setState] = useState<DebateState>(createInitialState);
+export function ArticleDebateMode({
+  articleId,
+  slug,
+  title,
+  initialEntries,
+}: ArticleDebateModeProps) {
+  const [entries, setEntries] = useState<DebateEntry[]>(initialEntries);
+  const [selectedSide, setSelectedSide] = useState<DebateSide | null>(null);
   const [argumentText, setArgumentText] = useState("");
+  const [message, setMessage] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const question = useMemo(() => {
     return `Should the main legal argument in “${title}” be accepted?`;
   }, [title]);
 
-  useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(storageKey);
-      if (saved) {
-        setState(JSON.parse(saved));
-      }
-    } catch {
-      setState(createInitialState());
-    }
-  }, [storageKey]);
+  const agreeCount = entries.filter((entry) => entry.side === "agree").length;
+  const disagreeCount = entries.filter((entry) => entry.side === "disagree").length;
 
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(storageKey, JSON.stringify(state));
-    } catch {
-      // localStorage may be unavailable in private mode
-    }
-  }, [state, storageKey]);
+  function submit(side: DebateSide, argument?: string) {
+    setSelectedSide(side);
+    setMessage(null);
 
-  function vote(side: "agree" | "disagree") {
-    setState((current) => {
-      if (current.selectedSide === side) {
-        return current;
+    startTransition(async () => {
+      const result = await upsertArticleDebateEntry({
+        articleId,
+        slug,
+        side,
+        argument,
+      });
+
+      if (!result.ok) {
+        setMessage(result.error);
+        return;
       }
 
-      const next = { ...current };
+      setMessage("Your debate entry was saved.");
 
-      if (current.selectedSide === "agree") {
-        next.agree = Math.max(0, next.agree - 1);
-      }
+      const temporaryEntry: DebateEntry = {
+        id: `local-${Date.now()}`,
+        article_id: articleId,
+        user_id: "current-user",
+        side,
+        argument: argument?.trim() || null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
 
-      if (current.selectedSide === "disagree") {
-        next.disagree = Math.max(0, next.disagree - 1);
-      }
+      setEntries((current) => {
+        const withoutCurrentLocal = current.filter(
+          (entry) => entry.user_id !== "current-user"
+        );
+        return [temporaryEntry, ...withoutCurrentLocal];
+      });
 
-      next[side] = next[side] + 1;
-      next.selectedSide = side;
-
-      return next;
+      setArgumentText("");
     });
-  }
-
-  function submitArgument() {
-    const cleaned = argumentText.trim();
-
-    if (cleaned.length < 10 || !state.selectedSide) {
-      return;
-    }
-
-    const newArgument: DebateArgument = {
-      id: crypto.randomUUID(),
-      side: state.selectedSide,
-      text: cleaned,
-      createdAt: new Date().toISOString(),
-    };
-
-    setState((current) => ({
-      ...current,
-      arguments: [newArgument, ...current.arguments].slice(0, 8),
-    }));
-
-    setArgumentText("");
   }
 
   return (
@@ -127,9 +97,10 @@ export function ArticleDebateMode({ slug, title }: ArticleDebateModeProps) {
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <button
           type="button"
-          onClick={() => vote("agree")}
-          className={`rounded-2xl border p-4 text-left transition ${
-            state.selectedSide === "agree"
+          onClick={() => submit("agree")}
+          disabled={isPending}
+          className={`rounded-2xl border p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-60 ${
+            selectedSide === "agree"
               ? "border-emerald-500 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/40"
               : "bg-slate-50 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
           }`}
@@ -139,15 +110,16 @@ export function ArticleDebateMode({ slug, title }: ArticleDebateModeProps) {
             Agree
           </span>
           <span className="mt-2 block text-xs text-slate-500 dark:text-slate-400">
-            {state.agree} vote{state.agree === 1 ? "" : "s"}
+            {agreeCount} vote{agreeCount === 1 ? "" : "s"}
           </span>
         </button>
 
         <button
           type="button"
-          onClick={() => vote("disagree")}
-          className={`rounded-2xl border p-4 text-left transition ${
-            state.selectedSide === "disagree"
+          onClick={() => submit("disagree")}
+          disabled={isPending}
+          className={`rounded-2xl border p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-60 ${
+            selectedSide === "disagree"
               ? "border-rose-500 bg-rose-50 dark:border-rose-400 dark:bg-rose-950/40"
               : "bg-slate-50 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
           }`}
@@ -157,7 +129,7 @@ export function ArticleDebateMode({ slug, title }: ArticleDebateModeProps) {
             Disagree
           </span>
           <span className="mt-2 block text-xs text-slate-500 dark:text-slate-400">
-            {state.disagree} vote{state.disagree === 1 ? "" : "s"}
+            {disagreeCount} vote{disagreeCount === 1 ? "" : "s"}
           </span>
         </button>
       </div>
@@ -167,44 +139,49 @@ export function ArticleDebateMode({ slug, title }: ArticleDebateModeProps) {
           value={argumentText}
           onChange={(event) => setArgumentText(event.target.value)}
           placeholder={
-            state.selectedSide
+            selectedSide
               ? "Write a short legal argument..."
               : "Choose Agree or Disagree first..."
           }
-          disabled={!state.selectedSide}
+          disabled={!selectedSide || isPending}
           className="min-h-28 w-full rounded-2xl border bg-white p-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-amber-500 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
         />
 
         <div className="mt-3 flex justify-end">
           <button
             type="button"
-            onClick={submitArgument}
-            disabled={!state.selectedSide || argumentText.trim().length < 10}
+            onClick={() => selectedSide && submit(selectedSide, argumentText)}
+            disabled={!selectedSide || argumentText.trim().length < 10 || isPending}
             className="rounded-full bg-slate-950 px-5 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
           >
-            Add argument
+            {isPending ? "Saving..." : "Add argument"}
           </button>
         </div>
       </div>
 
-      {state.arguments.length > 0 ? (
-        <div className="mt-6 space-y-3">
-          {state.arguments.map((argument) => (
-            <div key={argument.id} className="rounded-2xl border bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
-                {argument.side === "agree" ? "Agree" : "Disagree"}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-200">
-                {argument.text}
-              </p>
-            </div>
-          ))}
-        </div>
+      {message ? (
+        <p className="mt-4 rounded-2xl border bg-slate-50 p-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+          {message}
+        </p>
       ) : null}
 
-      <p className="mt-5 text-xs text-slate-500 dark:text-slate-400">
-        MVP note: debates are saved in this browser. We can connect this to Supabase later for public debates.
-      </p>
+      {entries.filter((entry) => entry.argument).length > 0 ? (
+        <div className="mt-6 space-y-3">
+          {entries
+            .filter((entry) => entry.argument)
+            .slice(0, 8)
+            .map((entry) => (
+              <div key={entry.id} className="rounded-2xl border bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                  {entry.side === "agree" ? "Agree" : "Disagree"}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-200">
+                  {entry.argument}
+                </p>
+              </div>
+            ))}
+        </div>
+      ) : null}
     </section>
   );
 }
