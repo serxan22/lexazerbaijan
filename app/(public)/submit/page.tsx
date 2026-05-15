@@ -4,6 +4,7 @@ import { ArticleForm } from "@/components/forms/article-form";
 import { requireProfile } from "@/lib/auth";
 import { getCategories } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { LegalWritingScore } from "@/components/articles/legal-writing-score";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
