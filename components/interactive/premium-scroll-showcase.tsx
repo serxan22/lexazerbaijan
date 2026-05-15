@@ -80,13 +80,13 @@ export function PremiumScrollShowcase() {
           variants={frameVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.42 }}
+          viewport={{ once: true, amount: 0.42 }}
           className="mx-auto max-w-5xl"
         >
           <motion.div
             initial={{ opacity: 0, y: 24, scale: 0.82, rotate: -8 }}
             whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-            viewport={{ once: false, amount: 0.45 }}
+            viewport={{ once: true, amount: 0.45 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="relative mx-auto mb-9 flex h-28 w-28 items-center justify-center rounded-[2rem] border border-white/15 bg-white/[0.08] shadow-2xl shadow-black/40 backdrop-blur-2xl"
           >
@@ -104,7 +104,7 @@ export function PremiumScrollShowcase() {
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.45 }}
+            viewport={{ once: true, amount: 0.45 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/75 shadow-2xl shadow-black/20 backdrop-blur-xl"
           >
@@ -124,7 +124,7 @@ export function PremiumScrollShowcase() {
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.45 }}
+            viewport={{ once: true, amount: 0.45 }}
             transition={{ duration: 0.75, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto mt-10 flex w-fit items-center gap-3 rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm text-white/62 backdrop-blur-xl"
           >
@@ -139,7 +139,7 @@ export function PremiumScrollShowcase() {
           variants={frameVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           className="w-full"
         >
           <div className="mx-auto max-w-3xl text-center">
@@ -164,7 +164,7 @@ export function PremiumScrollShowcase() {
                   variants={cardVariants}
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{ once: false, amount: 0.35 }}
+                  viewport={{ once: true, amount: 0.2 }}
                   whileHover={{
                     y: -10,
                     scale: 1.018,
@@ -208,7 +208,7 @@ export function PremiumScrollShowcase() {
           variants={frameVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.42 }}
+          viewport={{ once: true, amount: 0.42 }}
           className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-[2.4rem] border border-white/12 bg-white/[0.10] p-8 text-center shadow-2xl shadow-black/50 backdrop-blur-2xl md:p-12"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.16),transparent_35%)]" />
