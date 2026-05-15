@@ -1,3 +1,4 @@
+import { ArticleAudioPlayer } from "@/components/articles/article-audio-player";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -176,6 +177,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               resultTitle={dictionary.common.articleSummary}
             />
           </div>
+        <ArticleAudioPlayer
+          title={article.title}
+          content={article.content ?? ""}
+        />
+
 
           <div className="article-prose prose prose-slate mt-8 max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: content }} />
           <Separator className="my-12" />
