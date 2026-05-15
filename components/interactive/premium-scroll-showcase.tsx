@@ -42,8 +42,9 @@ const frameVariants: Variants = {
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      duration: 1.05,
+      duration: 1,
       ease: [0.16, 1, 0.3, 1],
+      staggerChildren: 0.1,
     },
   },
 };
@@ -51,48 +52,53 @@ const frameVariants: Variants = {
 const lineVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 32,
+    y: 30,
     filter: "blur(10px)",
   },
-  visible: (index: number) => ({
+  visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
     transition: {
-      duration: 0.85,
-      delay: index * 0.1,
+      duration: 0.75,
       ease: [0.16, 1, 0.3, 1],
     },
-  }),
+  },
+};
+
+const cardsWrapVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.13,
+      delayChildren: 0.12,
+    },
+  },
 };
 
 const cardVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 46,
-    scale: 0.955,
-    filter: "blur(14px)",
+    y: 42,
+    scale: 0.96,
+    filter: "blur(12px)",
   },
-  visible: (index: number) => ({
+  visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      duration: 0.82,
-      delay: index * 0.13,
+      duration: 0.75,
       ease: [0.16, 1, 0.3, 1],
     },
-  }),
+  },
 };
 
 function PremiumOrb() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 26, scale: 0.82, rotate: -8 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-      viewport={{ once: true, amount: 0.45 }}
-      transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+      variants={lineVariants}
       className="relative mx-auto mb-9 flex h-28 w-28 items-center justify-center rounded-[2rem] border border-white/15 bg-white/[0.08] shadow-2xl shadow-black/40 backdrop-blur-2xl"
     >
       <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.32),transparent_34%)]" />
@@ -146,17 +152,13 @@ export function PremiumScrollShowcase() {
           variants={frameVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.42 }}
+          viewport={{ once: false, amount: 0.32, margin: "-8% 0px -8% 0px" }}
           className="mx-auto max-w-5xl"
         >
           <PremiumOrb />
 
           <motion.p
-            custom={0}
             variants={lineVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.45 }}
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/75 shadow-2xl shadow-black/20 backdrop-blur-xl"
           >
             <Sparkles className="h-4 w-4 text-gold" />
@@ -164,22 +166,14 @@ export function PremiumScrollShowcase() {
           </motion.p>
 
           <motion.h1
-            custom={1}
             variants={lineVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.45 }}
             className="text-balance text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl"
           >
             Legal knowledge, transformed into a premium digital experience.
           </motion.h1>
 
           <motion.p
-            custom={2}
             variants={lineVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.45 }}
             className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/65 md:text-lg"
           >
             Scroll down to discover articles, discussions, and case exploration through
@@ -187,11 +181,7 @@ export function PremiumScrollShowcase() {
           </motion.p>
 
           <motion.div
-            custom={3}
             variants={lineVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.45 }}
             className="mx-auto mt-10 flex w-fit items-center gap-3 rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm text-white/62 backdrop-blur-xl"
           >
             <span className="h-2 w-2 rounded-full bg-gold shadow-[0_0_24px_rgba(212,163,90,0.75)]" />
@@ -205,57 +195,38 @@ export function PremiumScrollShowcase() {
           variants={frameVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: false, amount: 0.28, margin: "-6% 0px -6% 0px" }}
           className="w-full"
         >
           <div className="mx-auto max-w-3xl text-center">
-            <motion.p
-              variants={lineVariants}
-              custom={0}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.35 }}
-              className="eyebrow text-white/55"
-            >
+            <motion.p variants={lineVariants} className="eyebrow text-white/55">
               Explore the platform
             </motion.p>
 
             <motion.h2
               variants={lineVariants}
-              custom={1}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.35 }}
               className="mt-4 text-balance text-3xl font-semibold text-white md:text-5xl"
             >
               Three legal spaces, revealed with purpose.
             </motion.h2>
 
-            <motion.p
-              variants={lineVariants}
-              custom={2}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.35 }}
-              className="mx-auto mt-5 max-w-2xl text-white/58"
-            >
+            <motion.p variants={lineVariants} className="mx-auto mt-5 max-w-2xl text-white/58">
               Each area is designed to make legal writing, debate, and case discovery feel
               structured, elegant, and easy to navigate.
             </motion.p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {features.map((feature, index) => {
+          <motion.div
+            variants={cardsWrapVariants}
+            className="mt-12 grid gap-5 md:grid-cols-3"
+          >
+            {features.map((feature) => {
               const Icon = feature.icon;
 
               return (
                 <motion.div
                   key={feature.title}
-                  custom={index}
                   variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
                   whileHover={{
                     y: -10,
                     scale: 1.018,
@@ -292,7 +263,7 @@ export function PremiumScrollShowcase() {
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 
@@ -301,30 +272,19 @@ export function PremiumScrollShowcase() {
           variants={frameVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.42 }}
+          viewport={{ once: false, amount: 0.32, margin: "-8% 0px -8% 0px" }}
           className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-[2.4rem] border border-white/12 bg-white/[0.10] p-8 text-center shadow-2xl shadow-black/50 backdrop-blur-2xl md:p-12"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.16),transparent_35%)]" />
           <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
           <div className="relative">
-            <motion.p
-              variants={lineVariants}
-              custom={0}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.42 }}
-              className="text-sm uppercase tracking-[0.32em] text-white/45"
-            >
+            <motion.p variants={lineVariants} className="text-sm uppercase tracking-[0.32em] text-white/45">
               LexAzerbaijan
             </motion.p>
 
             <motion.h2
               variants={lineVariants}
-              custom={1}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.42 }}
               className="mt-5 text-balance text-3xl font-semibold text-white md:text-5xl"
             >
               One platform for legal writing, dialogue, and discovery.
@@ -332,24 +292,13 @@ export function PremiumScrollShowcase() {
 
             <motion.p
               variants={lineVariants}
-              custom={2}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.42 }}
               className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/62 md:text-base"
             >
               Designed for students, researchers, lawyers, and legal minds who want
               their ideas to be visible, searchable, and useful for the wider community.
             </motion.p>
 
-            <motion.div
-              variants={lineVariants}
-              custom={3}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.42 }}
-              className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"
-            >
+            <motion.div variants={lineVariants} className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
                 href="/articles"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-slate-950 shadow-2xl shadow-gold/20 transition hover:-translate-y-0.5 hover:bg-gold/90"
