@@ -25,7 +25,7 @@ export function CreateDiscussionForm({ dictionary }: { dictionary: Dictionary })
 
           <Textarea
             name="body"
-            placeholder={dictionary.pages.discussionBodyPlaceholder}
+            placeholder="Write the discussion text..."
             className="min-h-[140px]"
             required
           />

@@ -32,9 +32,9 @@ export default async function AuthorProfilePage({ params }: { params: { username
   const articles = await getAuthorArticles(author.id);
 
   return (
-    <div className="premium-page">
-      <section className="premium-hero">
-        <div className="legal-container relative z-10 grid gap-8 py-14 lg:grid-cols-[1fr_360px]">
+    <div className="bg-slate-50">
+      <section className="border-b bg-white py-14">
+        <div className="legal-container grid gap-8 lg:grid-cols-[1fr_360px]">
           <div className="flex flex-col gap-6 md:flex-row">
             <Avatar className="h-24 w-24">
               <AvatarImage src={author.avatarUrl ?? undefined} alt={author.fullName} />
@@ -42,7 +42,7 @@ export default async function AuthorProfilePage({ params }: { params: { username
             </Avatar>
             <div>
               <p className="eyebrow">{dictionary.nav.publicProfile}</p>
-              <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950 dark:text-white">{author.fullName}
+              <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{author.fullName}
               {author.verifiedWriter ? (
                 <span
                   title="Verified Writer"
@@ -55,7 +55,7 @@ export default async function AuthorProfilePage({ params }: { params: { username
                 <MapPin className="h-4 w-4" />
                 {author.workplace ?? author.university ?? dictionary.site.legalCommunity}
               </p>
-              {author.bio ? <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">{author.bio}</p> : null}
+              {author.bio ? <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">{author.bio}</p> : null}
               <div className="mt-5 flex flex-wrap gap-2">
                 {author.interests.map((interest) => (
                   <Badge key={interest} variant="blue">
@@ -105,14 +105,14 @@ export default async function AuthorProfilePage({ params }: { params: { username
         </div>
       </section>
       <section className="legal-container py-10">
-        <h2 className="font-serif text-3xl font-semibold text-slate-950 dark:text-white">{dictionary.common.published} {dictionary.common.articles}</h2>
+        <h2 className="font-serif text-3xl font-semibold text-slate-950">{dictionary.common.published} {dictionary.common.articles}</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <ArticleCard key={article.id} article={article} dictionary={dictionary} locale={locale} />
           ))}
         </div>
         {!articles.length ? (
-          <div className="mt-8 rounded-lg border border-dashed bg-card/80 p-10 text-center text-slate-500 dark:text-slate-300">
+          <div className="mt-8 rounded-lg border border-dashed bg-white p-10 text-center text-slate-500">
             {dictionary.pages.noArticlesTitle}
           </div>
         ) : null}

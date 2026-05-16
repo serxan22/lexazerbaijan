@@ -37,12 +37,12 @@ export default async function ArticlesPage({
   ]);
 
   return (
-    <div className="premium-page">
-      <section className="premium-hero">
-        <div className="premium-hero-inner">
+    <div className="bg-slate-50">
+      <section className="border-b bg-white py-14">
+        <div className="legal-container">
           <p className="eyebrow">{dictionary.nav.articles}</p>
-          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950 dark:text-white">{dictionary.pages.articlesTitle}</h1>
-          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-300">
+          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.pages.articlesTitle}</h1>
+          <p className="mt-4 max-w-2xl text-slate-600">
             {dictionary.pages.articlesBody}
           </p>
         </div>
@@ -55,8 +55,8 @@ export default async function ArticlesPage({
           ))}
         </div>
         {!articles.length ? (
-          <div className="mt-8 rounded-lg border border-dashed bg-card/80 p-10 text-center">
-            <h2 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">{dictionary.pages.noArticlesTitle}</h2>
+          <div className="mt-8 rounded-lg border border-dashed bg-white p-10 text-center">
+            <h2 className="font-serif text-2xl font-semibold text-slate-950">{dictionary.pages.noArticlesTitle}</h2>
             <p className="mt-2 text-slate-500">{dictionary.pages.noArticlesBody}</p>
           </div>
         ) : null}

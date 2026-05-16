@@ -78,14 +78,14 @@ export function HeaderClient({
   const navItems = [
     { title: dictionary.nav.articles, href: "/articles" },
     { title: dictionary.nav.discussions, href: "/discussions" },
-    { title: dictionary.nav.askLexAI, href: "/lexai" },
     { title: dictionary.nav.authors, href: "/authors" },
+    { title: dictionary.nav.askLexAI, href: "/lexai" },
     { title: dictionary.nav.about, href: "/about" }
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 shadow-sm shadow-black/[0.02] backdrop-blur-2xl supports-[backdrop-filter]:bg-background/70 dark:bg-slate-950/70">
-      <div className="legal-container flex h-20 items-center justify-between gap-5">
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/92 backdrop-blur supports-[backdrop-filter]:bg-white/82">
+      <div className="legal-container flex h-20 items-center justify-between gap-6">
         <Logo tagline={dictionary.site.journal} />
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label={dictionary.nav.navigation}>
@@ -98,30 +98,36 @@ export function HeaderClient({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost">
-                {dictionary.nav.cases}
+                Cases
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="start" className="w-72 border-border/80 bg-card/95 p-2 text-card-foreground shadow-xl backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/95 dark:text-white">
+            <DropdownMenuContent align="start" className="w-72 border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-white">
               <DropdownMenuItem asChild>
                 <Link href="/cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900 dark:text-white">{dictionary.nav.usCases}</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">{dictionary.nav.cases}</span>
+                  <span className="font-semibold text-slate-900">{dictionary.nav.usCases}</span>
+                  <span className="text-xs text-slate-500">
+                    Search American federal and state case-law.
+                  </span>
                 </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
                 <Link href="/echr-cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900 dark:text-white">{dictionary.nav.echrCases}</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">{dictionary.nav.cases}</span>
+                  <span className="font-semibold text-slate-900">{dictionary.nav.echrCases}</span>
+                  <span className="text-xs text-slate-500">
+                    Explore European Court of Human Rights judgments.
+                  </span>
                 </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
                 <Link href="/eu-cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900 dark:text-white">{dictionary.nav.euCases}</span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">{dictionary.nav.cases}</span>
+                  <span className="font-semibold text-slate-900">{dictionary.nav.euCases}</span>
+                  <span className="text-xs text-slate-500">
+                    Search CJEU and General Court case-law.
+                  </span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -133,9 +139,6 @@ export function HeaderClient({
           <HeaderSearch
             placeholder={dictionary.common.headerSearchPlaceholder}
             noResults={dictionary.common.headerSearchNoResults}
-            searchingLabel={dictionary.common.headerSearchSearching}
-            recentLabel={dictionary.common.recentlySearched}
-            popularLabel={dictionary.common.popularSearches}
           />
           <Button variant="gold" asChild>
             <Link href="/submit">
@@ -191,12 +194,8 @@ export function HeaderClient({
                 ) : null}
                 <DropdownMenuSeparator />
                 <div className="flex items-center justify-between px-2 py-2">
-                  <span className="text-sm text-slate-600 dark:text-slate-200">{dictionary.common.toggleTheme}</span>
-                  <ThemeToggle
-                    label={dictionary.common.toggleTheme}
-                    lightLabel={dictionary.common.lightMode}
-                    darkLabel={dictionary.common.darkMode}
-                  />
+                  <span className="text-sm text-slate-600 dark:text-slate-200">Dark mode</span>
+                  <ThemeToggle />
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -216,17 +215,12 @@ export function HeaderClient({
               </DropdownMenu>
             </div>
           ) : (
-            <>
-              <Button variant="ghost" asChild>
-                <Link href="/login">
-                  <LogIn className="h-4 w-4" />
-                  {dictionary.nav.login}
-                </Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href="/signup">{dictionary.forms.createAccount}</Link>
-              </Button>
-            </>
+            <Button variant="ghost" asChild>
+              <Link href="/login">
+                <LogIn className="h-4 w-4" />
+                {dictionary.nav.login}
+              </Link>
+            </Button>
           )}
         </div>
 
@@ -279,12 +273,8 @@ export function HeaderClient({
               <LanguageSwitcher locale={locale} label={dictionary.nav.language} />
 
               <div className="flex items-center justify-between rounded-lg border px-4 py-3 text-sm text-slate-700 dark:border-slate-800 dark:text-slate-200">
-                <span>{dictionary.common.toggleTheme}</span>
-                <ThemeToggle
-                  label={dictionary.common.toggleTheme}
-                  lightLabel={dictionary.common.lightMode}
-                  darkLabel={dictionary.common.darkMode}
-                />
+                <span>Dark mode</span>
+                <ThemeToggle />
               </div>
               {profile ? (
                 <>
@@ -302,19 +292,12 @@ export function HeaderClient({
                   </form>
                 </>
               ) : (
-                <div className="grid gap-2">
-                  <Button variant="gold" asChild className="justify-start">
-                    <Link href="/login" onClick={() => setMobileNavOpen(false)}>
-                      <LogIn className="h-4 w-4" />
-                      {dictionary.nav.login}
-                    </Link>
-                  </Button>
-                  <Button variant="outline" asChild className="justify-start">
-                    <Link href="/signup" onClick={() => setMobileNavOpen(false)}>
-                      {dictionary.forms.createAccount}
-                    </Link>
-                  </Button>
-                </div>
+                <Button variant="gold" asChild className="justify-start">
+                  <Link href="/login" onClick={() => setMobileNavOpen(false)}>
+                    <LogIn className="h-4 w-4" />
+                    {dictionary.nav.login}
+                  </Link>
+                </Button>
               )}
             </div>
           </DialogContent>

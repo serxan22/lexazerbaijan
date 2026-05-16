@@ -67,7 +67,7 @@ export function TermsMotionFrame({ children }: { children: ReactNode }) {
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.2, margin: "-8% 0px -8% 0px" }}
+      viewport={{ once: true, amount: 0.22, margin: "-8% 0px -8% 0px" }}
       variants={sectionVariants}
       className="relative isolate overflow-hidden"
     >
@@ -84,7 +84,7 @@ export function FeaturedMotionSection({ children }: { children: ReactNode }) {
     <motion.section
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.2, margin: "-8% 0px -8% 0px" }}
+      viewport={{ once: true, amount: 0.18, margin: "-8% 0px -8% 0px" }}
       variants={sectionVariants}
       className="section-shell relative isolate -mt-px overflow-hidden bg-[#040816] text-white"
     >

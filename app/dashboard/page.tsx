@@ -31,9 +31,9 @@ export default async function DashboardPage() {
   const totalComments = articles.reduce((sum, article) => sum + article.commentsCount, 0);
 
   return (
-    <div className="premium-page">
-      <section className="premium-hero">
-        <div className="premium-hero-inner flex flex-col justify-between gap-6 md:flex-row md:items-end">
+    <div className="bg-slate-50">
+      <section className="border-b bg-white py-10">
+        <div className="legal-container flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="flex items-start gap-4">
             <Avatar className="h-16 w-16">
               <AvatarImage src={profile.avatar_url ?? undefined} alt={profile.full_name ?? dictionary.dashboard.profile} />
@@ -41,7 +41,7 @@ export default async function DashboardPage() {
             </Avatar>
             <div>
               <p className="eyebrow">{dictionary.dashboard.title}</p>
-              <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950 dark:text-white">
+              <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950">
                 {profile.full_name ?? "Your profile"}
               </h1>
               <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
             <Button variant="outline" asChild>
               <Link href="/dashboard/bookmarks">
                 <Bookmark className="h-4 w-4" />
-                {dictionary.dashboard.savedArticles}
+                Saved Articles
               </Link>
             </Button>
 
@@ -83,7 +83,7 @@ export default async function DashboardPage() {
 
         <Card className="mt-6">
           <CardContent className="p-6">
-            <h2 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">{dictionary.dashboard.profile}</h2>
+            <h2 className="font-serif text-2xl font-semibold text-slate-950">{dictionary.dashboard.profile}</h2>
             <div className="mt-4 grid gap-4 text-sm text-slate-600 md:grid-cols-3">
               <p>
                 <span className="block font-medium text-slate-900">{dictionary.forms.username}</span>
@@ -104,7 +104,7 @@ export default async function DashboardPage() {
 
         <div className="mt-8">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-serif text-3xl font-semibold text-slate-950 dark:text-white">{dictionary.dashboard.submissions}</h2>
+            <h2 className="font-serif text-3xl font-semibold text-slate-950">{dictionary.dashboard.submissions}</h2>
           </div>
           <DashboardArticleList articles={articles} dictionary={dictionary} locale={locale} />
         </div>

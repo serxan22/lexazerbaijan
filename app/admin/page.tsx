@@ -30,27 +30,27 @@ export default async function AdminPage() {
   const [overview, categories] = await Promise.all([getAdminOverview(), getCategories()]);
 
   return (
-    <div className="premium-page">
-      <section className="premium-hero">
-        <div className="premium-hero-inner">
+    <div className="bg-slate-50">
+      <section className="border-b bg-white py-10">
+        <div className="legal-container">
           <p className="eyebrow">{dictionary.admin.eyebrow}</p>
-          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950 dark:text-white">{dictionary.admin.title}</h1>
-          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-300">
+          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.admin.title}</h1>
+          <p className="mt-4 max-w-2xl text-slate-600">
             {dictionary.admin.body}
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6">
             <Button variant="outline" asChild>
               <Link href="/admin/comments">
                 <MessageSquare className="h-4 w-4" />
-                {dictionary.admin.manageComments}
+                Manage Comments
               </Link>
             </Button>
 
             <Button variant="outline" asChild>
               <Link href="/admin/discussions">
                 <MessageSquare className="h-4 w-4" />
-                {dictionary.admin.manageDiscussions}
+                Manage Discussions
               </Link>
             </Button>
           </div>
@@ -67,7 +67,7 @@ export default async function AdminPage() {
         <Tabs defaultValue="pending" className="mt-8">
           <TabsList className="grid h-auto w-full grid-cols-2 md:inline-flex md:w-auto md:grid-cols-none">
             <TabsTrigger value="pending">{dictionary.admin.pendingArticles}</TabsTrigger>
-            <TabsTrigger value="all">{dictionary.admin.allArticles}</TabsTrigger>
+            <TabsTrigger value="all">All Articles</TabsTrigger>
             <TabsTrigger value="users">{dictionary.admin.users}</TabsTrigger>
             <TabsTrigger value="categories">{dictionary.admin.categories}</TabsTrigger>
             <TabsTrigger value="reports">{dictionary.admin.reports}</TabsTrigger>
@@ -126,7 +126,7 @@ export default async function AdminPage() {
           <TabsContent value="all" className="mt-6">
             <Card>
               <CardHeader>
-                <CardTitle>{dictionary.admin.allArticles}</CardTitle>
+                <CardTitle>All Articles</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-3">
                 {overview.allArticles.map((article) => (
@@ -147,7 +147,7 @@ export default async function AdminPage() {
                       <Button size="sm" variant="outline" asChild>
                         <Link href={`/articles/${article.slug}`}>
                           <Eye className="h-4 w-4" />
-                          {dictionary.common.view}
+                          View
                         </Link>
                       </Button>
 
@@ -170,7 +170,7 @@ export default async function AdminPage() {
                 ))}
 
                 {!overview.allArticles.length ? (
-                  <p className="text-sm text-slate-500">{dictionary.pages.noArticlesTitle}</p>
+                  <p className="text-sm text-slate-500">No articles yet.</p>
                 ) : null}
               </CardContent>
             </Card>

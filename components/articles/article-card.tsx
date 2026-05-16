@@ -26,9 +26,9 @@ export function ArticleCard({ article, featured = false, showStatus = false, dic
   const category = localizeCategory(article.category, dictionary);
 
   return (
-    <Card className="article-card group h-full overflow-hidden border-border/80 bg-card/90 transition duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-soft">
+    <Card className="group h-full overflow-hidden border-slate-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-soft">
       <Link href={`/articles/${article.slug}`} aria-label={article.title}>
-        <div className={featured ? "relative aspect-[1.65] overflow-hidden bg-slate-100 dark:bg-slate-900" : "relative aspect-[1.85] overflow-hidden bg-slate-100 dark:bg-slate-900"}>
+        <div className={featured ? "relative aspect-[1.65] overflow-hidden bg-slate-100" : "relative aspect-[1.85] overflow-hidden bg-slate-100"}>
           {article.coverImageUrl ? (
             <Image
               src={article.coverImageUrl}
@@ -38,11 +38,10 @@ export function ArticleCard({ article, featured = false, showStatus = false, dic
               className="object-cover transition duration-500 group-hover:scale-[1.03]"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#080D19,#1E2638_48%,#B8894A)] text-white">
-              <BookOpen className="h-10 w-10 opacity-75" />
+            <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#0B1220,#1D4ED8)] text-white">
+              <BookOpen className="h-10 w-10 opacity-80" />
             </div>
           )}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/26 via-transparent to-transparent opacity-70" />
         </div>
       </Link>
       <CardContent className="flex h-[calc(100%-1px)] flex-col p-5">
@@ -57,11 +56,11 @@ export function ArticleCard({ article, featured = false, showStatus = false, dic
         </div>
 
         <Link href={`/articles/${article.slug}`} className="mt-4 block">
-          <h3 className={featured ? "font-serif text-2xl font-semibold leading-tight text-slate-950 dark:text-white" : "font-serif text-xl font-semibold leading-tight text-slate-950 dark:text-white"}>
+          <h3 className={featured ? "font-serif text-2xl font-semibold leading-tight text-slate-950" : "font-serif text-xl font-semibold leading-tight text-slate-950"}>
             {article.title}
           </h3>
-          {article.subtitle ? <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{article.subtitle}</p> : null}
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{article.abstract}</p>
+          {article.subtitle ? <p className="mt-2 text-sm leading-6 text-slate-500">{article.subtitle}</p> : null}
+          <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{article.abstract}</p>
         </Link>
 
         <ArticleCardAiButton
@@ -72,18 +71,18 @@ export function ArticleCard({ article, featured = false, showStatus = false, dic
         />
 
         <div className="mt-auto pt-5">
-          <div className="flex items-center justify-between gap-4 border-t border-border/80 pt-4">
+          <div className="flex items-center justify-between gap-4 border-t pt-4">
             <Link href={`/authors/${article.author.username}`} className="flex min-w-0 items-center gap-3">
               <Avatar className="h-9 w-9">
                 <AvatarImage src={article.author.avatarUrl ?? undefined} alt={article.author.fullName} />
                 <AvatarFallback>{initials(article.author.fullName)}</AvatarFallback>
               </Avatar>
               <span className="min-w-0">
-                <span className="block truncate text-sm font-medium text-slate-900 dark:text-slate-100">{article.author.fullName}</span>
-                <span className="block text-xs text-slate-500 dark:text-slate-400">{formatDate(article.publishedAt ?? article.createdAt, undefined, locale)}</span>
+                <span className="block truncate text-sm font-medium text-slate-900">{article.author.fullName}</span>
+                <span className="block text-xs text-slate-500">{formatDate(article.publishedAt ?? article.createdAt, undefined, locale)}</span>
               </span>
             </Link>
-            <div className="flex shrink-0 items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex shrink-0 items-center gap-3 text-xs text-slate-500">
               <span className="inline-flex items-center gap-1" title={dictionary.common.readingTime}>
                 <Timer className="h-3.5 w-3.5" />
                 {article.readingTime} {dictionary.common.minuteShort}

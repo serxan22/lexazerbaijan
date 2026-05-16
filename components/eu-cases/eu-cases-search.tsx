@@ -6,7 +6,6 @@ import { ArrowUpRight, Loader2, Search, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { Dictionary } from "@/lib/i18n";
 
 const euCases = [
   {
@@ -91,7 +90,7 @@ const euCases = [
   }
 ];
 
-export function EuCasesSearch({ dictionary }: { dictionary: Dictionary }) {
+export function EuCasesSearch() {
   const [query, setQuery] = useState("");
   const [summaries, setSummaries] = useState<Record<string, string>>({});
   const [summarizingId, setSummarizingId] = useState<string | null>(null);
@@ -156,32 +155,32 @@ export function EuCasesSearch({ dictionary }: { dictionary: Dictionary }) {
 
   return (
     <div className="space-y-6">
-      <div className="premium-panel p-4">
+      <div className="rounded-2xl border bg-white p-4 shadow-sm">
         <div className="flex flex-col gap-3 md:flex-row">
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder={dictionary.pages.euCasePlaceholder}
+            placeholder="Search EU cases, e.g. Costa, supremacy, Commission v Italy..."
             className="h-12"
           />
 
           <Button type="button" variant="gold" className="h-12 md:w-40">
             <Search className="h-4 w-4" />
-            {dictionary.common.search}
+            Search
           </Button>
         </div>
       </div>
 
       <div className="space-y-4">
         {results.map((item) => (
-          <article key={item.citation} className="premium-card p-5">
+          <article key={item.citation} className="rounded-2xl border bg-white p-5 shadow-sm">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
                   {item.topic}
                 </p>
 
-                <h2 className="mt-2 font-serif text-2xl font-semibold text-slate-950 dark:text-white">
+                <h2 className="mt-2 font-serif text-2xl font-semibold text-slate-950">
                   {item.title}
                 </h2>
 
@@ -203,20 +202,20 @@ export function EuCasesSearch({ dictionary }: { dictionary: Dictionary }) {
                   ) : (
                     <Sparkles className="h-4 w-4" />
                   )}
-                  {dictionary.common.summarizeCase}
+                  Summarize case
                 </Button>
 
                 <Button variant="outline" asChild>
                   <Link href={item.url} target="_blank" rel="noreferrer">
-                    {dictionary.common.officialSource}
+                    Official source
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
             </div>
             {summaries[item.citation] ? (
-              <div className="mt-4 whitespace-pre-line rounded-xl border bg-background/70 p-4 text-sm leading-7 text-slate-700 dark:text-slate-200">
-                <p className="mb-2 font-semibold text-slate-950 dark:text-white">{dictionary.pages.caseSummaryTitle}</p>
+              <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+                <p className="mb-2 font-semibold text-slate-950">LexAI case summary</p>
                 {summaries[item.citation]}
               </div>
             ) : null}
@@ -224,8 +223,8 @@ export function EuCasesSearch({ dictionary }: { dictionary: Dictionary }) {
         ))}
 
         {results.length === 0 ? (
-          <div className="premium-panel p-6 text-center text-sm text-slate-500 dark:text-slate-300">
-            {dictionary.pages.noEuCases}
+          <div className="rounded-2xl border bg-white p-6 text-center text-sm text-slate-500">
+            No EU cases found in the current selected database.
           </div>
         ) : null}
       </div>

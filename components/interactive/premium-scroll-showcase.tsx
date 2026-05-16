@@ -122,40 +122,19 @@ const workflow = [
 
 export function PremiumScrollShowcase() {
   return (
-    <section className="relative overflow-hidden bg-[#040816] text-white">
+    <section className="relative isolate overflow-hidden bg-[#040816] text-white">
       <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_10%,rgba(212,163,90,0.15),transparent_25%),radial-gradient(circle_at_78%_72%,rgba(70,95,200,0.13),transparent_28%),linear-gradient(180deg,#040816_0%,#071126_48%,#040816_100%)]" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:64px_64px] opacity-20" />
 
-      <section className="relative overflow-hidden relative min-h-[calc(100vh-4.5rem)] overflow-visible bg-[#040816] pb-40">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(217,173,85,0.10),transparent_34%),linear-gradient(180deg,rgba(2,8,23,0.10),rgba(2,8,23,0.88))]" />
+      <section className="relative min-h-[calc(100vh-4.5rem)] overflow-hidden bg-[#040816] pb-32">
         <div
-          className="absolute inset-x-0 top-[-120px] mx-auto h-[780px] max-w-[1500px] bg-[url('/justice-hero-bg.svg')] bg-contain bg-top bg-no-repeat opacity-45 mix-blend-screen"
-        />
-        <div className="absolute inset-x-0 bottom-[-1px] h-52 bg-gradient-to-b from-transparent via-[#020817]/70 to-[#020817]" />
-      </div>
-
-        <div
-          className="absolute inset-0 -z-20 bg-cover bg-center opacity-72 blur-[1.5px] scale-[1.04]"
+          className="absolute inset-0 -z-20 bg-cover bg-center opacity-75 blur-[1.5px] scale-[1.04]"
           style={{
             backgroundImage: "url('/brand/lady-justice-bg.svg')",
           }}
         />
-        <div
-          className="pointer-events-none absolute right-[-6%] top-[6%] bottom-[-140px] -z-10 w-[44rem] opacity-[0.18] blur-[0.6px] md:w-[54rem] lg:w-[62rem]"
-          style={{
-            backgroundImage: "url('/brand/lady-justice-ghost.svg')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "contain",
-          }}
-        />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_42%,rgba(212,163,90,0.10),transparent_32%),linear-gradient(180deg,rgba(4,8,22,0.50),rgba(4,8,22,0.88))]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-0 h-80 bg-gradient-to-b from-transparent via-[#040816]/90 to-[#040816]" />
-        <div className="pointer-events-none absolute left-1/2 bottom-[-120px] z-0 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/10 blur-3xl" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-0 h-64 bg-gradient-to-b from-transparent via-[#040816]/92 to-[#040816]" />
 
         <div className="legal-container flex min-h-[calc(100vh-4.5rem)] items-center justify-center py-24 text-center">
           <motion.div
@@ -167,9 +146,7 @@ export function PremiumScrollShowcase() {
             <motion.div
               variants={item}
               className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-[1.6rem] border border-white/15 bg-white/[0.08] shadow-2xl shadow-black/40 backdrop-blur-2xl"
-            
-              whileHover={{ y: -8, scale: 1.015 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}>
+            >
               <Scale className="h-10 w-10 text-[#D4A35A]" />
             </motion.div>
 
@@ -217,14 +194,14 @@ export function PremiumScrollShowcase() {
         </div>
       </section>
 
-      <section className="legal-container relative -mt-40 flex min-h-screen items-center justify-center pb-24 pt-64">
+      <section className="legal-container relative -mt-32 flex min-h-screen items-center justify-center pb-24 pt-56">
         <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-72 bg-gradient-to-b from-[#040816] via-[#040816]/96 to-transparent" />
         <div className="pointer-events-none absolute left-1/2 top-20 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/8 blur-3xl" />
         <motion.div
           variants={reveal}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.22 }}
+          viewport={{ once: true, amount: 0.25 }}
           className="w-full"
         >
           <motion.div variants={item} className="mx-auto max-w-3xl text-center">
@@ -290,7 +267,7 @@ export function PremiumScrollShowcase() {
           variants={reveal}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.22 }}
+          viewport={{ once: true, amount: 0.22 }}
           className="w-full"
         >
           <motion.div variants={item} className="mx-auto max-w-3xl text-center">
@@ -314,9 +291,7 @@ export function PremiumScrollShowcase() {
                   key={step.step}
                   variants={card}
                   className="group relative grid gap-5 rounded-[2rem] border border-white/12 bg-white/[0.075] p-6 shadow-2xl shadow-black/30 backdrop-blur-2xl md:grid-cols-[0.22fr_0.78fr]"
-                
-              whileHover={{ y: -8, scale: 1.015 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}>
+                >
                   <div className="flex items-center gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#D4A35A]">
                       <Icon className="h-5 w-5" />
@@ -344,20 +319,16 @@ export function PremiumScrollShowcase() {
           variants={reveal}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.22 }}
+          viewport={{ once: true, amount: 0.25 }}
           className="relative mx-auto w-full max-w-5xl overflow-hidden rounded-[2.8rem] border border-white/12 bg-white/[0.10] p-8 text-center shadow-2xl shadow-black/50 backdrop-blur-2xl md:p-14"
-        
-              whileHover={{ y: -8, scale: 1.015 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}>
+        >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.14),transparent_35%)]" />
 
           <div className="relative">
             <motion.div
               variants={item}
               className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#D4A35A]"
-            
-              whileHover={{ y: -8, scale: 1.015 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}>
+            >
               <ShieldCheck className="h-7 w-7" />
             </motion.div>
 

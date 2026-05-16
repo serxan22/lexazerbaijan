@@ -2,7 +2,6 @@
 
 import { useFormState } from "react-dom";
 import { useRef, useState } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 import { submitArticleAction, updateArticleAction } from "@/lib/actions/articles";
 import { updateArticleAdminAction } from "@/lib/actions/admin";
@@ -98,35 +97,6 @@ export function ArticleForm({
   return (
     <form ref={formRef} action={action} className="grid gap-6 lg:grid-cols-[1fr_360px]">
       {defaults?.id ? <input type="hidden" name="id" value={defaults.id} /> : null}
-      <div className="lg:col-span-2">
-        <div className="premium-panel overflow-hidden p-5">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="eyebrow">{dictionary.forms.submissionWorkflow}</p>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
-                {dictionary.forms.articleManuscriptDescription}
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-300">
-              {[
-                dictionary.forms.workflowIdea,
-                dictionary.forms.workflowDraft,
-                dictionary.forms.workflowSources,
-                dictionary.forms.workflowSubmit,
-                dictionary.forms.workflowReview
-              ].map((step, index, steps) => (
-                <span key={step} className="inline-flex items-center gap-2">
-                  <span className="inline-flex h-8 items-center gap-2 rounded-full border border-gold/25 bg-gold/10 px-3 text-gold">
-                    <CheckCircle2 className="h-3.5 w-3.5" />
-                    {step}
-                  </span>
-                  {index < steps.length - 1 ? <ArrowRight className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" /> : null}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="space-y-6">
         <Card>
           <CardHeader>
@@ -225,7 +195,7 @@ export function ArticleForm({
                   <button
                     type="button"
                     onClick={() => openConsent("pending_review")}
-                    className="inline-flex h-11 items-center justify-center rounded-md bg-gold px-6 text-sm font-semibold text-slate-950 transition hover:bg-[#D0A05E]"
+                    className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90"
                   >
                     {dictionary.forms.submitForReview}
                   </button>
@@ -233,7 +203,7 @@ export function ArticleForm({
                   <button
                     type="button"
                     onClick={() => openConsent("draft")}
-                    className="inline-flex h-11 items-center justify-center rounded-md border border-input px-6 text-sm font-semibold transition hover:bg-gold/10"
+                    className="inline-flex h-11 items-center justify-center rounded-md border px-6 text-sm font-medium transition hover:bg-slate-50"
                   >
                     {dictionary.common.saveDraft}
                   </button>
@@ -297,7 +267,7 @@ export function ArticleForm({
                 <span className="font-semibold">{dictionary.common.submitting}</span>
               </div>
               <p className="mt-2 text-xs">
-                {dictionary.common.submitting}
+                Your article is being submitted. Please wait and do not click again.
               </p>
             </div>
           ) : null}
@@ -307,7 +277,7 @@ export function ArticleForm({
               type="button"
               onClick={handleConfirmedSubmit}
               disabled={!consentChecked || consentSubmitting || formSubmitting}
-              className="inline-flex h-11 items-center justify-center rounded-md bg-gold px-6 text-sm font-semibold text-slate-950 transition hover:bg-[#D0A05E] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {consentSubmitting || formSubmitting ? dictionary.common.submitting : dictionary.forms.acceptAndSubmit}
             </button>

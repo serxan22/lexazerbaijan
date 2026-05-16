@@ -22,7 +22,7 @@ export function StatCard({
           <p className="text-sm text-slate-500">{label}</p>
           <p className="mt-2 text-2xl font-semibold text-slate-950">{formatNumber(value, locale)}</p>
         </div>
-        <div className="flex h-11 w-11 items-center justify-center rounded-md border border-gold/25 bg-gold/10 text-gold">
+        <div className="flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-blue-800">
           <Icon className="h-5 w-5" />
         </div>
       </CardContent>
