@@ -1050,17 +1050,3 @@ header [data-state="open"] {
   z-index: 99999 !important;
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-.newsletter-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-}

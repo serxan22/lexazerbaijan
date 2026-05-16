@@ -10,6 +10,3 @@ vercel
 .DS_Store
 .env.local
 lex.env.local.md
-
-# local homepage backups
-backups/*.tar.gz
