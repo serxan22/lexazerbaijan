@@ -151,10 +151,24 @@ export function CinematicHomepage() {
           </div>
         </section>
 
-        <section className="px-6 py-20">
+        <section className="premium-panel px-6 py-20">
+          <div className="mb-10 overflow-hidden border-y border-white/10 py-4">
+            <div className="flex w-max animate-[marquee_24s_linear_infinite] gap-10 text-sm uppercase tracking-[0.35em] text-white/35">
+              <span>Latest legal ideas</span>
+              <span>Case analysis</span>
+              <span>Legal discussions</span>
+              <span>LexAI research</span>
+              <span>Today’s legal terms</span>
+              <span>Latest legal ideas</span>
+              <span>Case analysis</span>
+              <span>Legal discussions</span>
+              <span>LexAI research</span>
+              <span>Today’s legal terms</span>
+            </div>
+          </div>
           <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-4">
             {pillars.map((item, index) => (
-              <motion.div key={item.title} whileHover={{ y: -8 }} className="premium-panel rounded-[2rem] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/30 backdrop-blur-2xl">
+              <motion.div key={item.title} whileHover={{ y: -8, scale: 1.015 }} className="premium-panel group rounded-[2rem] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/30 backdrop-blur-xl transition duration-300 hover:border-white/30 hover:shadow-[0_0_45px_rgba(255,255,255,0.08)]">
                 <div className="mb-8 text-sm text-white/35">0{index + 1}</div>
                 <h3 className="text-xl font-semibold text-white">{item.title}</h3>
                 <p className="mt-4 text-sm italic leading-6 text-white/45">{item.quote}</p>
@@ -195,12 +209,39 @@ export function CinematicHomepage() {
                 <motion.div
                   key={item.term}
                   whileHover={{ y: -7 }}
-                  className="premium-panel rounded-[1.8rem] border border-white/10 bg-black/25 p-6"
+                  className="premium-panel group rounded-[1.8rem] border border-white/10 bg-black/25 p-6 transition duration-300 hover:border-white/30 hover:shadow-[0_0_35px_rgba(255,255,255,0.08)]"
                 >
                   <h3 className="text-2xl font-semibold text-white">{item.term}</h3>
                   <p className="mt-4 text-sm leading-6 text-white/55">{item.meaning}</p>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="premium-panel px-6 pb-24">
+          <div className="sticky top-24 mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.055] p-8 backdrop-blur-xl md:p-14">
+            <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
+              <div>
+                <p className="text-sm uppercase tracking-[0.35em] text-white/35">Pinned research gateway</p>
+                <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                  Scroll through the legal ecosystem.
+                </h2>
+              </div>
+              <div className="flex gap-4 overflow-x-auto pb-3">
+                {["Articles", "Cases", "Discussions", "LexAI"].map((item) => (
+                  <motion.div
+                    key={item}
+                    whileHover={{ y: -6 }}
+                    className="min-w-[240px] rounded-[1.8rem] border border-white/10 bg-black/25 p-6"
+                  >
+                    <div className="text-2xl font-semibold">{item}</div>
+                    <p className="mt-4 text-sm leading-6 text-white/55">
+                      A focused entry point for legal research, writing and community discussion.
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
