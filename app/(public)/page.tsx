@@ -2,8 +2,6 @@ import Link from "next/link";
 import { GraduationCap, Library, ShieldCheck, Sparkles } from "lucide-react";
 
 import { ArticleCard } from "@/components/articles/article-card";
-import { ArticleCardsAnimation } from "@/components/animations/article-cards-animation";
-import { ArticleCardHover } from "@/components/animations/article-card-hover";
 import { AuthorCard } from "@/components/articles/author-card";
 import { CategoryCard } from "@/components/articles/category-card";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
@@ -14,6 +12,7 @@ import { siteConfig } from "@/config/site";
 import { getArticles, getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { PremiumScrollShowcase } from "@/components/interactive/premium-scroll-showcase";
+import { FeaturedCardMotion, FeaturedHeaderMotion, FeaturedMotionSection, TermsMotionFrame } from "@/components/interactive/home-motion";
 
 const reasonIcons = [GraduationCap, ShieldCheck, Library];
 
@@ -33,29 +32,35 @@ export default async function HomePage() {
     <>
       <PremiumScrollShowcase />
 
-      <DailyLegalTerms
-        dictionary={dictionary}
-        locale={locale}
-      />
+      <TermsMotionFrame>
+        <DailyLegalTerms
+          dictionary={dictionary}
+          locale={locale}
+        />
+      </TermsMotionFrame>
 
-      <section className="section-shell bg-slate-50">
+      <FeaturedMotionSection>
         <div className="legal-container">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <div>
-              <p className="eyebrow">{dictionary.home.featuredEyebrow}</p>
-              <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">{dictionary.home.featuredTitle}</h2>
+          <FeaturedHeaderMotion>
+            <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+              <div>
+                <p className="eyebrow">{dictionary.home.featuredEyebrow}</p>
+                <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">{dictionary.home.featuredTitle}</h2>
+              </div>
+              <Button variant="outline" asChild>
+                <Link href="/articles">{dictionary.nav.exploreArticles}</Link>
+              </Button>
             </div>
-            <Button variant="outline" asChild>
-              <Link href="/articles">{dictionary.nav.exploreArticles}</Link>
-            </Button>
-          </div>
+          </FeaturedHeaderMotion>
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
             {featured.map((article) => (
-              <ArticleCard key={article.id} article={article} featured dictionary={dictionary} locale={locale} />
+              <FeaturedCardMotion key={article.id}>
+                <ArticleCard article={article} featured dictionary={dictionary} locale={locale} />
+              </FeaturedCardMotion>
             ))}
           </div>
         </div>
-      </section>
+      </FeaturedMotionSection>
 
       <section className="section-shell bg-white">
         <div className="legal-container">
