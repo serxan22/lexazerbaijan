@@ -1,5 +1,6 @@
 "use client";
 
+import { FloatingHomepageDock } from "@/components/home/floating-homepage-dock";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
