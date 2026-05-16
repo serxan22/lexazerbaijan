@@ -10,7 +10,7 @@ const sectionVariants: Variants = {
     opacity: 0,
     y: 58,
     scale: 0.985,
-    filter: "blur(14px)",
+    filter: "blur(6px)",
   },
   visible: {
     opacity: 1,
@@ -29,7 +29,7 @@ const softSectionVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 42,
-    filter: "blur(10px)",
+    filter: "blur(4px)",
   },
   visible: {
     opacity: 1,
@@ -48,7 +48,7 @@ const cardVariants: Variants = {
     opacity: 0,
     y: 38,
     scale: 0.965,
-    filter: "blur(10px)",
+    filter: "blur(4px)",
   },
   visible: {
     opacity: 1,
@@ -67,7 +67,7 @@ export function TermsMotionFrame({ children }: { children: ReactNode }) {
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.22, margin: "-8% 0px -8% 0px" }}
+      viewport={{ once: true, amount: 0.22, margin: "-8% 0px -8% 0px" }}
       variants={sectionVariants}
       className="relative isolate overflow-hidden"
     >
@@ -84,7 +84,7 @@ export function FeaturedMotionSection({ children }: { children: ReactNode }) {
     <motion.section
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.18, margin: "-8% 0px -8% 0px" }}
+      viewport={{ once: true, amount: 0.18, margin: "-8% 0px -8% 0px" }}
       variants={sectionVariants}
       className="section-shell relative isolate -mt-px overflow-hidden bg-[#040816] text-white"
     >

@@ -23,7 +23,7 @@ const reveal: Variants = {
     opacity: 0,
     y: 42,
     scale: 0.98,
-    filter: "blur(10px)",
+    filter: "blur(4px)",
   },
   visible: {
     opacity: 1,
@@ -42,7 +42,7 @@ const item: Variants = {
   hidden: {
     opacity: 0,
     y: 24,
-    filter: "blur(8px)",
+    filter: "blur(3px)",
   },
   visible: {
     opacity: 1,
@@ -126,7 +126,7 @@ export function PremiumScrollShowcase() {
       <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_10%,rgba(212,163,90,0.15),transparent_25%),radial-gradient(circle_at_78%_72%,rgba(70,95,200,0.13),transparent_28%),linear-gradient(180deg,#040816_0%,#071126_48%,#040816_100%)]" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:64px_64px] opacity-20" />
 
-      <section className="relative min-h-[calc(100vh-4.5rem)] overflow-hidden">
+      <section className="relative min-h-[calc(100vh-4.5rem)] overflow-hidden bg-[#040816] pb-32">
         <div
           className="absolute inset-0 -z-20 bg-cover bg-center opacity-75 blur-[1.5px] scale-[1.04]"
           style={{
@@ -134,6 +134,7 @@ export function PremiumScrollShowcase() {
           }}
         />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_42%,rgba(212,163,90,0.10),transparent_32%),linear-gradient(180deg,rgba(4,8,22,0.50),rgba(4,8,22,0.88))]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-0 h-64 bg-gradient-to-b from-transparent via-[#040816]/92 to-[#040816]" />
 
         <div className="legal-container flex min-h-[calc(100vh-4.5rem)] items-center justify-center py-24 text-center">
           <motion.div
@@ -193,12 +194,14 @@ export function PremiumScrollShowcase() {
         </div>
       </section>
 
-      <section className="legal-container flex min-h-screen items-center justify-center py-24">
+      <section className="legal-container relative -mt-32 flex min-h-screen items-center justify-center pb-24 pt-56">
+        <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-72 bg-gradient-to-b from-[#040816] via-[#040816]/96 to-transparent" />
+        <div className="pointer-events-none absolute left-1/2 top-20 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/8 blur-3xl" />
         <motion.div
           variants={reveal}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.25 }}
           className="w-full"
         >
           <motion.div variants={item} className="mx-auto max-w-3xl text-center">
@@ -264,7 +267,7 @@ export function PremiumScrollShowcase() {
           variants={reveal}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.22 }}
+          viewport={{ once: true, amount: 0.22 }}
           className="w-full"
         >
           <motion.div variants={item} className="mx-auto max-w-3xl text-center">
@@ -316,11 +319,10 @@ export function PremiumScrollShowcase() {
           variants={reveal}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.25 }}
           className="relative mx-auto w-full max-w-5xl overflow-hidden rounded-[2.8rem] border border-white/12 bg-white/[0.10] p-8 text-center shadow-2xl shadow-black/50 backdrop-blur-2xl md:p-14"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.14),transparent_35%)]" />
-          <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
           <div className="relative">
             <motion.div

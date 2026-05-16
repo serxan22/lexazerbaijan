@@ -38,7 +38,7 @@ const sectionVariants: Variants = {
     opacity: 0,
     y: 72,
     scale: 0.985,
-    filter: "blur(16px)",
+    filter: "blur(6px)",
   },
   visible: {
     opacity: 1,
@@ -57,7 +57,7 @@ const itemVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 32,
-    filter: "blur(10px)",
+    filter: "blur(4px)",
   },
   visible: {
     opacity: 1,
@@ -76,7 +76,7 @@ const cardVariants: Variants = {
     y: 44,
     scale: 0.955,
     rotateX: 8,
-    filter: "blur(12px)",
+    filter: "blur(5px)",
   },
   visible: (index: number) => ({
     opacity: 1,
@@ -123,7 +123,7 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.22, margin: "-8% 0px -8% 0px" }}
+        viewport={{ once: true, amount: 0.22, margin: "-8% 0px -8% 0px" }}
         className="legal-container relative z-10"
       >
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
