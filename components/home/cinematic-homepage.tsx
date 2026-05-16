@@ -10,11 +10,48 @@ import { LegalOrbitCanvas } from "@/components/interactive/legal-orbit-canvas";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const cards = [
-  "Legal articles",
-  "Case summaries",
-  "AI legal assistant",
-  "Multilingual discussion",
+const pillars = [
+  {
+    title: "Publish legal ideas",
+    quote: "A legal platform becomes powerful when students, researchers and lawyers can be heard.",
+    text: "Share articles, legal opinions and research notes in a professional space built for Azerbaijani legal thought.",
+  },
+  {
+    title: "Discover cases",
+    quote: "Cases are not just judgments; they are the language of legal reasoning.",
+    text: "Explore court decisions, summaries and comparative legal materials with a cleaner research experience.",
+  },
+  {
+    title: "Discuss legal gaps",
+    quote: "Law develops when people question unclear rules instead of silently accepting them.",
+    text: "Use discussions to raise legal problems, interpretations and reform ideas with the community.",
+  },
+  {
+    title: "Ask LexAI",
+    quote: "AI should not replace legal reasoning; it should make research faster and clearer.",
+    text: "Get structured explanations, summaries and starting points for legal research through LexAI.",
+  },
+];
+
+const sections = [
+  {
+    kicker: "Purpose",
+    title: "LexAzerbaijan is built to become a modern legal knowledge hub for Azerbaijan.",
+    text: "The aim is to connect legal articles, case analysis, academic discussion and AI-assisted research in one premium platform.",
+    quote: "“Legal knowledge should not stay hidden in private notes. It should be searchable, readable and useful.”",
+  },
+  {
+    kicker: "Community",
+    title: "A space for students, lawyers, researchers and young legal writers.",
+    text: "Users can publish their legal views, discover other authors and build a visible legal profile through meaningful contributions.",
+    quote: "“A strong legal community begins when people start sharing serious ideas publicly.”",
+  },
+  {
+    kicker: "Research",
+    title: "From articles to cases, the homepage should feel like a legal research gateway.",
+    text: "The design keeps the animated premium feeling, but the content now explains what LexAzerbaijan actually does.",
+    quote: "“Good design brings attention; good content gives that attention a reason to stay.”",
+  },
 ];
 
 export function CinematicHomepage() {
@@ -22,10 +59,10 @@ export function CinematicHomepage() {
 
   useEffect(() => {
     animate(".anime-word", {
-      y: [42, 0],
+      y: [34, 0],
       opacity: [0, 1],
-      delay: stagger(90),
-      duration: 950,
+      delay: stagger(70),
+      duration: 800,
       easing: "outExpo",
     });
 
@@ -33,19 +70,17 @@ export function CinematicHomepage() {
       gsap.utils.toArray<HTMLElement>(".premium-panel").forEach((panel) => {
         gsap.fromTo(
           panel,
-          { opacity: 0, y: 90, scale: 0.96, filter: "blur(14px)" },
+          { opacity: 0, y: 56, scale: 0.985 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            filter: "blur(0px)",
-            duration: 1.1,
+            duration: 0.85,
             ease: "power3.out",
             scrollTrigger: {
               trigger: panel,
-              start: "top 82%",
-              end: "bottom 55%",
-              scrub: 0.7,
+              start: "top 88%",
+              once: true,
             },
           }
         );
@@ -63,11 +98,11 @@ export function CinematicHomepage() {
 
           <div className="relative z-10 mx-auto max-w-6xl">
             <div className="mb-5 inline-flex rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm text-white/70 backdrop-blur-xl">
-              Premium legal knowledge platform
+              Legal articles • Case summaries • Discussions • LexAI
             </div>
 
-            <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.06em] text-white md:text-7xl">
-              {["A", "cinematic", "legal", "platform", "for", "modern", "lawyers."].map((word) => (
+            <h1 className="max-w-5xl text-5xl font-semibold tracking-[-0.06em] text-white md:text-7xl">
+              {["A", "premium", "legal", "platform", "for", "Azerbaijan’s", "new", "legal", "generation."].map((word) => (
                 <span key={word} className="anime-word mr-3 inline-block opacity-0">
                   {word}
                 </span>
@@ -75,57 +110,50 @@ export function CinematicHomepage() {
             </h1>
 
             <p className="mt-7 max-w-2xl text-lg leading-8 text-white/62">
-              LexAzerbaijan brings legal articles, discussions, cases and AI assistance into one
-              elegant research experience.
+              LexAzerbaijan brings legal writing, case analysis, public discussion and AI-assisted research into one modern legal ecosystem.
+            </p>
+
+            <p className="mt-6 max-w-2xl border-l border-white/20 pl-5 text-base italic leading-7 text-white/55">
+              “Law becomes stronger when knowledge is shared, challenged and developed together.”
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <motion.a
-                whileHover={{ y: -3, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="/articles"
-                className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black"
-              >
+              <motion.a whileHover={{ y: -3 }} href="/articles" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">
                 Explore articles
               </motion.a>
-
-              <motion.a
-                whileHover={{ y: -3, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="/lexai"
-                className="rounded-full border border-white/15 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur-xl"
-              >
+              <motion.a whileHover={{ y: -3 }} href="/lexai" className="rounded-full border border-white/15 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur-xl">
                 Ask LexAI
               </motion.a>
             </div>
           </div>
         </section>
 
-        <section className="px-6 py-24">
+        <section className="px-6 py-20">
           <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-4">
-            {cards.map((card, index) => (
-              <motion.div
-                key={card}
-                whileHover={{ y: -8, scale: 1.025 }}
-                className="premium-panel rounded-[2rem] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/40 backdrop-blur-2xl"
-              >
-                <div className="mb-10 text-sm text-white/35">0{index + 1}</div>
-                <h3 className="text-xl font-semibold text-white">{card}</h3>
-                <p className="mt-4 text-sm leading-6 text-white/55">
-                  Smooth motion, clean hierarchy and premium legal-tech feeling.
-                </p>
+            {pillars.map((item, index) => (
+              <motion.div key={item.title} whileHover={{ y: -8 }} className="premium-panel rounded-[2rem] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/30 backdrop-blur-2xl">
+                <div className="mb-8 text-sm text-white/35">0{index + 1}</div>
+                <h3 className="text-xl font-semibold text-white">{item.title}</h3>
+                <p className="mt-4 text-sm italic leading-6 text-white/45">{item.quote}</p>
+                <p className="mt-4 text-sm leading-6 text-white/58">{item.text}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        <section className="px-6 pb-28">
-          <div className="premium-panel mx-auto max-w-6xl rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-8 backdrop-blur-2xl md:p-14">
-            <p className="text-sm uppercase tracking-[0.35em] text-white/35">Next generation</p>
-            <h2 className="mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-              Scroll-driven legal experience with Anime.js, GSAP, Framer Motion, Lenis and Three.js.
-            </h2>
-          </div>
+        <section className="space-y-8 px-6 pb-28">
+          {sections.map((section) => (
+            <div key={section.title} className="premium-panel mx-auto max-w-6xl rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-8 backdrop-blur-2xl md:p-14">
+              <p className="text-sm uppercase tracking-[0.35em] text-white/35">{section.kicker}</p>
+              <h2 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                {section.title}
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-white/58">{section.text}</p>
+              <p className="mt-7 max-w-3xl border-l border-white/20 pl-5 text-base italic leading-7 text-white/48">
+                {section.quote}
+              </p>
+            </div>
+          ))}
         </section>
       </main>
     </PremiumMotionShell>
