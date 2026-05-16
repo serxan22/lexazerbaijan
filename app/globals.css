@@ -1067,3 +1067,20 @@ header [data-state="open"] {
     transition: none !important;
   }
 }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.premium-panel {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-panel {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -246,6 +246,33 @@ export function CinematicHomepage() {
           </div>
         </section>
 
+        <section className="premium-panel px-6 pb-24">
+          <div className="sticky top-24 mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.055] p-8 backdrop-blur-xl md:p-14">
+            <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
+              <div>
+                <p className="text-sm uppercase tracking-[0.35em] text-white/35">Pinned research gateway</p>
+                <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                  Scroll through the legal ecosystem.
+                </h2>
+              </div>
+              <div className="flex gap-4 overflow-x-auto pb-3">
+                {["Articles", "Cases", "Discussions", "LexAI"].map((item) => (
+                  <motion.div
+                    key={item}
+                    whileHover={{ y: -6 }}
+                    className="min-w-[240px] rounded-[1.8rem] border border-white/10 bg-black/25 p-6"
+                  >
+                    <div className="text-2xl font-semibold">{item}</div>
+                    <p className="mt-4 text-sm leading-6 text-white/55">
+                      A focused entry point for legal research, writing and community discussion.
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="space-y-8 px-6 pb-28">
           {sections.map((section) => (
             <div key={section.title} className="premium-panel mx-auto max-w-6xl rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-8 backdrop-blur-2xl md:p-14">
