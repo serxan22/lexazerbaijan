@@ -1,5 +1,5 @@
-import { CinematicHomepage } from "@/components/home/cinematic-homepage";
+import { FromAnotherLegalHomepage } from "@/components/home/fromanother-legal-homepage";
 
 export default function HomePage() {
-  return <CinematicHomepage />;
+  return <FromAnotherLegalHomepage />;
 }
