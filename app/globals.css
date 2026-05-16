@@ -61,18 +61,18 @@
   body {
     @apply min-h-screen bg-background text-foreground antialiased;
     background-image:
-      linear-gradient(115deg, rgba(184, 137, 74, 0.08), transparent 24rem),
+      linear-gradient(115deg, rgba(37, 99, 235, 0.08), transparent 24rem),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.52), transparent 28rem);
   }
 
   .dark body {
     background-image:
-      linear-gradient(130deg, rgba(184, 137, 74, 0.10), transparent 30rem),
+      linear-gradient(130deg, rgba(37, 99, 235, 0.10), transparent 30rem),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.04), transparent 24rem);
   }
 
   ::selection {
-    background: rgba(184, 137, 74, 0.28);
+    background: rgba(37, 99, 235, 0.28);
   }
 
   h1,
@@ -142,8 +142,8 @@
     inset: 0;
     pointer-events: none;
     background:
-      linear-gradient(rgba(184, 137, 74, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(184, 137, 74, 0.08) 1px, transparent 1px);
+      linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
     background-size: 54px 54px;
     mask-image: linear-gradient(to bottom, black, transparent 78%);
     opacity: 0.48;
@@ -155,7 +155,7 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse at 20% 10%, rgba(184, 137, 74, 0.14), transparent 36%),
+      radial-gradient(ellipse at 20% 10%, rgba(37, 99, 235, 0.14), transparent 36%),
       radial-gradient(ellipse at 80% 0%, rgba(11, 18, 32, 0.10), transparent 32%);
   }
 
@@ -255,7 +255,7 @@
 
 .ProseMirror blockquote {
   margin: 1rem 0;
-  border-left: 4px solid #b8894a;
+  border-left: 4px solid #2563eb;
   padding-left: 1rem;
   color: #475569;
 }
@@ -307,7 +307,7 @@
   height: 2px;
   width: 100%;
   transform-origin: left;
-  background: linear-gradient(90deg, #b8894a, #f2d59a, #ffffff);
+  background: linear-gradient(90deg, #2563eb, #93c5fd, #ffffff);
 }
 
 #route-loading-bar {

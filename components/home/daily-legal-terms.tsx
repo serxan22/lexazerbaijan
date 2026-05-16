@@ -117,7 +117,7 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
       <div className="pointer-events-none absolute inset-x-0 -top-1 z-0 h-40 bg-gradient-to-b from-[#040816] via-[#040816]/95 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-40 bg-gradient-to-t from-[#040816] via-[#040816]/88 to-transparent" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:58px_58px] opacity-20" />
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#60A5FA]/10 blur-3xl" />
 
       <motion.div
         variants={sectionVariants}
@@ -129,7 +129,7 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <motion.div variants={itemVariants}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.07] px-4 py-2 text-sm text-white/68 backdrop-blur-xl">
-              <Sparkles className="h-4 w-4 text-[#D4A35A]" />
+              <Sparkles className="h-4 w-4 text-[#60A5FA]" />
               {eyebrow}
             </div>
 
@@ -147,7 +147,7 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
             className="rounded-[2rem] border border-white/12 bg-white/[0.075] p-5 shadow-2xl shadow-black/35 backdrop-blur-2xl"
           >
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/10 text-[#D4A35A]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/10 text-[#60A5FA]">
                 <BookOpen className="h-5 w-5" />
               </div>
               <div>
@@ -190,14 +190,14 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
                 className="group relative min-h-[285px] overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.085] p-6 shadow-2xl shadow-black/35 backdrop-blur-2xl"
               >
                 <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-700 group-hover:opacity-100">
-                  <div className="absolute -right-20 -top-20 h-44 w-44 rounded-full bg-[#D4A35A]/15 blur-3xl" />
+                  <div className="absolute -right-20 -top-20 h-44 w-44 rounded-full bg-[#60A5FA]/15 blur-3xl" />
                   <div className="absolute -bottom-20 -left-20 h-44 w-44 rounded-full bg-blue-600/10 blur-3xl" />
                 </div>
 
                 <div className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(115deg,transparent,rgba(255,255,255,0.12),transparent)] transition duration-1000 group-hover:translate-x-full" />
 
                 <div className="relative flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/10 text-[#D4A35A] transition duration-500 group-hover:border-[#D4A35A]/35 group-hover:bg-[#D4A35A]/10">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/10 text-[#60A5FA] transition duration-500 group-hover:border-[#60A5FA]/35 group-hover:bg-[#60A5FA]/10">
                     <Icon className="h-5 w-5" />
                   </div>
                   <span className="text-xs tracking-[0.24em] text-white/30">
@@ -229,7 +229,7 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
         >
           <Link
             href="/articles"
-            className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm font-medium text-white/70 backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-[#D4A35A]/30 hover:bg-[#D4A35A]/10 hover:text-[#D4A35A]"
+            className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm font-medium text-white/70 backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-[#60A5FA]/30 hover:bg-[#60A5FA]/10 hover:text-[#60A5FA]"
           >
             Explore legal analysis
             <ArrowRight className="h-4 w-4" />
