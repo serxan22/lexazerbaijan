@@ -86,11 +86,13 @@ export function FeaturedMotionSection({ children }: { children: ReactNode }) {
       whileInView="visible"
       viewport={{ once: false, amount: 0.18, margin: "-8% 0px -8% 0px" }}
       variants={sectionVariants}
-      className="section-shell relative isolate overflow-hidden bg-slate-50"
+      className="section-shell relative isolate -mt-px overflow-hidden bg-[#040816] text-white"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-28 bg-gradient-to-b from-[#040816]/12 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(212,163,90,0.13),transparent_26%),radial-gradient(circle_at_86%_50%,rgba(45,70,160,0.10),transparent_24%)]" />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(15,23,42,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.035)_1px,transparent_1px)] bg-[size:54px_54px]" />
+      <div className="pointer-events-none absolute inset-x-0 -top-32 z-0 h-72 bg-gradient-to-b from-[#040816] via-[#040816]/96 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 -bottom-32 z-0 h-72 bg-gradient-to-t from-[#040816] via-[#040816]/96 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(212,163,90,0.14),transparent_26%),radial-gradient(circle_at_86%_50%,rgba(70,95,200,0.12),transparent_24%),linear-gradient(180deg,#040816_0%,#071126_50%,#040816_100%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:58px_58px] opacity-20" />
       {children}
     </motion.section>
   );

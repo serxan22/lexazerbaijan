@@ -43,9 +43,9 @@ export default async function HomePage() {
             <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
               <div>
                 <p className="eyebrow">{dictionary.home.featuredEyebrow}</p>
-                <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">{dictionary.home.featuredTitle}</h2>
+                <h2 className="mt-3 font-serif text-4xl font-semibold text-white">{dictionary.home.featuredTitle}</h2>
               </div>
-              <Button variant="outline" asChild>
+              <Button variant="outline" className="border-white/15 bg-white/10 text-white hover:bg-white hover:text-slate-950" asChild>
                 <Link href="/articles">{dictionary.nav.exploreArticles}</Link>
               </Button>
             </div>

@@ -214,7 +214,7 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
                     {term.meaning}
                   </p>
 
-                  <p className="mt-4 border-t border-white/10 pt-4 text-xs leading-6 text-white/45">
+                  <p className="mt-4 bg-gradient-to-r from-transparent via-white/10 to-transparent bg-[length:100%_1px] bg-top bg-no-repeat pt-4 text-xs leading-6 text-white/45">
                     {term.detail}
                   </p>
                 </div>
