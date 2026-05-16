@@ -1,58 +1,39 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, OrbitControls, Text } from "@react-three/drei";
-import { useRef } from "react";
-import type { Group } from "three";
-
-function LegalObject() {
-  const group = useRef<Group>(null);
-
-  useFrame((_, delta) => {
-    if (group.current) group.current.rotation.y += delta * 0.16;
-  });
-
-  return (
-    <group ref={group}>
-      <Float speed={1.15} rotationIntensity={0.18} floatIntensity={0.45}>
-        <Text
-          fontSize={0.62}
-          letterSpacing={-0.04}
-          anchorX="center"
-          anchorY="middle"
-          color="#f8fafc"
-        >
-          LexAzerbaijan
-        </Text>
-      </Float>
-
-      <mesh position={[0, -0.85, 0]}>
-        <torusGeometry args={[2.15, 0.008, 12, 96]} />
-        <meshStandardMaterial color="#ffffff" transparent opacity={0.28} />
-      </mesh>
-
-      <mesh position={[0, -0.85, 0]} rotation={[1.1, 0, 0]}>
-        <torusGeometry args={[2.55, 0.006, 12, 96]} />
-        <meshStandardMaterial color="#94a3b8" transparent opacity={0.18} />
-      </mesh>
-    </group>
-  );
-}
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export function LegalOrbitCanvas() {
+  const { scrollYProgress } = useScroll();
+
+  const scale = useTransform(scrollYProgress, [0, 0.35], [0.82, 1.22]);
+  const rotate = useTransform(scrollYProgress, [0, 0.35], [-10, 8]);
+  const opacity = useTransform(scrollYProgress, [0, 0.22, 0.42], [0.4, 0.82, 0.2]);
+  const y = useTransform(scrollYProgress, [0, 0.35], [0, 90]);
+
   return (
-    <div className="pointer-events-none absolute inset-0 opacity-70">
-      <Canvas
-        dpr={[1, 1.4]}
-        frameloop="always"
-        camera={{ position: [0, 0, 6], fov: 42 }}
-        gl={{ antialias: false, powerPreference: "high-performance" }}
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <motion.div
+        style={{ scale, rotate, opacity, y }}
+        className="absolute left-1/2 top-[14%] h-[420px] w-[420px] -translate-x-1/2 rounded-full border border-white/15 bg-[radial-gradient(circle,rgba(255,255,255,0.16),rgba(255,255,255,0.035)_42%,transparent_70%)] blur-0 md:h-[560px] md:w-[560px]"
+      />
+
+      <motion.div
+        style={{ scale, rotate, opacity }}
+        className="absolute left-1/2 top-[21%] h-[260px] w-[260px] -translate-x-1/2 rounded-full border border-white/20 md:h-[360px] md:w-[360px]"
+      />
+
+      <motion.div
+        style={{ y, opacity }}
+        className="absolute left-1/2 top-[32%] -translate-x-1/2 text-center"
       >
-        <ambientLight intensity={1.1} />
-        <directionalLight position={[3, 3, 4]} intensity={1.4} />
-        <LegalObject />
-        <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} autoRotate autoRotateSpeed={0.25} />
-      </Canvas>
+        <div className="text-[11px] uppercase tracking-[0.65em] text-white/35">
+          LexAzerbaijan
+        </div>
+        <div className="mt-5 h-px w-[280px] bg-gradient-to-r from-transparent via-white/40 to-transparent md:w-[520px]" />
+        <div className="mt-6 text-5xl font-semibold tracking-[-0.08em] text-white/10 md:text-8xl">
+          Law • Ideas • Cases
+        </div>
+      </motion.div>
     </div>
   );
 }

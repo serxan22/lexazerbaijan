@@ -13,23 +13,46 @@ gsap.registerPlugin(ScrollTrigger);
 const pillars = [
   {
     title: "Publish legal ideas",
+    href: "/articles",
+    button: "Open articles",
     quote: "A legal platform becomes powerful when students, researchers and lawyers can be heard.",
     text: "Share articles, legal opinions and research notes in a professional space built for Azerbaijani legal thought.",
   },
   {
     title: "Discover cases",
+    href: "/cases",
+    button: "Explore cases",
     quote: "Cases are not just judgments; they are the language of legal reasoning.",
     text: "Explore court decisions, summaries and comparative legal materials with a cleaner research experience.",
   },
   {
     title: "Discuss legal gaps",
+    href: "/discussions",
+    button: "Join discussions",
     quote: "Law develops when people question unclear rules instead of silently accepting them.",
     text: "Use discussions to raise legal problems, interpretations and reform ideas with the community.",
   },
   {
     title: "Ask LexAI",
+    href: "/lexai",
+    button: "Ask LexAI",
     quote: "AI should not replace legal reasoning; it should make research faster and clearer.",
     text: "Get structured explanations, summaries and starting points for legal research through LexAI.",
+  },
+];
+
+const legalTerms = [
+  {
+    term: "Rule of law",
+    meaning: "Public power must be exercised through law, not personal discretion.",
+  },
+  {
+    term: "Legal certainty",
+    meaning: "People should be able to understand the legal consequences of their actions.",
+  },
+  {
+    term: "Proportionality",
+    meaning: "State action should not go further than necessary to achieve a legitimate aim.",
   },
 ];
 
@@ -136,8 +159,49 @@ export function CinematicHomepage() {
                 <h3 className="text-xl font-semibold text-white">{item.title}</h3>
                 <p className="mt-4 text-sm italic leading-6 text-white/45">{item.quote}</p>
                 <p className="mt-4 text-sm leading-6 text-white/58">{item.text}</p>
+                <motion.a
+                  whileHover={{ x: 4 }}
+                  href={item.href}
+                  className="mt-6 inline-flex rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm font-semibold text-white/75 transition hover:bg-white hover:text-black"
+                >
+                  {item.button}
+                </motion.a>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+
+        <section className="px-6 pb-24">
+          <div className="premium-panel mx-auto max-w-6xl rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-8 backdrop-blur-2xl md:p-14">
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-sm uppercase tracking-[0.35em] text-white/35">Today’s legal terms</p>
+                <h2 className="mt-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                  Learn one legal idea at a time.
+                </h2>
+              </div>
+              <motion.a
+                whileHover={{ y: -3 }}
+                href="/articles"
+                className="w-fit rounded-full bg-white px-5 py-3 text-sm font-semibold text-black"
+              >
+                Read related articles
+              </motion.a>
+            </div>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {legalTerms.map((item) => (
+                <motion.div
+                  key={item.term}
+                  whileHover={{ y: -7 }}
+                  className="premium-panel rounded-[1.8rem] border border-white/10 bg-black/25 p-6"
+                >
+                  <h3 className="text-2xl font-semibold text-white">{item.term}</h3>
+                  <p className="mt-4 text-sm leading-6 text-white/55">{item.meaning}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
