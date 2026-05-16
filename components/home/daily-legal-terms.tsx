@@ -112,8 +112,10 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
     "Build your legal language through short, practical explanations of important legal ideas.";
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#040816] py-24 text-white">
-      <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_18%_18%,rgba(212,163,90,0.16),transparent_26%),radial-gradient(circle_at_82%_72%,rgba(70,95,200,0.14),transparent_28%),linear-gradient(180deg,#040816_0%,#071126_52%,#040816_100%)]" />
+    <section className="relative isolate -mt-px overflow-hidden bg-[#040816] py-28 text-white">
+      <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_18%_18%,rgba(212,163,90,0.16),transparent_26%),radial-gradient(circle_at_82%_72%,rgba(70,95,200,0.14),transparent_28%),linear-gradient(180deg,#040816_0%,#061024_34%,#071126_62%,#040816_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 -top-1 z-0 h-40 bg-gradient-to-b from-[#040816] via-[#040816]/95 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-40 bg-gradient-to-t from-[#040816] via-[#040816]/88 to-transparent" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:58px_58px] opacity-20" />
       <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/10 blur-3xl" />
 
@@ -122,7 +124,7 @@ export function DailyLegalTerms({ dictionary }: DailyLegalTermsProps) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.22, margin: "-8% 0px -8% 0px" }}
-        className="legal-container"
+        className="legal-container relative z-10"
       >
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <motion.div variants={itemVariants}>

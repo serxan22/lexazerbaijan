@@ -71,7 +71,6 @@ export function TermsMotionFrame({ children }: { children: ReactNode }) {
       variants={sectionVariants}
       className="relative isolate overflow-hidden"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-gradient-to-r from-transparent via-[#D4A35A]/35 to-transparent" />
       <div className="pointer-events-none absolute left-1/2 top-0 z-0 h-72 w-[44rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/8 blur-3xl" />
       <motion.div variants={softSectionVariants} className="relative z-10">
         {children}
@@ -89,6 +88,7 @@ export function FeaturedMotionSection({ children }: { children: ReactNode }) {
       variants={sectionVariants}
       className="section-shell relative isolate overflow-hidden bg-slate-50"
     >
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-28 bg-gradient-to-b from-[#040816]/12 to-transparent" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_12%,rgba(212,163,90,0.13),transparent_26%),radial-gradient(circle_at_86%_50%,rgba(45,70,160,0.10),transparent_24%)]" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(15,23,42,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.035)_1px,transparent_1px)] bg-[size:54px_54px]" />
       {children}

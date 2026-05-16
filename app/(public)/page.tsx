@@ -12,7 +12,7 @@ import { siteConfig } from "@/config/site";
 import { getArticles, getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { PremiumScrollShowcase } from "@/components/interactive/premium-scroll-showcase";
-import { FeaturedCardMotion, FeaturedHeaderMotion, FeaturedMotionSection, TermsMotionFrame } from "@/components/interactive/home-motion";
+import { FeaturedCardMotion, FeaturedHeaderMotion, FeaturedMotionSection } from "@/components/interactive/home-motion";
 
 const reasonIcons = [GraduationCap, ShieldCheck, Library];
 
@@ -32,12 +32,10 @@ export default async function HomePage() {
     <>
       <PremiumScrollShowcase />
 
-      <TermsMotionFrame>
-        <DailyLegalTerms
-          dictionary={dictionary}
-          locale={locale}
-        />
-      </TermsMotionFrame>
+      <DailyLegalTerms
+        dictionary={dictionary}
+        locale={locale}
+      />
 
       <FeaturedMotionSection>
         <div className="legal-container">
