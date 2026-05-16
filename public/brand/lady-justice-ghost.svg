@@ -1,0 +1,29 @@
+<svg width="1400" height="1600" viewBox="0 0 1400 1600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldLine" x1="700" y1="0" x2="700" y2="1600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4E2BA" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#D4A35A" stop-opacity="0.65"/>
+    </linearGradient>
+    <filter id="softBlur" x="-200" y="-200" width="1800" height="2000" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+
+  <g opacity="0.58" filter="url(#softBlur)">
+    <path d="M700 120C758 120 804 166 804 224C804 282 758 328 700 328C642 328 596 282 596 224C596 166 642 120 700 120Z" stroke="url(#goldLine)" stroke-width="10"/>
+
+    <path d="M700 328C700 328 604 406 596 586C588 766 528 958 438 1118C604 1184 796 1184 962 1118C872 958 812 766 804 586C796 406 700 328 700 328Z" stroke="url(#goldLine)" stroke-width="12" fill="rgba(212,163,90,0.04)"/>
+
+    <path d="M700 370V1270" stroke="url(#goldLine)" stroke-width="10"/>
+    <path d="M468 592H932" stroke="url(#goldLine)" stroke-width="10"/>
+
+    <path d="M468 592L358 884M468 592L578 884" stroke="url(#goldLine)" stroke-width="6"/>
+    <path d="M932 592L822 884M932 592L1042 884" stroke="url(#goldLine)" stroke-width="6"/>
+
+    <path d="M308 884H628C610 968 546 1020 468 1020C390 1020 326 968 308 884Z" stroke="url(#goldLine)" stroke-width="10" fill="rgba(212,163,90,0.05)"/>
+    <path d="M772 884H1092C1074 968 1010 1020 932 1020C854 1020 790 968 772 884Z" stroke="url(#goldLine)" stroke-width="10" fill="rgba(212,163,90,0.05)"/>
+
+    <path d="M700 1270L620 1470H780L700 1270Z" stroke="url(#goldLine)" stroke-width="12" fill="rgba(212,163,90,0.05)"/>
+    <path d="M620 1470H780" stroke="url(#goldLine)" stroke-width="14" stroke-linecap="round"/>
+  </g>
+</svg>

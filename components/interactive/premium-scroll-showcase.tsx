@@ -126,15 +126,25 @@ export function PremiumScrollShowcase() {
       <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_10%,rgba(212,163,90,0.15),transparent_25%),radial-gradient(circle_at_78%_72%,rgba(70,95,200,0.13),transparent_28%),linear-gradient(180deg,#040816_0%,#071126_48%,#040816_100%)]" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:64px_64px] opacity-20" />
 
-      <section className="relative min-h-[calc(100vh-4.5rem)] overflow-hidden bg-[#040816] pb-32">
+      <section className="relative min-h-[calc(100vh-4.5rem)] overflow-visible bg-[#040816] pb-40">
         <div
-          className="absolute inset-0 -z-20 bg-cover bg-center opacity-75 blur-[1.5px] scale-[1.04]"
+          className="absolute inset-0 -z-20 bg-cover bg-center opacity-72 blur-[1.5px] scale-[1.04]"
           style={{
             backgroundImage: "url('/brand/lady-justice-bg.svg')",
           }}
         />
+        <div
+          className="pointer-events-none absolute right-[-6%] top-[6%] bottom-[-140px] -z-10 w-[44rem] opacity-[0.18] blur-[0.6px] md:w-[54rem] lg:w-[62rem]"
+          style={{
+            backgroundImage: "url('/brand/lady-justice-ghost.svg')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "contain",
+          }}
+        />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_42%,rgba(212,163,90,0.10),transparent_32%),linear-gradient(180deg,rgba(4,8,22,0.50),rgba(4,8,22,0.88))]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-0 h-64 bg-gradient-to-b from-transparent via-[#040816]/92 to-[#040816]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-0 h-80 bg-gradient-to-b from-transparent via-[#040816]/90 to-[#040816]" />
+        <div className="pointer-events-none absolute left-1/2 bottom-[-120px] z-0 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/10 blur-3xl" />
 
         <div className="legal-container flex min-h-[calc(100vh-4.5rem)] items-center justify-center py-24 text-center">
           <motion.div
@@ -194,7 +204,7 @@ export function PremiumScrollShowcase() {
         </div>
       </section>
 
-      <section className="legal-container relative -mt-32 flex min-h-screen items-center justify-center pb-24 pt-56">
+      <section className="legal-container relative -mt-40 flex min-h-screen items-center justify-center pb-24 pt-64">
         <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-72 bg-gradient-to-b from-[#040816] via-[#040816]/96 to-transparent" />
         <div className="pointer-events-none absolute left-1/2 top-20 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#D4A35A]/8 blur-3xl" />
         <motion.div
