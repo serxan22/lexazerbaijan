@@ -300,6 +300,134 @@ export const dictionaries = {
           signal: "Articles, discussions, LexAI, cases"
         }
       ],
+      cinematic: {
+        heroEyebrow: "LexAzerbaijan",
+        heroTitle: "The legal knowledge layer of Azerbaijan.",
+        heroBody:
+          "A premium legal-tech platform for publishing research, debating legal ideas, exploring case-law, building legal portfolios, and using LexAI responsibly.",
+        ctaExplore: "Explore Articles",
+        ctaSubmit: "Submit Article",
+        ctaLexAi: "Try LexAI",
+        statArticles: "Research signals",
+        statAuthors: "Contributors",
+        statFields: "Legal fields",
+        frameProgressLabel: "Frame",
+        archiveLabel: "Editorial archive",
+        intelligenceLabel: "Legal intelligence",
+        previewQuestion: "Can LexAI structure a human-rights case note?",
+        previewAnswer:
+          "It can outline issues, authorities, arguments, and cautions while reminding you to verify the law.",
+        knowledgeMapLabel: "Knowledge map",
+        editorialStatusLabel: "Editorial path",
+        discussionCards: [
+          {
+            tag: "Constitutional Law",
+            title: "How should proportionality review develop?",
+            body: "A structured debate format for doctrinal questions, reform proposals, and comparative reasoning.",
+            meta: "12 replies"
+          },
+          {
+            tag: "Human Rights",
+            title: "Balancing public interest and individual guarantees",
+            body: "Professional threads keep legal arguments, sources, and counterpoints in a readable research room.",
+            meta: "8 replies"
+          },
+          {
+            tag: "Commercial Practice",
+            title: "What makes a contract note useful for young lawyers?",
+            body: "Topic clusters help writers turn practical observations into reusable legal knowledge.",
+            meta: "5 replies"
+          }
+        ],
+        topicChips: ["Public law", "Human rights", "Commercial practice", "EU law", "Court decisions", "Legal reform"],
+        lexAiUserMessage: "Summarize the legal issue and suggest an article structure.",
+        lexAiAnswer:
+          "LexAI can map the issue, separate authorities from commentary, propose headings, and flag verification points.",
+        caseSearchPlaceholder: "Search cases across selected sources",
+        caseCards: [
+          {
+            court: "US",
+            title: "CourtListener gateway",
+            body: "Search selected federal and state opinions, then summarize available text with LexAI.",
+            href: "/cases"
+          },
+          {
+            court: "ECHR",
+            title: "HUDOC gateway",
+            body: "Explore European human-rights judgments with application metadata and summaries.",
+            href: "/echr-cases"
+          },
+          {
+            court: "EU",
+            title: "EU case-law gateway",
+            body: "Browse selected CJEU and General Court decisions for comparative research.",
+            href: "/eu-cases"
+          }
+        ],
+        portfolioSignal:
+          "Profiles turn reviewed writing into a professional legal portfolio with articles, views, likes, interests, and contribution signals.",
+        pipelineSteps: ["Idea", "Draft", "Sources", "Submit", "Editorial Review", "Published"],
+        reviewNote:
+          "The workflow keeps authorship, originality, sources, AI acknowledgement, and editorial review visible before publication.",
+        commandEyebrow: "Live platform index",
+        commandTitle: "The homepage becomes a legal command center.",
+        commandBody:
+          "Latest writing, contributor visibility, legal fields, AI assistance, cases, and discussion routes stay connected without returning to a simple blog feed.",
+        finalEyebrow: "Enter the institution",
+        finalTitle: "Read, publish, debate, research, and build your legal identity.",
+        finalBody:
+          "LexAzerbaijan brings the public-facing legal community into one premium research surface.",
+        frames: [
+          {
+            eyebrow: "Frame 01",
+            title: "The Legal Knowledge Layer of Azerbaijan",
+            body: "A cinematic entry into articles, research, cases, community discussion, and responsible legal AI.",
+            cta: "Explore the platform"
+          },
+          {
+            eyebrow: "Frame 02",
+            title: "Publish Legal Research",
+            body: "Contributors can turn legal analysis, case comments, reform notes, and academic writing into reviewed public work.",
+            cta: "Submit an article"
+          },
+          {
+            eyebrow: "Frame 03",
+            title: "Discuss Legal Ideas",
+            body: "Discussions are shaped as serious legal debate rooms with topic clusters, replies, and professional context.",
+            cta: "Join discussions"
+          },
+          {
+            eyebrow: "Frame 04",
+            title: "LexAI Legal Assistant",
+            body: "Ask for structure, issue mapping, explanations, summaries, and research orientation while keeping legal judgement human.",
+            cta: "Open LexAI"
+          },
+          {
+            eyebrow: "Frame 05",
+            title: "Explore Cases",
+            body: "Search selected US, ECHR, and EU case-law gateways with court metadata and LexAI summary concepts.",
+            cta: "Explore cases"
+          },
+          {
+            eyebrow: "Frame 06",
+            title: "Build Your Legal Portfolio",
+            body: "Author profiles help serious writers become discoverable through articles, engagement, interests, and credentials.",
+            cta: "View authors"
+          },
+          {
+            eyebrow: "Frame 07",
+            title: "From Draft to Review",
+            body: "The submission path makes idea, draft, sources, confirmations, and editorial review feel clear and trustworthy.",
+            cta: "Start submitting"
+          },
+          {
+            eyebrow: "Frame 08",
+            title: "One Premium Legal Surface",
+            body: "Articles, discussions, LexAI, cases, authors, bookmarks, and dashboards converge into a modern legal institution.",
+            cta: "Explore articles"
+          }
+        ]
+      },
       featuredEyebrow: "Featured analysis",
       featuredTitle: "Editor-selected legal writing",
       latestEyebrow: "Latest articles",
@@ -832,6 +960,134 @@ export const dictionaries = {
           signal: "Məqalələr, müzakirələr, LexAI, işlər"
         }
       ],
+      cinematic: {
+        heroEyebrow: "LexAzerbaijan",
+        heroTitle: "Azərbaycanın hüquqi bilik qatı.",
+        heroBody:
+          "Hüquqi araşdırma dərc etmək, hüquqi ideyaları müzakirə etmək, məhkəmə praktikasını araşdırmaq, portfolio qurmaq və LexAI-dan məsuliyyətlə istifadə etmək üçün premium hüquq-texnologiya platforması.",
+        ctaExplore: "Məqalələrə bax",
+        ctaSubmit: "Məqalə göndər",
+        ctaLexAi: "LexAI sınayın",
+        statArticles: "Araşdırma siqnalları",
+        statAuthors: "Töhfəçilər",
+        statFields: "Hüquq sahələri",
+        frameProgressLabel: "Kadr",
+        archiveLabel: "Redaksiya arxivi",
+        intelligenceLabel: "Hüquqi intellekt",
+        previewQuestion: "LexAI insan hüquqları işi üzrə qeyd strukturu qura bilər?",
+        previewAnswer:
+          "O, məsələni, mənbələri, arqumentləri və ehtiyat qeydlərini ayıra bilər, eyni zamanda hüququ yoxlamağı xatırladır.",
+        knowledgeMapLabel: "Bilik xəritəsi",
+        editorialStatusLabel: "Redaksiya yolu",
+        discussionCards: [
+          {
+            tag: "Konstitusiya hüququ",
+            title: "Proporsionallıq yoxlaması necə inkişaf etməlidir?",
+            body: "Doktrinal suallar, islahat təklifləri və müqayisəli hüquqi düşüncə üçün strukturlaşdırılmış debat formatı.",
+            meta: "12 cavab"
+          },
+          {
+            tag: "İnsan hüquqları",
+            title: "İctimai maraq və fərdi təminatlar arasında balans",
+            body: "Peşəkar mövzular hüquqi arqumentləri, mənbələri və əks mövqeləri oxunaqlı araşdırma məkanında saxlayır.",
+            meta: "8 cavab"
+          },
+          {
+            tag: "Kommersiya praktikası",
+            title: "Müqavilə qeydi gənc hüquqşünas üçün nə zaman faydalıdır?",
+            body: "Mövzu klasterləri praktiki müşahidələri təkrar istifadə olunan hüquqi biliyə çevirməyə kömək edir.",
+            meta: "5 cavab"
+          }
+        ],
+        topicChips: ["Publik hüquq", "İnsan hüquqları", "Kommersiya praktikası", "Aİ hüququ", "Məhkəmə qərarları", "Hüquqi islahat"],
+        lexAiUserMessage: "Hüquqi məsələni xülasə et və məqalə strukturu təklif et.",
+        lexAiAnswer:
+          "LexAI məsələni xəritələndirə, mənbələri şərhdən ayıra, başlıqlar təklif edə və yoxlama nöqtələrini göstərə bilər.",
+        caseSearchPlaceholder: "Seçilmiş mənbələrdə iş axtarın",
+        caseCards: [
+          {
+            court: "ABŞ",
+            title: "CourtListener qapısı",
+            body: "Seçilmiş federal və ştat qərarlarını axtarın, mövcud mətni LexAI ilə xülasə edin.",
+            href: "/cases"
+          },
+          {
+            court: "AİHM",
+            title: "HUDOC qapısı",
+            body: "Avropa insan hüquqları qərarlarını ərizə metadatası və xülasələrlə araşdırın.",
+            href: "/echr-cases"
+          },
+          {
+            court: "Aİ",
+            title: "Aİ məhkəmə praktikası qapısı",
+            body: "Müqayisəli araşdırma üçün AƏM və Ümumi Məhkəmə qərarlarına baxın.",
+            href: "/eu-cases"
+          }
+        ],
+        portfolioSignal:
+          "Profil səhifələri redaktə olunan yazını məqalələr, baxışlar, bəyənmələr, maraqlar və töhfə siqnalları ilə peşəkar hüquqi portfolioya çevirir.",
+        pipelineSteps: ["İdeya", "Qaralama", "Mənbələr", "Göndər", "Redaksiya baxışı", "Dərc"],
+        reviewNote:
+          "İş axını müəllifliyi, orijinallığı, mənbələri, AI açıqlamasını və redaksiya baxışını dərcdən əvvəl görünən saxlayır.",
+        commandEyebrow: "Canlı platforma indeksi",
+        commandTitle: "Ana səhifə hüquqi komanda mərkəzinə çevrilir.",
+        commandBody:
+          "Son yazılar, müəllif görünürlüğü, hüquq sahələri, AI dəstəyi, məhkəmə işləri və müzakirə marşrutları sadə blog lentinə qayıtmadan birlikdə işləyir.",
+        finalEyebrow: "İnstituta daxil olun",
+        finalTitle: "Oxuyun, dərc edin, müzakirə edin, araşdırın və hüquqi kimliyinizi qurun.",
+        finalBody:
+          "LexAzerbaijan ictimai hüquq icmasını bir premium araşdırma səthində birləşdirir.",
+        frames: [
+          {
+            eyebrow: "Kadr 01",
+            title: "Azərbaycanın hüquqi bilik qatı",
+            body: "Məqalələrə, araşdırmaya, işlərə, icma müzakirəsinə və məsuliyyətli hüquqi AI-a kinematik giriş.",
+            cta: "Platformanı kəşf et"
+          },
+          {
+            eyebrow: "Kadr 02",
+            title: "Hüquqi araşdırma dərc edin",
+            body: "Töhfəçilər hüquqi təhlili, iş şərhini, islahat qeydini və akademik yazını redaktə olunan ictimai işə çevirə bilirlər.",
+            cta: "Məqalə göndər"
+          },
+          {
+            eyebrow: "Kadr 03",
+            title: "Hüquqi ideyaları müzakirə edin",
+            body: "Müzakirələr mövzu klasterləri, cavablar və peşəkar kontekstlə ciddi hüquqi debat otaqları kimi qurulur.",
+            cta: "Müzakirələrə qoşul"
+          },
+          {
+            eyebrow: "Kadr 04",
+            title: "LexAI hüquqi köməkçi",
+            body: "Struktur, məsələ xəritəsi, izahlar, xülasələr və araşdırma istiqaməti istəyin, hüquqi qərarı isə insanda saxlayın.",
+            cta: "LexAI aç"
+          },
+          {
+            eyebrow: "Kadr 05",
+            title: "Məhkəmə işlərini araşdırın",
+            body: "ABŞ, AİHM və Aİ üzrə seçilmiş məhkəmə praktikası qapılarını məhkəmə metadatası və LexAI xülasə konsepti ilə axtarın.",
+            cta: "İşlərə bax"
+          },
+          {
+            eyebrow: "Kadr 06",
+            title: "Hüquqi portfolio qurun",
+            body: "Müəllif profilləri ciddi yazıçıları məqalələr, iştirak, maraqlar və peşəkar göstəricilər vasitəsilə görünən edir.",
+            cta: "Müəlliflərə bax"
+          },
+          {
+            eyebrow: "Kadr 07",
+            title: "Qaralamadan baxışa",
+            body: "Göndəriş yolu ideya, qaralama, mənbələr, təsdiqlər və redaksiya baxışını aydın və etibarlı göstərir.",
+            cta: "Göndərməyə başla"
+          },
+          {
+            eyebrow: "Kadr 08",
+            title: "Bir premium hüquqi səth",
+            body: "Məqalələr, müzakirələr, LexAI, işlər, müəlliflər, yadda saxlamalar və kabinetlər müasir hüquqi institutda birləşir.",
+            cta: "Məqalələrə bax"
+          }
+        ]
+      },
       featuredEyebrow: "Seçilmiş təhlillər",
       featuredTitle: "Redaktorların seçdiyi hüquqi yazılar",
       latestEyebrow: "Son məqalələr",
@@ -1353,6 +1609,134 @@ export const dictionaries = {
           signal: "Статьи, обсуждения, LexAI, дела"
         }
       ],
+      cinematic: {
+        heroEyebrow: "LexAzerbaijan",
+        heroTitle: "Правовой слой знаний Азербайджана.",
+        heroBody:
+          "Премиальная legal-tech платформа для публикации исследований, обсуждения правовых идей, изучения судебной практики, создания портфолио и ответственного использования LexAI.",
+        ctaExplore: "Смотреть статьи",
+        ctaSubmit: "Отправить статью",
+        ctaLexAi: "Попробовать LexAI",
+        statArticles: "Сигналы исследований",
+        statAuthors: "Авторы",
+        statFields: "Отрасли права",
+        frameProgressLabel: "Кадр",
+        archiveLabel: "Редакционный архив",
+        intelligenceLabel: "Правовой интеллект",
+        previewQuestion: "Может ли LexAI структурировать заметку по делу о правах человека?",
+        previewAnswer:
+          "Он может выделить вопросы, источники, аргументы и оговорки, напоминая о необходимости проверять право.",
+        knowledgeMapLabel: "Карта знаний",
+        editorialStatusLabel: "Редакционный путь",
+        discussionCards: [
+          {
+            tag: "Конституционное право",
+            title: "Как должен развиваться тест пропорциональности?",
+            body: "Структурированный формат дебатов для доктринальных вопросов, реформ и сравнительного правового мышления.",
+            meta: "12 ответов"
+          },
+          {
+            tag: "Права человека",
+            title: "Баланс публичного интереса и индивидуальных гарантий",
+            body: "Профессиональные темы сохраняют аргументы, источники и контраргументы в удобном исследовательском пространстве.",
+            meta: "8 ответов"
+          },
+          {
+            tag: "Коммерческая практика",
+            title: "Что делает договорную заметку полезной для молодых юристов?",
+            body: "Тематические кластеры помогают превращать практические наблюдения в повторно используемое правовое знание.",
+            meta: "5 ответов"
+          }
+        ],
+        topicChips: ["Публичное право", "Права человека", "Коммерческая практика", "Право ЕС", "Судебные решения", "Правовая реформа"],
+        lexAiUserMessage: "Кратко изложи правовой вопрос и предложи структуру статьи.",
+        lexAiAnswer:
+          "LexAI может разложить вопрос, отделить источники от комментария, предложить заголовки и отметить точки проверки.",
+        caseSearchPlaceholder: "Поиск дел по выбранным источникам",
+        caseCards: [
+          {
+            court: "США",
+            title: "Шлюз CourtListener",
+            body: "Ищите выбранные федеральные и штатные решения, затем резюмируйте доступный текст с LexAI.",
+            href: "/cases"
+          },
+          {
+            court: "ЕСПЧ",
+            title: "Шлюз HUDOC",
+            body: "Изучайте европейские решения по правам человека с метаданными заявлений и резюме.",
+            href: "/echr-cases"
+          },
+          {
+            court: "ЕС",
+            title: "Шлюз практики ЕС",
+            body: "Просматривайте отдельные решения Суда ЕС и Общего суда для сравнительного исследования.",
+            href: "/eu-cases"
+          }
+        ],
+        portfolioSignal:
+          "Профили превращают проверенные тексты в профессиональное юридическое портфолио со статьями, просмотрами, лайками, интересами и сигналами вклада.",
+        pipelineSteps: ["Идея", "Черновик", "Источники", "Отправка", "Редакционная проверка", "Публикация"],
+        reviewNote:
+          "Процесс делает авторство, оригинальность, источники, признание AI и редакционную проверку видимыми до публикации.",
+        commandEyebrow: "Живой индекс платформы",
+        commandTitle: "Главная становится правовым командным центром.",
+        commandBody:
+          "Новые материалы, видимость авторов, отрасли права, AI-помощь, дела и обсуждения остаются связанными без возврата к простой блоговой ленте.",
+        finalEyebrow: "Войти в институт",
+        finalTitle: "Читайте, публикуйте, спорьте, исследуйте и создавайте правовую идентичность.",
+        finalBody:
+          "LexAzerbaijan объединяет публичное правовое сообщество в одной премиальной исследовательской среде.",
+        frames: [
+          {
+            eyebrow: "Кадр 01",
+            title: "Правовой слой знаний Азербайджана",
+            body: "Кинематографичный вход в статьи, исследования, дела, обсуждения сообщества и ответственное правовое AI.",
+            cta: "Исследовать платформу"
+          },
+          {
+            eyebrow: "Кадр 02",
+            title: "Публикуйте правовые исследования",
+            body: "Авторы могут превращать анализ, комментарии к делам, заметки о реформах и академические тексты в проверенные публичные материалы.",
+            cta: "Отправить статью"
+          },
+          {
+            eyebrow: "Кадр 03",
+            title: "Обсуждайте правовые идеи",
+            body: "Обсуждения устроены как серьезные комнаты правовых дебатов с темами, ответами и профессиональным контекстом.",
+            cta: "К обсуждениям"
+          },
+          {
+            eyebrow: "Кадр 04",
+            title: "Правовой помощник LexAI",
+            body: "Запрашивайте структуру, карту вопросов, объяснения, резюме и направление исследования, сохраняя юридическое суждение за человеком.",
+            cta: "Открыть LexAI"
+          },
+          {
+            eyebrow: "Кадр 05",
+            title: "Изучайте дела",
+            body: "Ищите избранные шлюзы судебной практики США, ЕСПЧ и ЕС с метаданными суда и концепцией резюме LexAI.",
+            cta: "Смотреть дела"
+          },
+          {
+            eyebrow: "Кадр 06",
+            title: "Создавайте юридическое портфолио",
+            body: "Профили авторов помогают серьезным авторам становиться видимыми через статьи, вовлечение, интересы и профессиональные сигналы.",
+            cta: "Смотреть авторов"
+          },
+          {
+            eyebrow: "Кадр 07",
+            title: "От черновика к проверке",
+            body: "Подача делает идею, черновик, источники, подтверждения и редакционную проверку понятными и надежными.",
+            cta: "Начать подачу"
+          },
+          {
+            eyebrow: "Кадр 08",
+            title: "Одна премиальная правовая среда",
+            body: "Статьи, обсуждения, LexAI, дела, авторы, закладки и кабинеты сходятся в современном правовом институте.",
+            cta: "Смотреть статьи"
+          }
+        ]
+      },
       featuredEyebrow: "Избранный анализ",
       featuredTitle: "Материалы, выбранные редакцией",
       latestEyebrow: "Новые статьи",
