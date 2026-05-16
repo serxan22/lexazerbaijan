@@ -40,7 +40,7 @@ export function SaumyaStyleLexHomepage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-neutral-50 via-white to-neutral-100 text-neutral-950 dark:from-[#050505] dark:via-[#080808] dark:to-[#101010] dark:text-white">
-      <aside className="fixed left-8 top-1/2 z-50 hidden -translate-y-1/2 rounded-[2rem] border border-black/10 dark:border-white/10 bg-black/[0.055] dark:bg-white/[0.065] px-3 py-6 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-2xl transition-all duration-500 ease-out hover:border-white/20 hover:bg-white/[0.085] lg:block">
+      <aside className="fixed left-8 top-1/2 z-[9999] hidden -translate-y-1/2 rounded-[2rem] border border-black/10 bg-black/[0.055] px-3 py-6 shadow-2xl shadow-black/10 backdrop-blur-2xl transition-all duration-500 ease-out hover:border-black/20 hover:bg-black/[0.075] dark:border-white/10 dark:bg-white/[0.065] dark:shadow-black/40 dark:hover:border-white/20 dark:hover:bg-white/[0.085] lg:block">
         <nav className="flex flex-col items-center gap-6 text-black/40 dark:text-white/35">
           {[
             { icon: Home, label: "Home", href: "#intro" },
@@ -54,10 +54,10 @@ export function SaumyaStyleLexHomepage() {
               <a
                 key={item.label}
                 href={item.href}
-                className="group relative flex h-11 w-11 items-center justify-center rounded-full text-black/40 dark:text-white/35 transition-all duration-300 ease-out hover:scale-110 hover:bg-white/10 hover:text-black dark:hover:text-white"
+                className="group relative flex h-11 w-11 items-center justify-center rounded-full text-black/40 transition-all duration-300 ease-out hover:scale-110 hover:bg-black/10 hover:text-black dark:text-white/35 dark:hover:bg-white/10 dark:hover:text-white"
               >
                 <Icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
-                <span className="pointer-events-none absolute left-14 whitespace-nowrap rounded-full border border-black/10 dark:border-white/10 bg-white/[0.09] px-4 py-2 text-sm font-medium text-black/80 dark:text-white/80 opacity-0 shadow-2xl shadow-black/10 dark:shadow-black/40 backdrop-blur-xl transition-all duration-300 ease-out group-hover:translate-x-2 group-hover:opacity-100">
+                <span className="pointer-events-none absolute left-14 whitespace-nowrap rounded-full border border-black/10 bg-white/80 px-4 py-2 text-sm font-medium text-black/80 opacity-0 shadow-2xl shadow-black/10 backdrop-blur-xl transition-all duration-300 ease-out group-hover:translate-x-2 group-hover:opacity-100 dark:border-white/10 dark:bg-white/[0.09] dark:text-white/80 dark:shadow-black/40">
                   {item.label}
                 </span>
               </a>
