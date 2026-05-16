@@ -1089,3 +1089,8 @@ header [data-state="open"] {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+@keyframes lex-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

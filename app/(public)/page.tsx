@@ -1,5 +1,5 @@
-import { FromAnotherLegalHomepage } from "@/components/home/fromanother-legal-homepage";
+import { LuxuryLegalMagazineHomepage } from "@/components/home/luxury-legal-magazine-homepage";
 
 export default function HomePage() {
-  return <FromAnotherLegalHomepage />;
+  return <LuxuryLegalMagazineHomepage />;
 }
