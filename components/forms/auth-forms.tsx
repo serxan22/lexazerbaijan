@@ -33,10 +33,10 @@ export function LoginForm({ dictionary }: { dictionary: Dictionary }) {
         {registered && (
           <div className="mb-5 rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-center">
             <p className="text-sm font-semibold text-green-700 dark:text-green-400">
-              Registration successful!
+              {dictionary.forms.registrationSuccessful}
             </p>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-              Your account has been created. You can now log in from here.
+              {dictionary.messages.accountCreated}
             </p>
           </div>
         )}
@@ -83,16 +83,16 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
         {isSuccess ? (
           <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-6 text-center">
             <p className="text-lg font-semibold text-green-700 dark:text-green-400">
-              Registration successful!
+              {dictionary.forms.registrationSuccessful}
             </p>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Your account has been created. You can log in from here.
+              {dictionary.messages.accountCreated}
             </p>
             <Link
               href="/login"
               className="mt-5 inline-flex items-center rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white transition hover:bg-green-700"
             >
-              Go to Login
+              {dictionary.forms.goToLogin}
             </Link>
           </div>
         ) : (
@@ -108,7 +108,7 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
                   <Input id="username" name="username" autoComplete="username" required />
 
                   <p className="text-xs text-slate-500">
-                    Username must be 3-30 characters and can only contain lowercase letters, numbers, and underscores.
+                    {dictionary.forms.usernameHint}
                   </p>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
                 <Input id="password" name="password" type="password" autoComplete="new-password" required />
 
               <p className="text-xs text-slate-500">
-                Password must be at least 8 characters long and include a mix of letters, numbers, and special characters.
+                {dictionary.forms.passwordHint}
               </p>
               </div>
               <FormMessage message={state.message} status={state.status} />

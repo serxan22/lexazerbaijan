@@ -8,7 +8,6 @@ import { NewsletterForm } from "@/components/forms/newsletter-form";
 import { DailyLegalTerms } from "@/components/home/daily-legal-terms";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { siteConfig } from "@/config/site";
 import { getArticles, getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { PremiumScrollShowcase } from "@/components/interactive/premium-scroll-showcase";
@@ -30,7 +29,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <PremiumScrollShowcase />
+      <PremiumScrollShowcase dictionary={dictionary} />
 
       <DailyLegalTerms
         dictionary={dictionary}
@@ -60,12 +59,12 @@ export default async function HomePage() {
         </div>
       </FeaturedMotionSection>
 
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-background">
         <div className="legal-container">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
               <p className="eyebrow">{dictionary.home.latestEyebrow}</p>
-              <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">{dictionary.home.latestTitle}</h2>
+              <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950 dark:text-white">{dictionary.home.latestTitle}</h2>
             </div>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -76,22 +75,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-shell bg-slate-50">
+      <section className="section-shell bg-card">
         <div className="legal-container">
           <div className="max-w-2xl">
-            <p className="eyebrow">Recommended reading</p>
-            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">
-              Popular with readers
+            <p className="eyebrow">{dictionary.common.mostViewed}</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950 dark:text-white">
+              {dictionary.common.mostLiked}
             </h2>
-            <p className="mt-4 text-slate-600">
-              Discover the most read and most liked legal analysis on LexAzerbaijan.
+            <p className="mt-4 text-slate-600 dark:text-slate-300">
+              {dictionary.home.whyBody}
             </p>
           </div>
 
           <div className="mt-10 grid gap-8 lg:grid-cols-2">
             <div>
               <h3 className="font-serif text-2xl font-semibold text-slate-950">
-                Most read
+                {dictionary.common.mostViewed}
               </h3>
               <div className="mt-5 grid gap-5">
                 {mostRead.slice(0, 3).map((article) => (
@@ -102,7 +101,7 @@ export default async function HomePage() {
 
             <div>
               <h3 className="font-serif text-2xl font-semibold text-slate-950">
-                Most liked
+                {dictionary.common.mostLiked}
               </h3>
               <div className="mt-5 grid gap-5">
                 {mostLiked.slice(0, 3).map((article) => (
@@ -116,12 +115,12 @@ export default async function HomePage() {
 
       
 
-      <section className="section-shell bg-slate-50">
+      <section className="section-shell bg-background">
         <div className="legal-container">
           <div className="max-w-2xl">
             <p className="eyebrow">{dictionary.home.categoriesEyebrow}</p>
-            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">{dictionary.home.categoriesTitle}</h2>
-            <p className="mt-4 text-slate-600">
+            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950 dark:text-white">{dictionary.home.categoriesTitle}</h2>
+            <p className="mt-4 text-slate-600 dark:text-slate-300">
               {dictionary.home.categoriesBody}
             </p>
           </div>
@@ -136,14 +135,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-card">
         <div className="legal-container grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div>
             <p className="eyebrow">{dictionary.home.whyEyebrow}</p>
-            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">
+            <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950 dark:text-white">
               {dictionary.home.whyTitle}
             </h2>
-            <p className="mt-5 text-slate-600">
+            <p className="mt-5 text-slate-600 dark:text-slate-300">
               {dictionary.home.whyBody}
             </p>
           </div>
@@ -153,7 +152,7 @@ export default async function HomePage() {
               return (
               <Card key={title}>
                 <CardContent className="p-6">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-blue-800">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-md border border-gold/25 bg-gold/10 text-gold">
                     <Icon className="h-5 w-5" />
                   </div>
                   <h3 className="mt-5 font-semibold text-slate-950">{title}</h3>
@@ -166,12 +165,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-shell bg-slate-50">
+      <section className="section-shell bg-background">
         <div className="legal-container">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
               <p className="eyebrow">{dictionary.home.topAuthorsEyebrow}</p>
-              <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">{dictionary.home.topAuthorsTitle}</h2>
+              <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950 dark:text-white">{dictionary.home.topAuthorsTitle}</h2>
             </div>
             <Button variant="outline" asChild>
               <Link href="/authors">{dictionary.home.viewAuthors}</Link>
@@ -185,9 +184,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-card">
         <div className="legal-container">
-          <div className="grid gap-8 rounded-lg border bg-slate-950 p-8 text-white shadow-soft md:grid-cols-[1fr_0.9fr] md:p-10">
+          <div className="grid gap-8 overflow-hidden rounded-lg border border-white/10 bg-slate-950 p-8 text-white shadow-soft md:grid-cols-[1fr_0.9fr] md:p-10">
             <div>
               <div className="flex h-11 w-11 items-center justify-center rounded-md bg-white/10 text-gold">
                 <Sparkles className="h-5 w-5" />

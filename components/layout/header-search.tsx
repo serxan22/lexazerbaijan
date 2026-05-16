@@ -15,6 +15,9 @@ type SearchResult = {
 type Props = {
   placeholder: string;
   noResults: string;
+  searchingLabel: string;
+  recentLabel: string;
+  popularLabel: string;
 };
 
 const POPULAR_SEARCHES = [
@@ -26,7 +29,7 @@ const POPULAR_SEARCHES = [
   "Corporate law"
 ];
 
-export function HeaderSearch({ placeholder, noResults }: Props) {
+export function HeaderSearch({ placeholder, noResults, searchingLabel, recentLabel, popularLabel }: Props) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
@@ -114,11 +117,11 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
           setOpen(false);
         }
       }}
-      className={`relative transition-all duration-300 ${expanded ? "w-[260px]" : "w-11"}`}
+      className={`relative transition-all duration-500 ease-out ${expanded ? "w-[280px]" : "w-11"}`}
     >
       <div
-        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition dark:bg-slate-900 ${
-          expanded ? "border-slate-300 dark:border-slate-700" : "justify-center border-slate-200 dark:border-slate-700"
+        className={`flex h-11 items-center gap-2 rounded-full border bg-background/70 px-3 shadow-sm backdrop-blur-xl transition dark:bg-slate-950/70 ${
+          expanded ? "border-gold/35" : "justify-center border-border/70"
         }`}
       >
         <Search className="h-4 w-4 shrink-0 text-slate-600 dark:text-slate-200" />
@@ -157,14 +160,14 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
       </div>
 
       {open && expanded ? (
-        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl border bg-white shadow-xl dark:border-slate-800 dark:bg-slate-950">
+        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-lg border border-border/80 bg-card/95 shadow-xl backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/95">
           {showSuggestions ? (
             <div className="p-4">
               {recent.length ? (
                 <div>
                   <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
                     <Clock className="h-3.5 w-3.5" />
-                    Recently searched
+                    {recentLabel}
                   </p>
 
                   <div className="flex flex-wrap gap-2">
@@ -185,7 +188,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
               <div className={recent.length ? "mt-5" : ""}>
                 <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
                   <Sparkles className="h-3.5 w-3.5" />
-                  Popular searches
+                  {popularLabel}
                 </p>
 
                 <div className="flex flex-wrap gap-2">
@@ -205,7 +208,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
           ) : loading ? (
             <div className="flex items-center gap-2 p-4 text-sm text-slate-500 dark:text-slate-300">
               <Loader2 className="h-4 w-4 animate-spin" />
-              Searching...
+              {searchingLabel}
             </div>
           ) : results.length ? (
             <div className="max-h-[420px] overflow-y-auto p-2">

@@ -1,29 +1,35 @@
 import type { Metadata } from "next";
 
 import { CasesSearch } from "@/components/cases/cases-search";
+import { getDictionary, getLocale } from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Cases",
-  description: "Search case-law inside LexAzerbaijan."
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = await getDictionary(await getLocale());
+  return {
+    title: dictionary.pages.casesTitle,
+    description: dictionary.pages.casesBody
+  };
+}
 
-export default function CasesPage() {
+export default async function CasesPage() {
+  const dictionary = await getDictionary(await getLocale());
+
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-10">
-        <div className="legal-container">
-          <p className="eyebrow">Case-law research</p>
-          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">
-            Cases
+    <div className="premium-page">
+      <section className="premium-hero">
+        <div className="premium-hero-inner">
+          <p className="eyebrow">{dictionary.pages.casesEyebrow}</p>
+          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950 dark:text-white">
+            {dictionary.pages.casesTitle}
           </h1>
-          <p className="mt-4 max-w-2xl text-slate-600">
-            Search selected case-law sources directly inside LexAzerbaijan. Current search is powered by CourtListener for US case-law.
+          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-300">
+            {dictionary.pages.casesBody}
           </p>
         </div>
       </section>
 
       <section className="legal-container py-8">
-        <CasesSearch />
+        <CasesSearch dictionary={dictionary} />
       </section>
     </div>
   );

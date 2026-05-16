@@ -6,6 +6,7 @@ import { ArrowUpRight, Loader2, Search, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import type { Dictionary } from "@/lib/i18n";
 
 type EchrCaseResult = {
   id: string;
@@ -20,7 +21,7 @@ type EchrCaseResult = {
   absoluteUrl: string;
 };
 
-export function EchrCasesSearch() {
+export function EchrCasesSearch({ dictionary }: { dictionary: Dictionary }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<EchrCaseResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -94,18 +95,18 @@ export function EchrCasesSearch() {
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSearch} className="rounded-2xl border bg-white p-4 shadow-sm">
+      <form onSubmit={handleSearch} className="premium-panel p-4">
         <div className="flex flex-col gap-3 md:flex-row">
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search ECHR cases, e.g. Article 8, freedom of expression, Azerbaijan..."
+            placeholder={dictionary.pages.echrCasePlaceholder}
             className="h-12"
           />
 
           <Button type="submit" variant="gold" className="h-12 md:w-40" disabled={loading}>
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
-            Search
+            {dictionary.common.search}
           </Button>
         </div>
       </form>
@@ -121,21 +122,21 @@ export function EchrCasesSearch() {
           const summaryKey = String(item.id || `${item.caseName}-${index}`);
 
           return (
-          <article key={summaryKey} className="rounded-2xl border bg-white p-5 shadow-sm">
+          <article key={summaryKey} className="premium-card p-5">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
                   {item.type}
                 </p>
 
-                <h2 className="mt-2 font-serif text-2xl font-semibold text-slate-950">
+                <h2 className="mt-2 font-serif text-2xl font-semibold text-slate-950 dark:text-white">
                   {item.caseName}
                 </h2>
 
                 <div className="mt-2 space-y-1 text-sm text-slate-500">
-                  {item.dateFiled ? <p>Date: {item.dateFiled}</p> : null}
-                  {item.applicationNo ? <p>Application no: {item.applicationNo}</p> : null}
-                  {item.respondent ? <p>Respondent: {item.respondent}</p> : null}
+                  {item.dateFiled ? <p>{dictionary.pages.caseDate}: {item.dateFiled}</p> : null}
+                  {item.applicationNo ? <p>{dictionary.pages.caseApplicationNo}: {item.applicationNo}</p> : null}
+                  {item.respondent ? <p>{dictionary.pages.caseRespondent}: {item.respondent}</p> : null}
                 </div>
               </div>
 
@@ -146,17 +147,17 @@ export function EchrCasesSearch() {
                   onClick={() => summarizeCase({ ...item, id: summaryKey })}
                   disabled={summarizingId === summaryKey}
                 >
-                  {summarizingId === item.id ? (
+                  {summarizingId === summaryKey ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <Sparkles className="h-4 w-4" />
                   )}
-                  Summarize case
+                  {dictionary.common.summarizeCase}
                 </Button>
 
                 <Button variant="outline" asChild>
                   <Link href={item.absoluteUrl} target="_blank" rel="noreferrer">
-                    Official HUDOC
+                    HUDOC
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 </Button>
@@ -164,14 +165,14 @@ export function EchrCasesSearch() {
             </div>
 
             {item.conclusion ? (
-              <p className="mt-4 text-sm leading-6 text-slate-600">
+              <p className="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-300">
                 {item.conclusion}
               </p>
             ) : null}
 
             {summaries[summaryKey] ? (
-              <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
-                <p className="mb-2 font-semibold text-slate-950">LexAI case summary</p>
+              <div className="mt-4 whitespace-pre-line rounded-xl border bg-background/70 p-4 text-sm leading-7 text-slate-700 dark:text-slate-200">
+                <p className="mb-2 font-semibold text-slate-950 dark:text-white">{dictionary.pages.caseSummaryTitle}</p>
                 {summaries[summaryKey]}
               </div>
             ) : null}

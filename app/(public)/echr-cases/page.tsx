@@ -1,31 +1,37 @@
 import type { Metadata } from "next";
 
 import { EchrCasesSearch } from "@/components/echr-cases/echr-cases-search";
+import { getDictionary, getLocale } from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "ECHR Cases",
-  description: "Search European Court of Human Rights case-law inside LexAzerbaijan."
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = await getDictionary(await getLocale());
+  return {
+    title: dictionary.nav.echrCases,
+    description: dictionary.pages.echrCasesBody
+  };
+}
 
-export default function EchrCasesPage() {
+export default async function EchrCasesPage() {
+  const dictionary = await getDictionary(await getLocale());
+
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-10">
-        <div className="legal-container">
-          <p className="eyebrow">European Court of Human Rights</p>
+    <div className="premium-page">
+      <section className="premium-hero">
+        <div className="premium-hero-inner">
+          <p className="eyebrow">{dictionary.nav.echrCases}</p>
 
-          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">
-            ECHR Cases
+          <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950 dark:text-white">
+            {dictionary.nav.echrCases}
           </h1>
 
-          <p className="mt-4 max-w-2xl text-slate-600">
-            Search European Court of Human Rights judgments and decisions directly inside LexAzerbaijan. Results are powered by HUDOC, the official ECHR case-law database.
+          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-300">
+            {dictionary.pages.echrCasesBody}
           </p>
         </div>
       </section>
 
       <section className="legal-container py-8">
-        <EchrCasesSearch />
+        <EchrCasesSearch dictionary={dictionary} />
       </section>
     </div>
   );

@@ -26,14 +26,14 @@ export async function SiteFooter() {
   ];
 
   return (
-    <footer className="border-t bg-slate-50">
+    <footer className="border-t border-border/80 bg-[#050917] text-white">
       <div className="legal-container grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="space-y-5">
-          <Logo tagline={dictionary.site.journal} />
-          <p className="max-w-md text-sm leading-6 text-slate-600">
+          <Logo tagline={dictionary.site.journal} inverted />
+          <p className="max-w-md text-sm leading-6 text-white/62">
             {dictionary.footer.body}
           </p>
-          <div className="flex flex-wrap gap-3 text-sm text-slate-600">
+          <div className="flex flex-wrap gap-3 text-sm text-white/62">
             <span className="inline-flex items-center gap-2">
               <MapPin className="h-4 w-4 text-gold" />
               {dictionary.site.location}
@@ -46,39 +46,39 @@ export async function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">{dictionary.footer.platform}</h3>
+          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/38">{dictionary.footer.platform}</h3>
           <div className="mt-4 grid gap-3 text-sm">
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href} className="text-slate-600 transition hover:text-slate-950">
+              <Link key={item.href} href={item.href} className="text-white/62 transition hover:text-white">
                 {item.title}
               </Link>
             ))}
-            <Link href="/submit" className="text-slate-600 transition hover:text-slate-950">
+            <Link href="/submit" className="text-white/62 transition hover:text-white">
               {dictionary.nav.submitArticle}
             </Link>
           </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">{dictionary.footer.legal}</h3>
+          <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/38">{dictionary.footer.legal}</h3>
           <div className="mt-4 grid gap-3 text-sm">
             {legalLinks.map((item) => (
-              <Link key={item.href} href={item.href} className="text-slate-600 transition hover:text-slate-950">
+              <Link key={item.href} href={item.href} className="text-white/62 transition hover:text-white">
                 {item.title}
               </Link>
             ))}
           </div>
         </div>
 
-        <div className="rounded-lg border bg-white p-5">
+        <div className="rounded-lg border border-white/10 bg-white/[0.055] p-5 shadow-2xl shadow-black/20 backdrop-blur-xl">
           <Scale className="h-5 w-5 text-gold" />
-          <p className="mt-3 text-sm leading-6 text-slate-600">
+          <p className="mt-3 text-sm leading-6 text-white/62">
             {dictionary.footer.disclaimerBody}
           </p>
         </div>
       </div>
-      <div className="border-t bg-white py-5">
-        <div className="legal-container flex flex-col justify-between gap-2 text-xs text-slate-500 md:flex-row">
+      <div className="border-t border-white/10 bg-white/[0.025] py-5">
+        <div className="legal-container flex flex-col justify-between gap-2 text-xs text-white/42 md:flex-row">
           <p>© {new Date().getFullYear()} {siteConfig.name}. {dictionary.footer.rights}</p>
           <p>{dictionary.footer.reviewed}</p>
         </div>

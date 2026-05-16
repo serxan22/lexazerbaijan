@@ -9,8 +9,9 @@ import { getUserBookmarkedArticles } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = await getDictionary(await getLocale());
   return {
-    title: "Saved Articles"
+    title: dictionary.dashboard.savedArticles
   };
 }
 
@@ -23,22 +24,22 @@ export default async function BookmarksPage() {
   const articles = await getUserBookmarkedArticles(user.id);
 
   return (
-    <div className="bg-slate-50 min-h-screen">
-      <section className="border-b bg-white py-10">
-        <div className="legal-container flex items-center justify-between gap-4">
+    <div className="premium-page min-h-screen">
+      <section className="premium-hero">
+        <div className="premium-hero-inner flex items-center justify-between gap-4">
           <div>
             <p className="eyebrow">Dashboard</p>
             <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950">
-              Saved Articles
+              {dictionary.dashboard.savedArticles}
             </h1>
             <p className="mt-3 text-sm text-slate-500">
-              Articles you bookmarked for later reading.
+              {dictionary.dashboard.savedArticlesBody}
             </p>
           </div>
 
           <Button variant="outline" asChild>
             <Link href="/dashboard">
-              Back to Dashboard
+              {dictionary.dashboard.backToDashboard}
             </Link>
           </Button>
         </div>
@@ -57,13 +58,13 @@ export default async function BookmarksPage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-xl border border-dashed bg-white p-10 text-center">
+          <div className="rounded-xl border border-dashed bg-card/80 p-10 text-center">
             <Bookmark className="mx-auto h-10 w-10 text-slate-400" />
             <h2 className="mt-4 text-xl font-semibold text-slate-900">
-              No saved articles yet
+              {dictionary.dashboard.noSavedArticles}
             </h2>
             <p className="mt-2 text-sm text-slate-500">
-              Bookmark articles to quickly access them later.
+              {dictionary.dashboard.noSavedArticlesBody}
             </p>
           </div>
         )}
