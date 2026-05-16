@@ -13,6 +13,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
 import { getArticles, getCategories, getFeaturedArticles, getLatestArticles, getTopAuthors } from "@/lib/data";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { ScrollTimeline } from "@/components/home/scroll-timeline";
+import { TimelineSection } from "@/components/home/timeline-section";
 
 const reasonIcons = [GraduationCap, ShieldCheck, Library];
 
@@ -29,8 +31,10 @@ export default async function HomePage() {
   ]);
 
   return (
-    <>
-      <section className="relative isolate overflow-hidden bg-slate-950 text-white">
+    <ScrollTimeline>
+<>
+      <TimelineSection align="left" index={0}>
+<section className="relative isolate overflow-hidden bg-slate-950 text-white">
         <div
           className="absolute inset-0 -z-20 bg-cover bg-center opacity-34"
           style={{
@@ -65,8 +69,10 @@ export default async function HomePage() {
           </div>
         </div>
 </section>
+      </TimelineSection>
 
-      <section className="border-b bg-white py-8">
+      <TimelineSection align="right" index={1}>
+<section className="border-b bg-white py-8">
         <div className="legal-container grid gap-4 md:grid-cols-3">
           {dictionary.home.proof.map(([title, body]) => (
             <div key={title} className="flex items-start gap-3">
@@ -79,13 +85,15 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+      </TimelineSection>
 
       <DailyLegalTerms
         dictionary={dictionary}
         locale={locale}
       />
 
-      <section className="section-shell bg-slate-50">
+      <TimelineSection align="left" index={2}>
+<section className="section-shell bg-slate-50">
         <div className="legal-container">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -103,8 +111,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </TimelineSection>
 
-      <section className="section-shell bg-white">
+      <TimelineSection align="right" index={3}>
+<section className="section-shell bg-white">
         <div className="legal-container">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -119,8 +129,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </TimelineSection>
 
-      <section className="section-shell bg-slate-50">
+      <TimelineSection align="left" index={4}>
+<section className="section-shell bg-slate-50">
         <div className="legal-container">
           <div className="max-w-2xl">
             <p className="eyebrow">Recommended reading</p>
@@ -157,10 +169,12 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </TimelineSection>
 
       
 
-      <section className="section-shell bg-slate-50">
+      <TimelineSection align="right" index={5}>
+<section className="section-shell bg-slate-50">
         <div className="legal-container">
           <div className="max-w-2xl">
             <p className="eyebrow">{dictionary.home.categoriesEyebrow}</p>
@@ -179,8 +193,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </TimelineSection>
 
-      <section className="section-shell bg-white">
+      <TimelineSection align="left" index={6}>
+<section className="section-shell bg-white">
         <div className="legal-container grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div>
             <p className="eyebrow">{dictionary.home.whyEyebrow}</p>
@@ -209,8 +225,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </TimelineSection>
 
-      <section className="section-shell bg-slate-50">
+      <TimelineSection align="right" index={7}>
+<section className="section-shell bg-slate-50">
         <div className="legal-container">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -228,8 +246,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </TimelineSection>
 
-      <section className="section-shell bg-white">
+      <TimelineSection align="left" index={8}>
+<section className="section-shell bg-white">
         <div className="legal-container">
           <div className="grid gap-8 rounded-lg border bg-slate-950 p-8 text-white shadow-soft md:grid-cols-[1fr_0.9fr] md:p-10">
             <div>
@@ -247,6 +267,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </TimelineSection>
     </>
+</ScrollTimeline>
   );
 }
