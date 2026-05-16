@@ -125,7 +125,7 @@
   }
 
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.22em] text-gold;
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-blue-300;
   }
 
   .premium-page {
@@ -168,7 +168,7 @@
   }
 
   .premium-card {
-    @apply rounded-lg border border-border/80 bg-card/90 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-soft;
+    @apply rounded-lg border border-border/80 bg-card/90 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-400/35 hover:shadow-soft;
   }
 
   .premium-glass {
@@ -215,7 +215,7 @@
   }
 
   .article-prose blockquote {
-    @apply my-8 border-l-2 border-gold bg-gold-muted px-6 py-4 font-sans text-base leading-7 text-slate-700 dark:bg-slate-900 dark:text-slate-200;
+    @apply my-8 border-l-2 border-blue-400 bg-blue-500-muted px-6 py-4 font-sans text-base leading-7 text-slate-700 dark:bg-slate-900 dark:text-slate-200;
   }
 
   .article-prose ul,
