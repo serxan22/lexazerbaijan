@@ -4,10 +4,10 @@ import { getDiscussionThreads } from "@/lib/discussions";
 import { getDictionary, getLocale, localizeCategory, type Dictionary } from "@/lib/i18n";
 import type { ArticleCardItem, AuthorSummary, CategorySummary } from "@/lib/content-types";
 
-type ArticlePreview = CinematicHomepageProps["featuredArticles"][number];
-type AuthorPreview = CinematicHomepageProps["authors"][number];
-type CategoryPreview = CinematicHomepageProps["categories"][number];
-type DiscussionPreview = CinematicHomepageProps["discussions"][number];
+type ArticlePreview = NonNullable<CinematicHomepageProps["featuredArticles"]>[number];
+type AuthorPreview = NonNullable<CinematicHomepageProps["authors"]>[number];
+type CategoryPreview = NonNullable<CinematicHomepageProps["categories"]>[number];
+type DiscussionPreview = NonNullable<CinematicHomepageProps["discussions"]>[number];
 
 function articlePreview(article: ArticleCardItem, dictionary: Dictionary): ArticlePreview {
   const category = localizeCategory(article.category, dictionary);
