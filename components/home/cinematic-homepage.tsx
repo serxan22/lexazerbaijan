@@ -18,7 +18,7 @@ import {
 
 type AnyRecord = Record<string, any>;
 
-type CinematicHomepageProps = {
+export type CinematicHomepageProps = {
   dictionary?: AnyRecord;
   locale?: string;
   featuredArticles?: AnyRecord[];
