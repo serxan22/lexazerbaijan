@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import { BookOpen, Briefcase, Home, MessageSquare, Newspaper, Sparkles } from "lucide-react";
+import { BookOpen, Bot, Gavel, Home, MessageSquare, Newspaper } from "lucide-react";
 
 const projects = [
   ["Discussions", "Debate legal gaps and legal reforms.", "/discussions"],
@@ -31,19 +31,29 @@ function Card({ children, className = "" }: { children: ReactNode; className?: s
 export function SaumyaStyleLexHomepage() {
   return (
     <main className="min-h-screen bg-black text-white">
-      <aside className="fixed left-6 top-1/2 z-50 hidden -translate-y-1/2 rounded-full border border-white/10 bg-white/[0.07] px-4 py-8 shadow-2xl shadow-black/40 backdrop-blur-2xl lg:block">
-        <nav className="flex flex-col items-center gap-9 text-white/35">
+      <aside className="fixed left-1/2 top-1/2 z-50 hidden -translate-x-[520px] -translate-y-1/2 rounded-[2rem] border border-white/10 bg-white/[0.065] px-3 py-6 shadow-2xl shadow-black/40 backdrop-blur-2xl transition-all duration-500 ease-out hover:border-white/20 hover:bg-white/[0.085] lg:block">
+        <nav className="flex flex-col items-center gap-6 text-white/35">
           {[
-            [Home, "#intro"],
-            [Briefcase, "#work"],
-            [BookOpen, "#projects"],
-            [Newspaper, "#spotlight"],
-            [Sparkles, "#stack"],
-          ].map(([Icon, href], i) => (
-            <a key={i} href={href as string} className="transition hover:scale-110 hover:text-white">
-              <Icon className="h-6 w-6" />
-            </a>
-          ))}
+            { icon: Home, label: "Home", href: "#intro" },
+            { icon: Newspaper, label: "Articles", href: "/articles" },
+            { icon: Gavel, label: "Cases", href: "/cases" },
+            { icon: MessageSquare, label: "Discussions", href: "/discussions" },
+            { icon: Bot, label: "LexAI", href: "/lexai" },
+          ].map((item) => {
+            const Icon = item.icon;
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className="group relative flex h-11 w-11 items-center justify-center rounded-full text-white/35 transition-all duration-300 ease-out hover:scale-110 hover:bg-white/10 hover:text-white"
+              >
+                <Icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+                <span className="pointer-events-none absolute left-14 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.09] px-4 py-2 text-sm font-medium text-white/80 opacity-0 shadow-2xl shadow-black/40 backdrop-blur-xl transition-all duration-300 ease-out group-hover:translate-x-2 group-hover:opacity-100">
+                  {item.label}
+                </span>
+              </a>
+            );
+          })}
         </nav>
       </aside>
 
@@ -54,7 +64,7 @@ export function SaumyaStyleLexHomepage() {
         ✌️ Ask LexAI
       </Link>
 
-      <div className="mx-auto w-full max-w-[920px] px-5 pb-28 pt-20">
+      <div className="mx-auto w-full max-w-[920px] px-5 pb-28 pt-20 lg:pl-24">
         <section id="intro" className="mb-24">
           <Card className="rounded-[2.2rem] border border-white/10 bg-white/[0.045] p-8 backdrop-blur-xl md:p-10">
             <p className="text-lg font-semibold text-white/70">Hey, LexAzerbaijan here</p>
