@@ -196,15 +196,16 @@ export function PremiumScrollShowcase() {
   const coreY = useTransform(stickyProgress, [0, 0.5, 1], [70, -10, -70]);
   const coreScale = useTransform(stickyProgress, [0, 0.5, 1], [0.78, 1.08, 0.86]);
 
-  const sceneOneOpacity = useTransform(stickyProgress, [0, 0.18, 0.3], [1, 1, 0]);
-  const sceneTwoOpacity = useTransform(stickyProgress, [0.18, 0.35, 0.52], [0, 1, 0]);
-  const sceneThreeOpacity = useTransform(stickyProgress, [0.45, 0.62, 0.82], [0, 1, 0]);
-  const sceneFourOpacity = useTransform(stickyProgress, [0.72, 0.9, 1], [0, 1, 1]);
+  // Overlapped frame transitions: no dead/blank zone between scenes.
+  const sceneOneOpacity = useTransform(stickyProgress, [0, 0.16, 0.28], [1, 1, 0]);
+  const sceneTwoOpacity = useTransform(stickyProgress, [0.18, 0.32, 0.48], [0, 1, 0]);
+  const sceneThreeOpacity = useTransform(stickyProgress, [0.40, 0.56, 0.72], [0, 1, 0]);
+  const sceneFourOpacity = useTransform(stickyProgress, [0.64, 0.80, 1], [0, 1, 1]);
 
-  const sceneOneY = useTransform(stickyProgress, [0, 0.3], [0, -80]);
-  const sceneTwoY = useTransform(stickyProgress, [0.18, 0.35, 0.52], [90, 0, -70]);
-  const sceneThreeY = useTransform(stickyProgress, [0.45, 0.62, 0.82], [90, 0, -70]);
-  const sceneFourY = useTransform(stickyProgress, [0.72, 0.9, 1], [90, 0, 0]);
+  const sceneOneY = useTransform(stickyProgress, [0, 0.16, 0.28], [0, 0, -70]);
+  const sceneTwoY = useTransform(stickyProgress, [0.18, 0.32, 0.48], [70, 0, -60]);
+  const sceneThreeY = useTransform(stickyProgress, [0.40, 0.56, 0.72], [70, 0, -60]);
+  const sceneFourY = useTransform(stickyProgress, [0.64, 0.80, 1], [70, 0, 0]);
 
   const progressWidth = useTransform(stickyProgress, [0, 1], ["0%", "100%"]);
 
@@ -260,15 +261,32 @@ export function PremiumScrollShowcase() {
       </div>
 
       {/* FRAME 2-5 — Sticky scroll-driven scene */}
-      <div ref={stickyRef} className="relative h-[420vh]">
+      <div ref={stickyRef} className="relative h-[340vh]">
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          <motion.div
+            style={{ opacity: sceneOneOpacity }}
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_46%,rgba(212,163,90,0.12),transparent_30%)]"
+          />
+          <motion.div
+            style={{ opacity: sceneTwoOpacity }}
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_64%_42%,rgba(80,120,255,0.14),transparent_32%)]"
+          />
+          <motion.div
+            style={{ opacity: sceneThreeOpacity }}
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_58%,rgba(255,255,255,0.10),transparent_28%)]"
+          />
+          <motion.div
+            style={{ opacity: sceneFourOpacity }}
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,163,90,0.13),transparent_34%)]"
+          />
+
           <div className="absolute left-0 right-0 top-0 z-50 h-1 bg-white/5">
             <motion.div style={{ width: progressWidth }} className="h-full bg-gold shadow-[0_0_24px_rgba(212,163,90,0.7)]" />
           </div>
 
           <div className="legal-container relative grid w-full gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="relative min-h-[420px]">
-              <motion.div style={{ opacity: sceneOneOpacity, y: sceneOneY }} className="absolute inset-0 flex flex-col justify-center">
+              <motion.div style={{ opacity: sceneOneOpacity, y: sceneOneY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
                 <p className="eyebrow text-white/50">Scroll-driven scene</p>
                 <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
                   The homepage becomes a legal story.
@@ -278,7 +296,7 @@ export function PremiumScrollShowcase() {
                 </p>
               </motion.div>
 
-              <motion.div style={{ opacity: sceneTwoOpacity, y: sceneTwoY }} className="absolute inset-0 flex flex-col justify-center">
+              <motion.div style={{ opacity: sceneTwoOpacity, y: sceneTwoY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
                 <p className="eyebrow text-white/50">Pinned section</p>
                 <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
                   One fixed scene, many legal states.
@@ -288,7 +306,7 @@ export function PremiumScrollShowcase() {
                 </p>
               </motion.div>
 
-              <motion.div style={{ opacity: sceneThreeOpacity, y: sceneThreeY }} className="absolute inset-0 flex flex-col justify-center">
+              <motion.div style={{ opacity: sceneThreeOpacity, y: sceneThreeY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
                 <p className="eyebrow text-white/50">3D legal motion</p>
                 <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
                   A legal core rotates with the journey.
@@ -298,7 +316,7 @@ export function PremiumScrollShowcase() {
                 </p>
               </motion.div>
 
-              <motion.div style={{ opacity: sceneFourOpacity, y: sceneFourY }} className="absolute inset-0 flex flex-col justify-center">
+              <motion.div style={{ opacity: sceneFourOpacity, y: sceneFourY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
                 <p className="eyebrow text-white/50">Morphing transition</p>
                 <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
                   The object becomes the platform.
