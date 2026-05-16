@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import type { ReactNode } from "react";
 
 const nav = ["Intro", "Work", "Projects", "Spotlight", "Stack", "Community"];
 const work = [
@@ -16,7 +17,7 @@ const projects = [
 ];
 const stack = ["Articles", "Cases", "Discussions", "LexAI", "Multilingual", "Research"];
 
-function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
