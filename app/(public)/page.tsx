@@ -1,5 +1,5 @@
-import { FromAnotherLegalHomepage } from "@/components/home/fromanother-legal-homepage";
+import { SaumyaStyleLexHomepage } from "@/components/home/saumya-style-lex-homepage";
 
 export default function HomePage() {
-  return <FromAnotherLegalHomepage />;
+  return <SaumyaStyleLexHomepage />;
 }
