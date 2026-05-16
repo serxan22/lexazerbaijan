@@ -1,482 +1,584 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, type Variants } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
-  Archive,
   BookOpenText,
   Bot,
-  Eye,
-  FileCheck2,
   Gavel,
-  Heart,
   Landmark,
+  Mail,
   MessageSquareText,
-  PenLine,
   Scale,
   Search,
-  ShieldCheck,
   Sparkles,
-  UserRoundCheck,
-  type LucideIcon
+  UserRound,
 } from "lucide-react";
 
-import type { Dictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n-config";
-import { formatDate, formatNumber } from "@/lib/utils";
+type AnyRecord = Record<string, any>;
 
-type HomeArticlePreview = {
-  id: string;
-  title: string;
-  slug: string;
-  abstract: string;
-  categoryName: string | null;
-  authorName: string;
-  language: string;
-  readingTime: number;
-  viewsCount: number;
-  likesCount: number;
-  publishedAt: string | null;
-  createdAt: string;
+type CinematicHomepageProps = {
+  dictionary?: AnyRecord;
+  locale?: string;
+  featuredArticles?: AnyRecord[];
+  latestArticles?: AnyRecord[];
+  articles?: AnyRecord[];
+  categories?: AnyRecord[];
+  topAuthors?: AnyRecord[];
+  authors?: AnyRecord[];
+  discussions?: AnyRecord[];
+  stats?: AnyRecord;
 };
 
-type HomeAuthorPreview = {
-  id: string;
-  fullName: string;
-  username: string;
-  role: string;
-  affiliation: string;
-  interests: string[];
-  publishedCount: number;
-  totalViews: number;
-  totalLikes: number;
-};
+const ease = "cubic-bezier(0.22, 1, 0.36, 1)";
 
-type HomeCategoryPreview = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  count: number;
-};
+function safeArray<T>(value: T[] | undefined | null): T[] {
+  return Array.isArray(value) ? value : [];
+}
 
-type HomeDiscussionPreview = {
-  id: string;
-  title: string;
-  slug: string;
-  body: string;
-  authorName: string;
-  repliesCount: number;
-  updatedAt: string;
-};
+function pickText(value: any, fallback: string) {
+  return typeof value === "string" && value.trim().length > 0 ? value : fallback;
+}
 
-export type CinematicHomepageProps = {
-  dictionary: Dictionary;
-  locale: Locale;
-  featuredArticles: HomeArticlePreview[];
-  latestArticles: HomeArticlePreview[];
-  categories: HomeCategoryPreview[];
-  authors: HomeAuthorPreview[];
-  discussions: HomeDiscussionPreview[];
-};
+function getArticleTitle(article: AnyRecord, fallback: string) {
+  return pickText(article?.title, fallback);
+}
 
-type CinematicCopy = Dictionary["home"]["cinematic"];
-type CinematicFrame = CinematicCopy["frames"][number];
+function getArticleSlug(article: AnyRecord) {
+  return article?.slug ? `/articles/${article.slug}` : "/articles";
+}
 
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const chapterNumerals = ["I", "II", "III", "IV", "V", "VI"] as const;
-const chapterIcons = [BookOpenText, MessageSquareText, Bot, Landmark, UserRoundCheck, FileCheck2] as const;
-const chapterLinks = ["/articles", "/discussions", "/lexai", "/cases", "/authors", "/submit"] as const;
+function getAuthorName(author: AnyRecord, fallback = "Contributor") {
+  return pickText(author?.fullName ?? author?.name ?? author?.username, fallback);
+}
 
-const reveal: Variants = {
-  hidden: { opacity: 0, y: 34, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.72, ease: EASE, staggerChildren: 0.07 }
-  }
-};
+function formatNumber(value: number | undefined | null) {
+  const n = Number(value ?? 0);
+  return new Intl.NumberFormat("en").format(Number.isFinite(n) ? n : 0);
+}
 
-const revealItem: Variants = {
-  hidden: { opacity: 0, y: 18, filter: "blur(5px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.68, ease: EASE } }
-};
+function useScrollProgress() {
+  const [progress, setProgress] = useState(0);
 
-export function CinematicHomepage({
-  dictionary,
-  locale,
-  featuredArticles,
-  latestArticles,
-  categories,
-  authors,
-  discussions
-}: CinematicHomepageProps) {
-  const copy = dictionary.home.cinematic;
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const articles = useMemo(
-    () => dedupeArticles([...featuredArticles, ...latestArticles]),
-    [featuredArticles, latestArticles]
-  );
-  const chapterFrames = copy.frames.slice(1, 7);
-  const heroStats = [
-    { label: copy.statArticles, value: formatNumber(articles.length, locale), href: "/articles" },
-    { label: copy.statAuthors, value: formatNumber(authors.length, locale), href: "/authors" },
-    { label: copy.statDiscussions, value: formatNumber(discussions.length, locale), href: "/discussions" },
-    { label: copy.statCases, value: "US / ECHR / EU", href: "/cases" }
-  ];
+  useEffect(() => {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return progress;
+}
+
+function useInView<T extends HTMLElement>(threshold = 0.2) {
+  const ref = useRef<T | null>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) {
+      setInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      { threshold },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, inView };
+}
+
+function AnimatedNumber({ value }: { value: number }) {
+  const { ref, inView } = useInView<HTMLSpanElement>(0.45);
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      setDisplay(value);
+      return;
+    }
+
+    let frame = 0;
+    const frames = 72;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / 1200);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(Math.round(value * eased));
+      frame += 1;
+      if (t < 1 && frame < frames) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  }, [inView, value]);
+
+  return <span ref={ref}>{formatNumber(display)}</span>;
+}
+
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const { ref, inView } = useInView<HTMLDivElement>(0.18);
 
   return (
-    <main className="relative isolate overflow-hidden bg-[#f3ead6] text-[#16120c] dark:bg-[#050403] dark:text-[#e2e8f0]">
-      <motion.div
-        aria-hidden="true"
-        className="fixed left-0 top-0 z-50 h-[3px] w-full origin-left bg-gradient-to-r from-[#1e3a8a] via-[#60a5fa] to-[#bfdbfe]"
-        style={{ scaleX: scrollYProgress }}
-      />
-      <LegalGrainOverlay />
-      <ArchiveAtmosphere reducedMotion={Boolean(reduceMotion)} />
-
-      <section className="relative z-10 overflow-hidden border-b border-[#1e3a8a]/20">
-        <div className="legal-container grid min-h-[calc(100svh-5rem)] gap-10 py-10 md:py-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <motion.div variants={reveal} initial="hidden" animate="visible" className="max-w-5xl">
-            <motion.div variants={revealItem} className="inline-flex items-center gap-3 border-y border-[#1e3a8a]/40 bg-[#eff6ff]/70 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#1e3a8a] shadow-sm backdrop-blur-xl dark:bg-[#020617]/70 dark:text-[#60a5fa]">
-              <Scale className="h-4 w-4" />
-              {copy.heroEyebrow}
-            </motion.div>
-
-            <motion.h1 variants={revealItem} className="mt-7 max-w-5xl font-serif text-5xl font-semibold leading-[0.92] tracking-tight text-[#16120c] dark:text-[#e2e8f0] md:text-7xl xl:text-8xl">
-              {copy.heroTitle}
-            </motion.h1>
-
-            <motion.div variants={revealItem} className="mt-6 flex max-w-3xl items-start gap-4 border-l border-[#1e3a8a]/45 pl-5">
-              <p className="text-base leading-8 text-[#334155] dark:text-[#cbd5e1]/80 md:text-lg">
-                {copy.heroBody}
-              </p>
-            </motion.div>
-
-            <motion.div variants={revealItem} className="mt-8 flex flex-wrap gap-3">
-              <CinematicButton href="/articles" label={copy.ctaExplore} icon={ArrowRight} primary />
-              <CinematicButton href="/submit" label={copy.ctaSubmit} icon={PenLine} />
-              <CinematicButton href="/lexai" label={copy.ctaLexAi} icon={Bot} />
-            </motion.div>
-
-            <motion.div variants={revealItem} className="mt-8 grid max-w-4xl gap-3 sm:grid-cols-2 xl:grid-cols-4">
-              {heroStats.map((stat) => (
-                <Link key={stat.label} href={stat.href} className="group border border-[#1e3a8a]/25 bg-[#eff6ff]/60 p-4 shadow-[0_20px_60px_rgba(15, 23, 42,0.08)] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[#2563eb]/70 dark:bg-[#020617]/70">
-                  <p className="font-serif text-2xl font-semibold text-[#21170b] dark:text-[#e2e8f0]">{stat.value}</p>
-                  <p className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#334155] dark:text-[#93c5fd]">{stat.label}</p>
-                </Link>
-              ))}
-            </motion.div>
-
-            <motion.div variants={revealItem} className="mt-8 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.24em] text-[#475569] dark:text-[#94a3b8]/70">
-              <span className="h-px w-14 bg-[#1e3a8a]/50" />
-              {copy.scrollHint}
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 28, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: reduceMotion ? 0 : 0.9, ease: EASE, delay: 0.1 }}
-            className="relative min-h-[560px] lg:min-h-[660px]"
-          >
-            <HeroLegalArchive
-              articles={articles}
-              categories={categories}
-              dictionary={dictionary}
-              locale={locale}
-              reducedMotion={Boolean(reduceMotion)}
-            />
-          </motion.div>
-        </div>
-      </section>
-
-      <div className="relative z-10">
-        <OrnamentDivider />
-        <LegalStoryFrame
-          numeral={chapterNumerals[0]}
-          frame={chapterFrames[0]}
-          copy={copy}
-          icon={chapterIcons[0]}
-          href={chapterLinks[0]}
-          microtext={copy.latinLines[0]}
-          visual={<ResearchArchiveScene articles={articles} dictionary={dictionary} locale={locale} copy={copy} />}
-        />
-        <OrnamentDivider />
-        <LegalStoryFrame
-          numeral={chapterNumerals[1]}
-          frame={chapterFrames[1]}
-          copy={copy}
-          icon={chapterIcons[1]}
-          href={chapterLinks[1]}
-          microtext={copy.latinLines[1]}
-          reverse
-          visual={<DebateScene discussions={discussions} dictionary={dictionary} copy={copy} />}
-        />
-        <OrnamentDivider />
-        <LegalStoryFrame
-          numeral={chapterNumerals[2]}
-          frame={chapterFrames[2]}
-          copy={copy}
-          icon={chapterIcons[2]}
-          href={chapterLinks[2]}
-          microtext={copy.latinLines[2]}
-          visual={<LexAiScene dictionary={dictionary} copy={copy} reducedMotion={Boolean(reduceMotion)} />}
-        />
-        <OrnamentDivider />
-        <LegalStoryFrame
-          numeral={chapterNumerals[3]}
-          frame={chapterFrames[3]}
-          copy={copy}
-          icon={chapterIcons[3]}
-          href={chapterLinks[3]}
-          microtext={copy.latinLines[3]}
-          reverse
-          visual={<CasesScene dictionary={dictionary} copy={copy} />}
-        />
-        <OrnamentDivider />
-        <LegalStoryFrame
-          numeral={chapterNumerals[4]}
-          frame={chapterFrames[4]}
-          copy={copy}
-          icon={chapterIcons[4]}
-          href={chapterLinks[4]}
-          microtext={copy.latinLines[4]}
-          visual={<AuthorsScene authors={authors} dictionary={dictionary} locale={locale} copy={copy} />}
-        />
-        <OrnamentDivider />
-        <LegalStoryFrame
-          numeral={chapterNumerals[5]}
-          frame={chapterFrames[5]}
-          copy={copy}
-          icon={chapterIcons[5]}
-          href={chapterLinks[5]}
-          microtext={copy.latinLines[5]}
-          reverse
-          visual={<EditorialDeskScene dictionary={dictionary} copy={copy} />}
-        />
-      </div>
-
-      <PlatformIndex
-        dictionary={dictionary}
-        locale={locale}
-        latestArticles={latestArticles}
-        categories={categories}
-        authors={authors}
-        discussions={discussions}
-      />
-
-      <FinalCta dictionary={dictionary} />
-    </main>
-  );
-}
-
-function dedupeArticles(articles: HomeArticlePreview[]) {
-  const seen = new Set<string>();
-  return articles.filter((article) => {
-    if (seen.has(article.id)) return false;
-    seen.add(article.id);
-    return true;
-  });
-}
-
-function LegalGrainOverlay() {
-  return <div aria-hidden="true" className="legal-grain-overlay pointer-events-none fixed inset-0 z-[1]" />;
-}
-
-function ArchiveAtmosphere({ reducedMotion }: { reducedMotion: boolean }) {
-  const floating = reducedMotion
-    ? undefined
-    : {
-        y: [0, -18, 0],
-        rotate: [0, 1.5, 0]
-      };
-
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(37, 99, 235,0.24),transparent_24rem),radial-gradient(circle_at_82%_18%,rgba(74,52,29,0.18),transparent_28rem),linear-gradient(180deg,rgba(255,255,255,0.16),transparent_24rem)] dark:bg-[radial-gradient(circle_at_16%_8%,rgba(37, 99, 235,0.16),transparent_26rem),radial-gradient(circle_at_82%_18%,rgba(54,37,20,0.45),transparent_28rem),linear-gradient(180deg,rgba(255,255,255,0.035),transparent_26rem)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(143,99,49,0.11)_1px,transparent_1px),linear-gradient(90deg,rgba(143,99,49,0.09)_1px,transparent_1px)] bg-[size:88px_88px] opacity-30 dark:opacity-20" />
-      <motion.div
-        animate={floating}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -left-24 top-32 h-72 w-72 rounded-full border border-[#1e3a8a]/25"
-      />
-      <motion.div
-        animate={reducedMotion ? undefined : { y: [0, 22, 0], rotate: [0, -2, 0] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-[-9rem] top-[18rem] h-[30rem] w-[30rem] rounded-full border border-[#1e3a8a]/20"
-      />
-      <div className="absolute bottom-[20rem] left-[12%] h-px w-64 rotate-[-18deg] bg-gradient-to-r from-transparent via-[#1e3a8a]/30 to-transparent" />
-      <div className="absolute right-[12%] top-[44rem] h-px w-72 rotate-[15deg] bg-gradient-to-r from-transparent via-[#1e3a8a]/30 to-transparent" />
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0px)" : "translateY(28px)",
+        transition: `opacity 760ms ${ease} ${delay}ms, transform 900ms ${ease} ${delay}ms`,
+        willChange: "opacity, transform",
+      }}
+    >
+      {children}
     </div>
   );
 }
 
-function LegalStoryFrame({
-  numeral,
-  frame,
-  copy,
-  icon: Icon,
-  href,
-  visual,
-  microtext,
-  reverse = false
-}: {
-  numeral: string;
-  frame: CinematicFrame;
-  copy: CinematicCopy;
-  icon: LucideIcon;
-  href: string;
-  visual: ReactNode;
-  microtext: string;
-  reverse?: boolean;
-}) {
+function ScrollProgress() {
+  const progress = useScrollProgress();
+
   return (
-    <section id={`chapter-${numeral.toLowerCase()}`} className="relative overflow-hidden py-14 md:py-16 lg:py-20">
-      <div className={`legal-container grid gap-8 lg:min-h-[78svh] lg:grid-cols-[0.86fr_1.14fr] lg:items-center ${reverse ? "lg:grid-flow-dense" : ""}`}>
-        <motion.div
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.34 }}
-          className={reverse ? "lg:col-start-2" : ""}
-        >
-          <motion.div variants={revealItem} className="flex items-center gap-4">
-            <div className="flex h-20 w-20 items-center justify-center border border-[#1e3a8a]/45 bg-[#eff6ff]/70 font-serif text-4xl font-semibold text-[#1e3a8a] shadow-[0_18px_70px_rgba(15, 23, 42,0.12)] dark:bg-[#020617]/80 dark:text-[#60a5fa]">
-              {numeral}
-            </div>
-            <div>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#334155] dark:text-[#93c5fd]">
-                {copy.chapterLabel}
-              </p>
-              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[#475569] dark:text-[#94a3b8]/65">
-                {microtext}
-              </p>
-            </div>
-          </motion.div>
+    <div className="fixed left-0 top-0 z-[80] h-[3px] w-full bg-transparent">
+      <div
+        className="h-full origin-left bg-gradient-to-r from-blue-950 via-blue-600 to-sky-300 shadow-[0_0_30px_rgba(37,99,235,0.45)]"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
+}
 
-          <motion.div variants={revealItem} className="mt-8 flex h-12 w-12 items-center justify-center border border-[#1e3a8a]/35 bg-[#0f172a] text-[#60a5fa] shadow-[0_0_42px_rgba(37, 99, 235,0.18)] dark:bg-[#60a5fa]/10">
-            <Icon className="h-6 w-6" />
-          </motion.div>
-          <motion.p variants={revealItem} className="mt-6 font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#1e3a8a] dark:text-[#60a5fa]">
-            {frame.eyebrow}
-          </motion.p>
-          <motion.h2 variants={revealItem} className="mt-4 max-w-2xl font-serif text-4xl font-semibold leading-[1.02] text-[#0f172a] dark:text-[#e2e8f0] md:text-6xl">
-            {frame.title}
-          </motion.h2>
-          <motion.p variants={revealItem} className="mt-5 max-w-xl text-base leading-8 text-[#334155] dark:text-[#cbd5e1]/80">
-            {frame.body}
-          </motion.p>
-          <motion.div variants={revealItem} className="mt-8">
-            <CinematicButton href={href} label={frame.cta} icon={ArrowRight} primary />
-          </motion.div>
-        </motion.div>
+function GridBackground() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(37,99,235,0.24),transparent_34%),radial-gradient(circle_at_80%_35%,rgba(14,165,233,0.13),transparent_28%),linear-gradient(180deg,rgba(2,6,23,0.15),rgba(2,6,23,0.92))]" />
+      <div className="absolute inset-0 opacity-[0.15] dark:opacity-[0.18] [background-image:linear-gradient(rgba(96,165,250,0.16)_1px,transparent_1px),linear-gradient(90deg,rgba(96,165,250,0.16)_1px,transparent_1px)] [background-size:72px_72px]" />
+      <div className="absolute left-1/2 top-28 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full border border-blue-400/15" />
+      <div className="absolute left-1/2 top-6 h-[58rem] w-[58rem] -translate-x-1/2 rounded-full border border-blue-400/10" />
+    </div>
+  );
+}
 
-        <motion.div
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.25 }}
-          className={`relative min-h-[520px] ${reverse ? "lg:col-start-1 lg:row-start-1" : ""}`}
-        >
-          {visual}
-        </motion.div>
+function HeroVisual({ articles }: { articles: AnyRecord[] }) {
+  const first = articles[0];
+  const second = articles[1];
+  const third = articles[2];
+
+  return (
+    <div className="relative min-h-[520px] w-full">
+      <div className="absolute left-1/2 top-1/2 h-[25rem] w-[25rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-blue-300/20 bg-blue-950/30 shadow-[0_0_120px_rgba(37,99,235,0.22)] backdrop-blur-2xl" />
+      <div className="absolute left-1/2 top-1/2 flex h-52 w-52 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-blue-300/25 bg-slate-950/80 text-blue-200 shadow-[0_0_90px_rgba(59,130,246,0.24)]">
+        <Scale className="h-20 w-20" strokeWidth={1.1} />
+      </div>
+
+      <Link
+        href={getArticleSlug(first)}
+        className="group absolute left-0 top-8 w-[21rem] rounded-[2rem] border border-blue-300/25 bg-white/85 p-5 text-slate-950 shadow-[0_30px_90px_rgba(15,23,42,0.18)] backdrop-blur-2xl transition duration-500 hover:-translate-y-2 hover:border-blue-500/55 dark:bg-slate-950/80 dark:text-white"
+      >
+        <div className="flex items-center justify-between border-b border-blue-500/15 pb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-blue-700 dark:text-blue-300">
+          <span>Featured brief</span>
+          <BookOpenText className="h-4 w-4" />
+        </div>
+        <h3 className="mt-4 line-clamp-3 font-serif text-2xl leading-7">{getArticleTitle(first, "Legal research, written with authority")}</h3>
+        <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+          {pickText(first?.abstract, "Discover legal articles, structured analysis, and research notes from the LexAzerbaijan community.")}
+        </p>
+      </Link>
+
+      <Link
+        href={getArticleSlug(second)}
+        className="group absolute right-0 top-24 w-[18rem] rounded-[1.6rem] border border-blue-300/25 bg-blue-50/90 p-5 text-slate-950 shadow-[0_24px_80px_rgba(15,23,42,0.16)] backdrop-blur-2xl transition duration-500 hover:-translate-y-2 hover:border-blue-500/55 dark:bg-slate-900/90 dark:text-white"
+      >
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-blue-700 dark:text-blue-300">Case note</p>
+        <h3 className="mt-3 line-clamp-2 font-serif text-xl leading-6">{getArticleTitle(second, "From cases to legal meaning")}</h3>
+      </Link>
+
+      <Link
+        href={getArticleSlug(third)}
+        className="group absolute bottom-16 left-20 w-[19rem] rounded-[1.6rem] border border-blue-300/25 bg-slate-950/90 p-5 text-white shadow-[0_30px_90px_rgba(2,6,23,0.28)] backdrop-blur-2xl transition duration-500 hover:-translate-y-2 hover:border-blue-400/65"
+      >
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-blue-300">Editorial archive</p>
+        <h3 className="mt-3 line-clamp-2 font-serif text-xl leading-6">{getArticleTitle(third, "Publish, debate, and build your legal voice")}</h3>
+      </Link>
+
+      <div className="absolute bottom-6 right-8 w-64 rounded-[1.5rem] border border-blue-300/25 bg-white/80 p-4 shadow-[0_22px_70px_rgba(15,23,42,0.14)] backdrop-blur-2xl dark:bg-slate-950/80">
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+            <Bot className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-700 dark:text-blue-300">LexAI ready</p>
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">Research assistant preview</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroSection({ copy, articles }: { copy: AnyRecord; articles: AnyRecord[] }) {
+  return (
+    <section className="relative flex min-h-[calc(100vh+40px)] items-center overflow-hidden bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
+      <GridBackground />
+
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-12 px-5 pb-20 pt-32 md:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div>
+          <Reveal>
+            <div className="inline-flex items-center gap-3 rounded-full border border-blue-500/25 bg-blue-50/80 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-blue-800 shadow-sm backdrop-blur-xl dark:bg-blue-950/30 dark:text-blue-200">
+              <Sparkles className="h-4 w-4" />
+              {copy.heroEyebrow}
+            </div>
+          </Reveal>
+
+          <Reveal delay={90}>
+            <h1 className="mt-8 max-w-4xl font-serif text-[clamp(3.6rem,9vw,8.8rem)] font-semibold leading-[0.86] tracking-[-0.07em]">
+              {copy.heroTitleA}
+              <span className="block bg-gradient-to-r from-blue-950 via-blue-700 to-sky-500 bg-clip-text text-transparent dark:from-white dark:via-blue-200 dark:to-sky-300">
+                {copy.heroTitleB}
+              </span>
+            </h1>
+          </Reveal>
+
+          <Reveal delay={160}>
+            <p className="mt-8 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 md:text-lg">
+              {copy.heroBody}
+            </p>
+          </Reveal>
+
+          <Reveal delay={230}>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/articles"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-[0_20px_60px_rgba(37,99,235,0.26)] transition duration-300 hover:-translate-y-1 hover:bg-blue-600"
+              >
+                {copy.exploreArticles}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/submit"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-blue-500/30 bg-white/70 px-6 py-3 text-sm font-semibold text-blue-950 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-blue-50 dark:bg-white/10 dark:text-white dark:hover:bg-white/15"
+              >
+                {copy.submitArticle}
+              </Link>
+              <Link
+                href="/lexai"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-blue-500/30 bg-white/70 px-6 py-3 text-sm font-semibold text-blue-950 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-blue-50 dark:bg-white/10 dark:text-white dark:hover:bg-white/15"
+              >
+                {copy.tryLexAI}
+              </Link>
+            </div>
+          </Reveal>
+
+          <Reveal delay={300}>
+            <div className="mt-12 grid max-w-2xl grid-cols-2 gap-3 md:grid-cols-4">
+              {copy.heroStats.map((stat: AnyRecord) => (
+                <Link
+                  key={stat.label}
+                  href={stat.href}
+                  className="rounded-2xl border border-blue-500/20 bg-white/70 p-4 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-blue-500/50 dark:bg-white/[0.06]"
+                >
+                  <p className="font-serif text-2xl font-semibold">{stat.value}</p>
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{stat.label}</p>
+                </Link>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal delay={180}>
+          <HeroVisual articles={articles} />
+        </Reveal>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 font-mono text-[10px] uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400 md:flex">
+        <span>{copy.scroll}</span>
+        <span className="h-16 w-px bg-gradient-to-b from-transparent via-blue-500 to-transparent" />
       </div>
     </section>
   );
 }
 
-function CinematicButton({
-  href,
-  label,
-  icon: Icon,
-  primary = false
+function TimelineSection({
+  copy,
+  articles,
+  categories,
+  authors,
+  discussions,
 }: {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-  primary?: boolean;
+  copy: AnyRecord;
+  articles: AnyRecord[];
+  categories: AnyRecord[];
+  authors: AnyRecord[];
+  discussions: AnyRecord[];
 }) {
+  const frames = useMemo(
+    () => [
+      {
+        icon: BookOpenText,
+        kicker: "I",
+        title: copy.timelineArticlesTitle,
+        body: copy.timelineArticlesBody,
+        href: "/articles",
+        cta: copy.exploreArticles,
+        visual: <ArticleArchive articles={articles} copy={copy} />,
+      },
+      {
+        icon: MessageSquareText,
+        kicker: "II",
+        title: copy.timelineDiscussionsTitle,
+        body: copy.timelineDiscussionsBody,
+        href: "/discussions",
+        cta: copy.openDiscussions,
+        visual: <DebateVisual discussions={discussions} copy={copy} />,
+      },
+      {
+        icon: Bot,
+        kicker: "III",
+        title: copy.timelineLexAITitle,
+        body: copy.timelineLexAIBody,
+        href: "/lexai",
+        cta: copy.tryLexAI,
+        visual: <LexAIVisual categories={categories} copy={copy} />,
+      },
+      {
+        icon: Landmark,
+        kicker: "IV",
+        title: copy.timelineCasesTitle,
+        body: copy.timelineCasesBody,
+        href: "/cases",
+        cta: copy.exploreCases,
+        visual: <CasesVisual copy={copy} />,
+      },
+      {
+        icon: UserRound,
+        kicker: "V",
+        title: copy.timelineAuthorsTitle,
+        body: copy.timelineAuthorsBody,
+        href: "/authors",
+        cta: copy.viewAuthors,
+        visual: <AuthorsVisual authors={authors} copy={copy} />,
+      },
+    ],
+    [articles, authors, categories, copy, discussions],
+  );
+
+  const [active, setActive] = useState(0);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const center = window.innerHeight * 0.48;
+      let next = 0;
+
+      itemRefs.current.forEach((node, index) => {
+        if (!node) return;
+        const box = node.getBoundingClientRect();
+        if (box.top <= center) next = index;
+      });
+
+      setActive(next);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  const ActiveIcon = frames[active]?.icon ?? Scale;
+
   return (
-    <Link
-      href={href}
-      className={`group inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-sm transition ${
-        primary
-          ? "bg-[#2563eb] text-[#eff6ff] shadow-[0_18px_50px_rgba(37, 99, 235,0.26)] hover:bg-[#60a5fa]"
-          : "border border-[#1e3a8a]/35 bg-[#eff6ff]/70 text-[#0f172a] backdrop-blur-xl hover:border-[#2563eb] hover:bg-[#eff6ff] dark:bg-[#020617]/70 dark:text-[#e0f2fe]"
-      }`}
-    >
-      {label}
-      <Icon className="h-4 w-4 transition group-hover:translate-x-0.5" />
-    </Link>
+    <section className="relative bg-slate-100 py-24 text-slate-950 dark:bg-[#020617] dark:text-white md:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(59,130,246,0.15),transparent_32%),radial-gradient(circle_at_90%_50%,rgba(14,165,233,0.10),transparent_30%)]" />
+
+      <div className="relative mx-auto max-w-7xl px-5 md:px-8">
+        <Reveal>
+          <div className="mb-16 max-w-3xl">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.28em] text-blue-700 dark:text-blue-300">{copy.timelineEyebrow}</p>
+            <h2 className="mt-5 font-serif text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-7xl">{copy.timelineTitle}</h2>
+            <p className="mt-6 text-base leading-8 text-slate-600 dark:text-slate-300">{copy.timelineBody}</p>
+          </div>
+        </Reveal>
+
+        <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="space-y-8">
+            {frames.map((frame, index) => {
+              const Icon = frame.icon;
+              const isActive = active === index;
+
+              return (
+                <div
+                  key={frame.kicker}
+                  ref={(node) => {
+                    itemRefs.current[index] = node;
+                  }}
+                  className={`group relative rounded-[2rem] border p-6 transition duration-500 ${
+                    isActive
+                      ? "border-blue-500/50 bg-white shadow-[0_30px_100px_rgba(15,23,42,0.12)] dark:bg-slate-950"
+                      : "border-blue-500/15 bg-white/55 dark:bg-white/[0.04]"
+                  }`}
+                >
+                  <div className="flex items-start gap-5">
+                    <div
+                      className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border transition duration-500 ${
+                        isActive
+                          ? "border-blue-500/50 bg-blue-700 text-white shadow-[0_18px_45px_rgba(37,99,235,0.22)]"
+                          : "border-blue-500/20 bg-blue-50 text-blue-800 dark:bg-blue-950/35 dark:text-blue-200"
+                      }`}
+                    >
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-blue-700 dark:text-blue-300">Frame {frame.kicker}</p>
+                      <h3 className="mt-2 font-serif text-3xl leading-8">{frame.title}</h3>
+                      <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-300">{frame.body}</p>
+                      <Link href={frame.href} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
+                        {frame.cta}
+                        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="lg:sticky lg:top-28 lg:h-[calc(100vh-8rem)]">
+            <div className="relative h-[640px] overflow-hidden rounded-[2.5rem] border border-blue-400/25 bg-slate-950 p-5 text-white shadow-[0_40px_140px_rgba(2,6,23,0.35)] lg:h-full">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(59,130,246,0.26),transparent_34%),linear-gradient(180deg,rgba(15,23,42,0.35),rgba(2,6,23,0.96))]" />
+              <div className="absolute inset-0 opacity-[0.15] [background-image:linear-gradient(rgba(147,197,253,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(147,197,253,0.18)_1px,transparent_1px)] [background-size:54px_54px]" />
+
+              <div className="relative z-10 flex items-center justify-between border-b border-blue-300/15 pb-4">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-blue-300">{copy.rightPanelLabel}</p>
+                  <p className="mt-1 text-sm text-slate-400">{copy.rightPanelBody}</p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-300/25 bg-blue-500/10 text-blue-200">
+                  <ActiveIcon className="h-6 w-6" />
+                </div>
+              </div>
+
+              <div key={active} className="relative z-10 h-[calc(100%-5rem)] animate-[panelIn_680ms_cubic-bezier(0.22,1,0.36,1)_both]">
+                {frames[active]?.visual}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
-function HeroLegalArchive({
-  articles,
-  categories,
-  dictionary,
-  locale,
-  reducedMotion
-}: {
-  articles: HomeArticlePreview[];
-  categories: HomeCategoryPreview[];
-  dictionary: Dictionary;
-  locale: Locale;
-  reducedMotion: boolean;
-}) {
-  const copy = dictionary.home.cinematic;
-  const topArticles = articles.slice(0, 3);
+function ArticleArchive({ articles, copy }: { articles: AnyRecord[]; copy: AnyRecord }) {
+  const list = articles.slice(0, 4);
 
   return (
-    <div className="absolute inset-0">
-      <div className="absolute inset-x-8 top-5 h-[34rem] border border-[#1e3a8a]/25 bg-[#fff5dd]/50 shadow-[0_40px_120px_rgba(45,30,14,0.16)] backdrop-blur-xl dark:bg-[#11100d]/75" />
-      <div className="absolute left-10 top-12 h-[31rem] w-[24rem] rotate-[-5deg] border border-[#1e3a8a]/35 bg-[#dbeafe] shadow-[0_28px_90px_rgba(35,24,12,0.20)] dark:bg-[#19130b]">
-        <div className="m-5 border-y border-[#1e3a8a]/25 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-[#334155] dark:text-[#93c5fd]">
-          {copy.archiveLabel}
+    <div className="relative h-full pt-10">
+      <div className="absolute left-10 top-14 h-72 w-72 rounded-full border border-blue-300/20 bg-blue-500/10 blur-sm" />
+      <div className="relative mx-auto max-w-xl space-y-4 pt-12">
+        {(list.length ? list : [{ title: copy.emptyArticleA }, { title: copy.emptyArticleB }, { title: copy.emptyArticleC }]).map((article, index) => (
+          <Link
+            key={article.id ?? index}
+            href={getArticleSlug(article)}
+            className="block rounded-[1.6rem] border border-blue-300/20 bg-white/[0.08] p-5 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-blue-300/50"
+            style={{ transform: `translateX(${index % 2 ? 34 : 0}px)` }}
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-300">{article.categoryName ?? copy.articleLabel}</p>
+            <h4 className="mt-2 line-clamp-2 font-serif text-2xl leading-7 text-white">{getArticleTitle(article, copy.emptyArticleA)}</h4>
+            <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">{pickText(article.abstract, copy.articleFallback)}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DebateVisual({ discussions, copy }: { discussions: AnyRecord[]; copy: AnyRecord }) {
+  const list = discussions.slice(0, 3);
+
+  return (
+    <div className="relative h-full pt-14">
+      <Gavel className="absolute right-10 top-16 h-32 w-32 text-blue-300/20" strokeWidth={1} />
+      <div className="space-y-5">
+        {(list.length ? list : [{ title: copy.debateA }, { title: copy.debateB }, { title: copy.debateC }]).map((thread, index) => (
+          <Link
+            key={thread.id ?? index}
+            href={thread.slug ? `/discussions/${thread.slug}` : "/discussions"}
+            className={`block rounded-[1.6rem] border border-blue-300/20 bg-white/[0.08] p-5 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-blue-300/50 ${index % 2 ? "ml-16" : "mr-16"}`}
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-300">{copy.discussionLabel}</p>
+            <h4 className="mt-2 line-clamp-2 font-serif text-2xl leading-7">{pickText(thread.title, copy.debateA)}</h4>
+            <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">{pickText(thread.body, copy.debateFallback)}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LexAIVisual({ categories, copy }: { categories: AnyRecord[]; copy: AnyRecord }) {
+  return (
+    <div className="relative h-full pt-16">
+      <div className="absolute right-10 top-12 h-72 w-72 rounded-full border border-blue-300/25 bg-[radial-gradient(circle,rgba(59,130,246,0.34),rgba(37,99,235,0.10)_46%,transparent_72%)] shadow-[0_0_130px_rgba(37,99,235,0.25)]" />
+      <div className="relative z-10 max-w-xl rounded-[2rem] border border-blue-300/20 bg-white/[0.08] p-6 backdrop-blur-xl">
+        <div className="flex items-center justify-between border-b border-blue-300/15 pb-4">
+          <div className="flex items-center gap-3">
+            <Bot className="h-5 w-5 text-blue-300" />
+            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-blue-300">LexAI</p>
+          </div>
+          <span className="h-2 w-2 rounded-full bg-blue-300 shadow-[0_0_20px_rgba(96,165,250,0.8)]" />
         </div>
-        <div className="mx-5 space-y-3">
-          {(topArticles.length ? topArticles : []).map((article) => (
-            <Link key={article.id} href={`/articles/${article.slug}`} className="block border border-[#1e3a8a]/20 bg-[#f8fafc]/70 p-4 transition hover:-translate-y-1 hover:border-[#2563eb] dark:bg-white/[0.04]">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#1e3a8a]">{article.categoryName ?? dictionary.common.uncategorized}</p>
-              <h3 className="mt-2 line-clamp-2 font-serif text-xl font-semibold leading-tight text-[#0f172a] dark:text-[#e2e8f0]">{article.title}</h3>
-              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#475569] dark:text-[#cbd5e1]/55">
-                {article.language.toUpperCase()} · {article.readingTime} {dictionary.common.minuteShort} · {formatDate(article.publishedAt ?? article.createdAt, undefined, locale)}
-              </p>
-            </Link>
-          ))}
-          {!topArticles.length ? (
-            <div className="border border-[#1e3a8a]/20 bg-[#f8fafc]/70 p-4 text-sm leading-7 text-[#334155] dark:bg-white/[0.04] dark:text-[#cbd5e1]/70">
-              {copy.archiveEmpty}
-            </div>
-          ) : null}
+
+        <div className="mt-6 space-y-4">
+          <div className="ml-auto max-w-[82%] rounded-2xl bg-blue-600 px-4 py-3 text-sm leading-6 text-white">
+            {copy.aiQuestion}
+          </div>
+          <div className="max-w-[88%] rounded-2xl border border-blue-300/15 bg-slate-950/70 px-4 py-3 text-sm leading-6 text-slate-200">
+            {copy.aiAnswer}
+          </div>
         </div>
       </div>
 
-      <motion.div
-        animate={reducedMotion ? undefined : { y: [0, -10, 0], rotate: [-1.5, 1.5, -1.5] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-10 top-14 flex h-64 w-64 items-center justify-center rounded-full border border-[#1e3a8a]/30 bg-[#020617]/90 text-[#60a5fa] shadow-[0_0_120px_rgba(37, 99, 235,0.24)]"
-      >
-        <ScaleIllustration className="h-44 w-44" />
-      </motion.div>
-
-      <div className="absolute bottom-10 right-4 w-[28rem] border border-[#1e3a8a]/30 bg-[#100c08]/95 p-5 text-[#e2e8f0] shadow-[0_34px_110px_rgba(0,0,0,0.34)]">
-        <div className="flex items-center justify-between border-b border-[#2563eb]/20 pb-4">
-          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#60a5fa]">{copy.intelligenceLabel}</span>
-          <span className="h-2 w-2 rounded-full bg-[#60a5fa] shadow-[0_0_22px_rgba(96, 165, 250,0.85)]" />
-        </div>
-        <p className="mt-4 text-sm leading-7 text-[#cbd5e1]/80">{copy.previewQuestion}</p>
-        <p className="mt-3 border-l border-[#2563eb]/35 pl-4 text-sm leading-7 text-[#e2e8f0]/90">{copy.previewAnswer}</p>
-      </div>
-
-      <div className="absolute bottom-14 left-4 grid w-72 grid-cols-2 gap-2">
-        {categories.slice(0, 4).map((category) => (
-          <Link key={category.id} href={`/articles?category=${category.slug}`} className="border border-[#1e3a8a]/25 bg-[#eff6ff]/60 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1e3a8a] backdrop-blur-xl transition hover:border-[#2563eb] dark:bg-[#020617]/80 dark:text-[#93c5fd]">
+      <div className="relative z-10 mt-5 flex flex-wrap gap-2">
+        {(categories.slice(0, 5).length ? categories.slice(0, 5) : [{ name: "EU Law" }, { name: "Corporate" }, { name: "Criminal" }]).map((category, index) => (
+          <Link
+            key={category.id ?? index}
+            href={category.slug ? `/articles?category=${category.slug}` : "/articles"}
+            className="rounded-full border border-blue-300/20 bg-white/[0.07] px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-blue-200 transition hover:border-blue-300/50"
+          >
             {category.name}
           </Link>
         ))}
@@ -485,457 +587,120 @@ function HeroLegalArchive({
   );
 }
 
-function ResearchArchiveScene({
-  articles,
-  dictionary,
-  locale,
-  copy
-}: {
-  articles: HomeArticlePreview[];
-  dictionary: Dictionary;
-  locale: Locale;
-  copy: CinematicCopy;
-}) {
-  const displayArticles = articles.slice(0, 4);
-
-  return (
-    <SceneShell>
-      <div className="absolute inset-x-8 top-8 flex items-center justify-between border-b border-[#2563eb]/20 pb-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.26em] text-[#60a5fa]">{copy.archiveLabel}</p>
-        <Archive className="h-5 w-5 text-[#60a5fa]" />
-      </div>
-      <div className="absolute left-8 top-24 grid w-[30rem] gap-3">
-        {displayArticles.map((article, index) => (
-          <ArticlePaper key={article.id} article={article} dictionary={dictionary} locale={locale} offset={index} />
-        ))}
-        {!displayArticles.length ? (
-          <div className="border border-[#2563eb]/20 bg-[#dbeafe]/90 p-5 text-sm leading-7 text-[#334155] dark:bg-white/[0.055] dark:text-[#cbd5e1]/75">
-            {copy.archiveEmpty}
-          </div>
-        ) : null}
-      </div>
-      <div className="absolute bottom-9 right-8 w-72 border border-[#2563eb]/30 bg-[#020617]/85 p-5 text-[#e2e8f0] shadow-[0_30px_100px_rgba(0,0,0,0.24)]">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#60a5fa]">{copy.sourceDeskLabel}</p>
-        <div className="mt-4 grid gap-2">
-          {copy.sourceMarkers.map((marker) => (
-            <div key={marker} className="flex items-center justify-between border border-white/10 bg-white/[0.055] px-3 py-2 text-xs text-[#cbd5e1]">
-              <span>{marker}</span>
-              <BookOpenText className="h-3.5 w-3.5 text-[#60a5fa]" />
-            </div>
-          ))}
-        </div>
-      </div>
-      <CitationCloud lines={copy.latinLines.slice(0, 4)} />
-    </SceneShell>
-  );
-}
-
-function ArticlePaper({
-  article,
-  dictionary,
-  locale,
-  offset
-}: {
-  article: HomeArticlePreview;
-  dictionary: Dictionary;
-  locale: Locale;
-  offset: number;
-}) {
-  return (
-    <Link
-      href={`/articles/${article.slug}`}
-      className="group block border border-[#1e3a8a]/25 bg-[#eff6ff]/90 p-5 text-[#0f172a] shadow-[0_22px_70px_rgba(15, 23, 42,0.12)] transition hover:-translate-y-1 hover:border-[#2563eb] dark:bg-[#020617]/95 dark:text-[#e2e8f0]"
-      style={{ transform: `translateX(${offset * 18}px)` }}
-    >
-      <div className="flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1e3a8a] dark:text-[#60a5fa]">
-        <span>{article.categoryName ?? dictionary.common.uncategorized}</span>
-        <span>{article.language.toUpperCase()}</span>
-      </div>
-      <h3 className="mt-3 line-clamp-2 font-serif text-2xl font-semibold leading-tight">{article.title}</h3>
-      <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#334155] dark:text-[#cbd5e1]/70">{article.abstract}</p>
-      <div className="mt-4 flex items-center justify-between border-t border-[#1e3a8a]/15 pt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#475569] dark:text-[#cbd5e1]/50">
-        <span>{article.authorName}</span>
-        <span>{formatDate(article.publishedAt ?? article.createdAt, undefined, locale)}</span>
-      </div>
-    </Link>
-  );
-}
-
-function DebateScene({
-  discussions,
-  dictionary,
-  copy
-}: {
-  discussions: HomeDiscussionPreview[];
-  dictionary: Dictionary;
-  copy: CinematicCopy;
-}) {
-  const fallback = copy.discussionCards.map((card, index) => ({
-    id: card.title,
-    title: card.title,
-    slug: "",
-    body: card.body,
-    authorName: card.tag,
-    repliesCount: Number.parseInt(card.meta, 10) || index + 3,
-    updatedAt: ""
-  }));
-  const cards = discussions.length ? discussions.slice(0, 3) : fallback;
-
-  return (
-    <SceneShell>
-      <div className="absolute inset-x-8 top-8 flex items-center justify-between border-b border-[#2563eb]/20 pb-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.26em] text-[#60a5fa]">{copy.debateNoteLabel}</p>
-        <Gavel className="h-5 w-5 text-[#60a5fa]" />
-      </div>
-      <div className="absolute inset-x-8 top-24 grid gap-3">
-        {cards.map((thread, index) => (
-          <Link
-            key={thread.id}
-            href={thread.slug ? `/discussions/${thread.slug}` : "/discussions"}
-            className={`group border border-[#2563eb]/20 bg-[#eff6ff]/90 p-5 shadow-[0_22px_80px_rgba(15, 23, 42,0.14)] transition hover:-translate-y-1 hover:border-[#2563eb] dark:bg-[#020617]/90 ${index % 2 ? "ml-16" : "mr-16"}`}
-          >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#1e3a8a] dark:text-[#60a5fa]">{thread.authorName}</p>
-                <h3 className="mt-2 font-serif text-2xl font-semibold leading-tight text-[#0f172a] dark:text-[#e2e8f0]">{thread.title}</h3>
-                <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#334155] dark:text-[#cbd5e1]/70">{thread.body}</p>
-              </div>
-              <div className="min-w-[4rem] border border-[#1e3a8a]/25 bg-[#dbeafe] px-3 py-2 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-[#1e3a8a] dark:bg-white/[0.055] dark:text-[#60a5fa]">
-                {formatNumber(thread.repliesCount, "en")}
-                <span className="block">{dictionary.common.comments}</span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-      <div className="absolute bottom-8 left-8 right-8 flex flex-wrap gap-2">
-        {copy.topicChips.map((chip) => (
-          <span key={chip} className="border border-[#2563eb]/25 bg-[#020617]/85 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#60a5fa]">
-            {chip}
-          </span>
-        ))}
-      </div>
-      <GavelSketch className="absolute bottom-24 right-12 h-32 w-32 text-[#60a5fa]/35" />
-    </SceneShell>
-  );
-}
-
-function LexAiScene({
-  dictionary,
-  copy,
-  reducedMotion
-}: {
-  dictionary: Dictionary;
-  copy: CinematicCopy;
-  reducedMotion: boolean;
-}) {
-  return (
-    <SceneShell>
-      <motion.div
-        animate={reducedMotion ? undefined : { scale: [1, 1.04, 1], opacity: [0.78, 1, 0.78] }}
-        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-14 top-12 h-72 w-72 rounded-full border border-[#60a5fa]/30 bg-[radial-gradient(circle,rgba(96, 165, 250,0.34),rgba(96, 165, 250,0.08)_44%,transparent_70%)] shadow-[0_0_140px_rgba(37, 99, 235,0.30)]"
-      />
-      <div className="absolute left-8 top-10 w-[34rem] border border-[#2563eb]/25 bg-[#eff6ff]/90 p-5 shadow-[0_30px_100px_rgba(15, 23, 42,0.18)] dark:bg-[#020617]/95">
-        <div className="flex items-center justify-between border-b border-[#1e3a8a]/20 pb-4">
-          <div className="flex items-center gap-3">
-            <Bot className="h-5 w-5 text-[#2563eb]" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#1e3a8a] dark:text-[#60a5fa]">{dictionary.pages.lexAiPanelTitle}</p>
-          </div>
-          <span className="h-2 w-2 rounded-full bg-[#60a5fa] shadow-[0_0_22px_rgba(96, 165, 250,0.8)]" />
-        </div>
-        <div className="mt-5 grid gap-4">
-          <div className="ml-auto max-w-[78%] bg-[#2563eb] px-4 py-3 text-sm leading-6 text-[#eff6ff]">
-            {copy.lexAiUserMessage}
-          </div>
-          <div className="max-w-[84%] border border-[#1e3a8a]/20 bg-[#fff9eb] px-4 py-3 text-sm leading-6 text-[#47351e] dark:bg-white/[0.055] dark:text-[#e2e8f0]/80">
-            {copy.lexAiAnswer}
-          </div>
-        </div>
-      </div>
-      <div className="absolute bottom-10 left-8 grid w-[34rem] grid-cols-2 gap-2">
-        {copy.assistantModes.map((mode) => (
-          <div key={mode} className="border border-[#2563eb]/20 bg-[#020617]/90 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.17em] text-[#60a5fa]">
-            {mode}
-          </div>
-        ))}
-      </div>
-      <div className="absolute bottom-10 right-8 w-72 border border-[#60a5fa]/25 bg-[#0f172a]/90 p-4 text-xs leading-6 text-[#e2e8f0]/80">
-        {dictionary.pages.lexAiDisclaimer}
-      </div>
-    </SceneShell>
-  );
-}
-
-function CasesScene({ dictionary, copy }: { dictionary: Dictionary; copy: CinematicCopy }) {
-  return (
-    <SceneShell>
-      <div className="absolute left-8 right-8 top-8 flex items-center gap-3 border border-[#2563eb]/20 bg-[#eff6ff]/90 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#1e3a8a] dark:bg-[#020617]/95 dark:text-[#60a5fa]">
-        <Search className="h-4 w-4" />
-        {copy.caseSearchPlaceholder}
-      </div>
-      <div className="absolute left-8 top-24 grid w-[32rem] gap-3">
-        {copy.caseCards.map((item) => (
-          <Link key={item.title} href={item.href} className="group border border-[#2563eb]/25 bg-[#eff6ff]/90 p-5 transition hover:-translate-y-1 hover:border-[#2563eb] dark:bg-[#020617]/95">
-            <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 items-center justify-center border border-[#1e3a8a]/35 bg-[#020617] font-serif text-lg font-semibold text-[#60a5fa]">
-                {item.court}
-              </div>
-              <div>
-                <h3 className="font-serif text-2xl font-semibold leading-tight text-[#0f172a] dark:text-[#e2e8f0]">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#334155] dark:text-[#cbd5e1]/70">{item.body}</p>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-      <div className="absolute bottom-10 right-8 w-72 border border-[#2563eb]/30 bg-[#020617]/92 p-5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#60a5fa]">{copy.caseTimelineLabel}</p>
-        <div className="mt-5 space-y-4">
-          {copy.caseCards.map((item, index) => (
-            <div key={item.court} className="flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#60a5fa]/30 font-mono text-[10px] text-[#60a5fa]">0{index + 1}</span>
-              <span className="text-sm text-[#e2e8f0]/80">{item.court} · {item.title}</span>
-            </div>
-          ))}
-        </div>
-        <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#60a5fa]/30 bg-[#60a5fa]/10 px-4 py-2 text-sm font-semibold text-[#60a5fa]">
-          <Sparkles className="h-4 w-4" />
-          {dictionary.common.summarizeCase}
-        </div>
-      </div>
-      <ColumnsSketch className="absolute bottom-8 left-10 h-36 w-36 text-[#60a5fa]/30" />
-    </SceneShell>
-  );
-}
-
-function AuthorsScene({
-  authors,
-  dictionary,
-  locale,
-  copy
-}: {
-  authors: HomeAuthorPreview[];
-  dictionary: Dictionary;
-  locale: Locale;
-  copy: CinematicCopy;
-}) {
-  const displayAuthors = authors.slice(0, 3);
-
-  return (
-    <SceneShell>
-      <div className="absolute inset-x-8 top-8 grid grid-cols-3 gap-4">
-        {displayAuthors.map((author) => (
-          <Link key={author.id} href={`/authors/${author.username}`} className="group border border-[#2563eb]/25 bg-[#eff6ff]/90 p-5 transition hover:-translate-y-1 hover:border-[#2563eb] dark:bg-[#020617]/95">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#1e3a8a]/35 bg-[#020617] font-serif text-2xl font-semibold text-[#60a5fa]">
-              {author.fullName.slice(0, 1)}
-            </div>
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-[#1e3a8a] dark:text-[#60a5fa]">{copy.profileBadge}</p>
-            <h3 className="mt-2 font-serif text-2xl font-semibold leading-tight text-[#0f172a] dark:text-[#e2e8f0]">{author.fullName}</h3>
-            <p className="mt-2 line-clamp-1 text-xs text-[#475569] dark:text-[#cbd5e1]/60">{author.affiliation}</p>
-            <div className="mt-5 grid grid-cols-3 gap-2 border-t border-[#1e3a8a]/15 pt-4 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-[#475569] dark:text-[#cbd5e1]/50">
-              <span><strong className="block font-serif text-xl text-[#0f172a] dark:text-[#e2e8f0]">{formatNumber(author.publishedCount, locale)}</strong>{dictionary.common.articles}</span>
-              <span><strong className="block font-serif text-xl text-[#0f172a] dark:text-[#e2e8f0]">{formatNumber(author.totalViews, locale)}</strong>{dictionary.common.views}</span>
-              <span><strong className="block font-serif text-xl text-[#0f172a] dark:text-[#e2e8f0]">{formatNumber(author.totalLikes, locale)}</strong>{dictionary.common.likes}</span>
-            </div>
-          </Link>
-        ))}
-        {!displayAuthors.length ? (
-          <div className="col-span-3 border border-[#2563eb]/25 bg-[#eff6ff]/90 p-5 text-sm leading-7 text-[#334155] dark:bg-[#020617]/95 dark:text-[#cbd5e1]/75">
-            {copy.authorsEmpty}
-          </div>
-        ) : null}
-      </div>
-      <div className="absolute bottom-10 left-8 w-[34rem] border border-[#2563eb]/25 bg-[#020617]/90 p-5 text-sm leading-7 text-[#e2e8f0]/80">
-        <ShieldCheck className="h-6 w-6 text-[#60a5fa]" />
-        <p className="mt-4">{copy.portfolioSignal}</p>
-      </div>
-      <ShieldSketch className="absolute bottom-12 right-12 h-40 w-40 text-[#60a5fa]/30" />
-    </SceneShell>
-  );
-}
-
-function EditorialDeskScene({ dictionary, copy }: { dictionary: Dictionary; copy: CinematicCopy }) {
-  return (
-    <SceneShell>
-      <div className="absolute inset-x-8 top-12 grid grid-cols-6 gap-2">
-        {copy.pipelineSteps.map((step, index) => (
-          <div key={step} className="relative border border-[#2563eb]/25 bg-[#eff6ff]/90 p-3 text-center dark:bg-[#020617]/95">
-            {index < copy.pipelineSteps.length - 1 ? (
-              <div className="absolute left-full top-1/2 z-10 hidden h-px w-2 bg-[#2563eb]/50 xl:block" />
-            ) : null}
-            <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#1e3a8a]/35 bg-[#020617] font-mono text-[11px] text-[#60a5fa]">
-              {String(index + 1).padStart(2, "0")}
-            </div>
-            <p className="mt-3 min-h-10 font-mono text-[9px] font-semibold uppercase tracking-[0.13em] text-[#1e3a8a] dark:text-[#60a5fa]">{step}</p>
-          </div>
-        ))}
-      </div>
-      <div className="absolute bottom-10 left-8 w-[30rem] border border-[#2563eb]/25 bg-[#eff6ff]/90 p-5 dark:bg-[#020617]/95">
-        <FileCheck2 className="h-6 w-6 text-[#2563eb]" />
-        <p className="mt-4 text-sm leading-7 text-[#334155] dark:text-[#cbd5e1]/75">{copy.reviewNote}</p>
-        <div className="mt-5 grid grid-cols-3 gap-2">
-          {[dictionary.forms.sources, dictionary.forms.consentOriginal, dictionary.forms.consentAiReview].map((item) => (
-            <div key={item} className="border border-[#1e3a8a]/20 bg-[#f8fafc] p-3 font-mono text-[9px] uppercase tracking-[0.13em] text-[#334155] dark:bg-white/[0.055] dark:text-[#60a5fa]">
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="absolute bottom-12 right-10 w-64 rotate-2 border border-[#2563eb]/25 bg-[#dbeafe] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.18)] dark:bg-[#0f172a]">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#1e3a8a] dark:text-[#60a5fa]">{copy.editorialStatusLabel}</p>
-        <div className="mt-5 space-y-2">
-          <div className="h-2 w-full bg-[#1e3a8a]/25" />
-          <div className="h-2 w-10/12 bg-[#1e3a8a]/20" />
-          <div className="h-2 w-8/12 bg-[#1e3a8a]/15" />
-        </div>
-        <PenLine className="mt-8 h-9 w-9 text-[#1e3a8a]" />
-      </div>
-    </SceneShell>
-  );
-}
-
-function PlatformIndex({
-  dictionary,
-  locale,
-  latestArticles,
-  categories,
-  authors,
-  discussions
-}: {
-  dictionary: Dictionary;
-  locale: Locale;
-  latestArticles: HomeArticlePreview[];
-  categories: HomeCategoryPreview[];
-  authors: HomeAuthorPreview[];
-  discussions: HomeDiscussionPreview[];
-}) {
-  const copy = dictionary.home.cinematic;
-
-  return (
-    <section className="relative z-10 border-y border-[#1e3a8a]/20 bg-[#eadcc0]/65 py-16 backdrop-blur-xl dark:bg-[#0d0a06]/80">
-      <div className="legal-container grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
-        <div>
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.28em] text-[#1e3a8a] dark:text-[#60a5fa]">{copy.commandEyebrow}</p>
-          <h2 className="mt-4 max-w-xl font-serif text-4xl font-semibold leading-tight text-[#0f172a] dark:text-[#e2e8f0] md:text-5xl">
-            {copy.commandTitle}
-          </h2>
-        <p className="mt-5 max-w-lg text-sm leading-7 text-[#334155] dark:text-[#cbd5e1]/80">
-            {copy.commandBody}
-          </p>
-        </div>
-
-        <div className="grid gap-4 xl:grid-cols-2">
-          <IndexPanel title={dictionary.home.latestTitle} href="/articles" cta={dictionary.nav.exploreArticles}>
-            {latestArticles.slice(0, 3).map((article) => (
-              <Link key={article.id} href={`/articles/${article.slug}`} className="block border border-[#1e3a8a]/20 bg-[#eff6ff]/65 p-4 transition hover:border-[#2563eb] dark:bg-white/[0.045]">
-                <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-[#1e3a8a] dark:text-[#60a5fa]">{article.categoryName ?? dictionary.common.uncategorized}</p>
-                <h3 className="mt-2 line-clamp-2 font-serif text-lg font-semibold text-[#0f172a] dark:text-[#e2e8f0]">{article.title}</h3>
-                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#475569] dark:text-[#cbd5e1]/50">{formatDate(article.publishedAt ?? article.createdAt, undefined, locale)}</p>
-              </Link>
-            ))}
-          </IndexPanel>
-
-          <IndexPanel title={dictionary.nav.discussions} href="/discussions" cta={dictionary.pages.startDiscussion}>
-            {(discussions.length ? discussions.slice(0, 3) : []).map((thread) => (
-              <Link key={thread.id} href={`/discussions/${thread.slug}`} className="block border border-[#1e3a8a]/20 bg-[#eff6ff]/65 p-4 transition hover:border-[#2563eb] dark:bg-white/[0.045]">
-                <h3 className="line-clamp-2 font-serif text-lg font-semibold text-[#0f172a] dark:text-[#e2e8f0]">{thread.title}</h3>
-                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#475569] dark:text-[#cbd5e1]/50">{formatNumber(thread.repliesCount, locale)} {dictionary.common.comments}</p>
-              </Link>
-            ))}
-            {!discussions.length ? (
-              <p className="border border-[#1e3a8a]/20 bg-[#eff6ff]/65 p-4 text-sm leading-7 text-[#334155] dark:bg-white/[0.045] dark:text-[#cbd5e1]/75">
-                {dictionary.pages.noDiscussions}
-              </p>
-            ) : null}
-          </IndexPanel>
-
-          <IndexPanel title={dictionary.home.topAuthorsTitle} href="/authors" cta={dictionary.home.viewAuthors}>
-            {authors.slice(0, 3).map((author) => (
-              <Link key={author.id} href={`/authors/${author.username}`} className="flex items-center justify-between border border-[#1e3a8a]/20 bg-[#eff6ff]/65 p-4 transition hover:border-[#2563eb] dark:bg-white/[0.045]">
-                <div>
-                  <h3 className="font-serif text-lg font-semibold text-[#0f172a] dark:text-[#e2e8f0]">{author.fullName}</h3>
-                  <p className="mt-1 text-xs text-[#475569] dark:text-[#cbd5e1]/55">{author.affiliation}</p>
-                </div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1e3a8a] dark:text-[#60a5fa]">{formatNumber(author.publishedCount, locale)}</span>
-              </Link>
-            ))}
-          </IndexPanel>
-
-          <IndexPanel title={dictionary.home.categoriesTitle} href="/categories" cta={dictionary.nav.categories}>
-            <div className="flex flex-wrap gap-2">
-              {categories.slice(0, 12).map((category) => (
-                <Link key={category.id} href={`/articles?category=${category.slug}`} className="border border-[#1e3a8a]/20 bg-[#eff6ff]/65 px-3 py-2 text-xs font-semibold text-[#334155] transition hover:border-[#2563eb] dark:bg-white/[0.045] dark:text-[#cbd5e1]/75">
-                  {category.name}
-                </Link>
-              ))}
-            </div>
-          </IndexPanel>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function IndexPanel({
-  title,
-  href,
-  cta,
-  children
-}: {
-  title: string;
-  href: string;
-  cta: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="border border-[#1e3a8a]/25 bg-[#f8edd8]/80 p-5 shadow-[0_24px_80px_rgba(50,33,14,0.10)] backdrop-blur-xl dark:bg-[#15100a]/80">
-      <div className="mb-5 flex items-center justify-between gap-4 border-b border-[#1e3a8a]/15 pb-4">
-        <h2 className="font-serif text-2xl font-semibold text-[#0f172a] dark:text-[#e2e8f0]">{title}</h2>
-        <Link href={href} className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#1e3a8a] dark:text-[#60a5fa]">
-          {cta}
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-      <div className="grid gap-3">{children}</div>
-    </div>
-  );
-}
-
-function FinalCta({ dictionary }: { dictionary: Dictionary }) {
-  const copy = dictionary.home.cinematic;
-  const items = [
-    dictionary.nav.articles,
-    dictionary.nav.discussions,
-    dictionary.nav.askLexAI,
-    dictionary.nav.cases,
-    dictionary.nav.authors,
-    dictionary.nav.submitArticle
+function CasesVisual({ copy }: { copy: AnyRecord }) {
+  const cases = [
+    { title: "US Cases", href: "/cases", meta: "CourtListener concept" },
+    { title: "ECHR Cases", href: "/echr-cases", meta: "Human rights archive" },
+    { title: "EU Cases", href: "/eu-cases", meta: "Union law research" },
   ];
 
   return (
-    <section className="relative z-10 overflow-hidden py-16 md:py-20">
-      <div className="legal-container">
-        <div className="relative overflow-hidden border border-[#1e3a8a]/30 bg-[#eff6ff] p-7 text-[#e2e8f0] shadow-[0_42px_140px_rgba(0,0,0,0.36)] md:p-12">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(96, 165, 250,0.26),transparent_28%),radial-gradient(circle_at_86%_64%,rgba(143,99,49,0.24),transparent_32%)]" />
-          <div className="relative grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-end">
-            <div>
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.28em] text-[#60a5fa]">{copy.finalEyebrow}</p>
-              <h2 className="mt-5 max-w-3xl font-serif text-4xl font-semibold leading-tight md:text-6xl">{copy.finalTitle}</h2>
-              <p className="mt-5 max-w-2xl text-sm leading-7 text-[#cbd5e1]/80 md:text-base">{copy.finalBody}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <CinematicButton href="/articles" label={copy.ctaExplore} icon={ArrowRight} primary />
-                <CinematicButton href="/submit" label={copy.ctaSubmit} icon={PenLine} />
-                <CinematicButton href="/lexai" label={copy.ctaLexAi} icon={Bot} />
+    <div className="relative h-full pt-16">
+      <div className="rounded-[1.5rem] border border-blue-300/20 bg-white/[0.08] px-4 py-3 backdrop-blur-xl">
+        <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-blue-300">
+          <Search className="h-4 w-4" />
+          {copy.caseSearchLabel}
+        </div>
+      </div>
+
+      <div className="mt-6 grid gap-4">
+        {cases.map((item, index) => (
+          <Link key={item.title} href={item.href} className="group rounded-[1.6rem] border border-blue-300/20 bg-white/[0.08] p-5 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-blue-300/50">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-300">0{index + 1}</p>
+                <h4 className="mt-2 font-serif text-3xl">{item.title}</h4>
+                <p className="mt-2 text-sm text-slate-300">{item.meta}</p>
               </div>
+              <ArrowRight className="h-5 w-5 text-blue-300 transition group-hover:translate-x-1" />
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              {items.map((item) => (
-                <div key={item} className="border border-[#60a5fa]/20 bg-white/[0.055] p-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#cbd5e1] backdrop-blur-xl">
-                  {item}
-                </div>
-              ))}
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-blue-300/25 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-200">
+        <Sparkles className="h-4 w-4" />
+        {copy.summarizeCase}
+      </div>
+    </div>
+  );
+}
+
+function AuthorsVisual({ authors, copy }: { authors: AnyRecord[]; copy: AnyRecord }) {
+  const list = authors.slice(0, 4);
+
+  return (
+    <div className="relative h-full pt-16">
+      <div className="grid grid-cols-2 gap-4">
+        {(list.length ? list : [{ name: "Legal Author" }, { name: "Research Contributor" }, { name: "Case Analyst" }, { name: "Student Writer" }]).map((author, index) => (
+          <Link
+            key={author.id ?? index}
+            href={author.username ? `/authors/${author.username}` : "/authors"}
+            className="rounded-[1.6rem] border border-blue-300/20 bg-white/[0.08] p-5 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-blue-300/50"
+          >
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-blue-300/25 bg-blue-500/10 font-serif text-2xl text-blue-200">
+              {getAuthorName(author, "A").charAt(0).toUpperCase()}
             </div>
+            <h4 className="mt-4 line-clamp-1 font-serif text-2xl">{getAuthorName(author, "Contributor")}</h4>
+            <p className="mt-2 line-clamp-1 text-xs text-slate-400">{author.affiliation ?? copy.authorFallback}</p>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-blue-300">{copy.profileBadge}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FeaturedCards({ copy, articles }: { copy: AnyRecord; articles: AnyRecord[] }) {
+  const main = articles[0] ?? {};
+  const secondary = articles.slice(1, 5);
+
+  return (
+    <section className="bg-white py-24 text-slate-950 dark:bg-slate-950 dark:text-white md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <Reveal>
+          <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.28em] text-blue-700 dark:text-blue-300">{copy.featuredEyebrow}</p>
+              <h2 className="mt-5 font-serif text-5xl font-semibold leading-none tracking-[-0.04em] md:text-7xl">{copy.featuredTitle}</h2>
+            </div>
+            <Link href="/articles" className="inline-flex items-center gap-2 font-semibold text-blue-700 dark:text-blue-300">
+              {copy.exploreArticles}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </Reveal>
+
+        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          <Reveal>
+            <Link href={getArticleSlug(main)} className="group block min-h-[520px] rounded-[2.5rem] border border-blue-500/20 bg-slate-100 p-8 shadow-[0_30px_120px_rgba(15,23,42,0.10)] transition duration-500 hover:-translate-y-2 hover:border-blue-500/55 dark:bg-slate-900">
+              <div className="flex items-center justify-between border-b border-blue-500/15 pb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-blue-700 dark:text-blue-300">
+                <span>{main.categoryName ?? copy.articleLabel}</span>
+                <BookOpenText className="h-5 w-5" />
+              </div>
+              <h3 className="mt-12 max-w-2xl font-serif text-5xl leading-[0.95] tracking-[-0.04em] md:text-6xl">
+                {getArticleTitle(main, copy.emptyArticleA)}
+              </h3>
+              <p className="mt-8 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300">
+                {pickText(main.abstract, copy.articleFallback)}
+              </p>
+              <span className="mt-10 inline-flex items-center gap-2 font-semibold text-blue-700 dark:text-blue-300">
+                {copy.readArticle}
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          </Reveal>
+
+          <div className="grid gap-5">
+            {(secondary.length ? secondary : [{}, {}, {}, {}]).map((article, index) => (
+              <Reveal key={article.id ?? index} delay={index * 70}>
+                <Link href={getArticleSlug(article)} className="group block rounded-[1.8rem] border border-blue-500/20 bg-slate-50 p-6 transition duration-500 hover:-translate-y-1 hover:border-blue-500/55 dark:bg-slate-900/80">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-700 dark:text-blue-300">{article.categoryName ?? copy.articleLabel}</p>
+                  <h3 className="mt-3 line-clamp-2 font-serif text-3xl leading-8">{getArticleTitle(article, copy.emptyArticleB)}</h3>
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{pickText(article.abstract, copy.articleFallback)}</p>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </div>
@@ -943,81 +708,208 @@ function FinalCta({ dictionary }: { dictionary: Dictionary }) {
   );
 }
 
-function SceneShell({ children }: { children: ReactNode }) {
+function StatsSection({ copy, articles, authors, categories, discussions }: { copy: AnyRecord; articles: AnyRecord[]; authors: AnyRecord[]; categories: AnyRecord[]; discussions: AnyRecord[] }) {
+  const stats = [
+    { value: Math.max(articles.length, 12), label: copy.statArticles },
+    { value: Math.max(authors.length, 8), label: copy.statAuthors },
+    { value: Math.max(categories.length, 6), label: copy.statTopics },
+    { value: Math.max(discussions.length, 10), label: copy.statDiscussions },
+  ];
+
   return (
-    <div className="absolute inset-0 overflow-hidden border border-[#1e3a8a]/30 bg-[#f2e2c4]/75 shadow-[0_38px_130px_rgba(43,27,10,0.18)] backdrop-blur-xl dark:bg-[#0f0b07]/90">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_35%_18%,rgba(37, 99, 235,0.22),transparent_32%),linear-gradient(rgba(143,99,49,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(143,99,49,0.12)_1px,transparent_1px)] bg-[size:auto,62px_62px,62px_62px] opacity-70 dark:opacity-45" />
-      <div className="pointer-events-none absolute inset-4 border border-[#1e3a8a]/15" />
-      {children}
-    </div>
+    <section className="relative overflow-hidden bg-slate-100 py-24 text-slate-950 dark:bg-[#020617] dark:text-white md:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.18),transparent_38%)]" />
+      <div className="relative mx-auto max-w-7xl px-5 md:px-8">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.28em] text-blue-700 dark:text-blue-300">{copy.statsEyebrow}</p>
+            <h2 className="mt-5 font-serif text-5xl font-semibold leading-none tracking-[-0.04em] md:text-7xl">{copy.statsTitle}</h2>
+          </div>
+        </Reveal>
+
+        <div className="mt-14 grid gap-4 md:grid-cols-4">
+          {stats.map((stat, index) => (
+            <Reveal key={stat.label} delay={index * 80}>
+              <div className="rounded-[2rem] border border-blue-500/20 bg-white/70 p-8 text-center shadow-[0_25px_90px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:bg-white/[0.06]">
+                <p className="font-serif text-6xl font-semibold tracking-[-0.05em] text-blue-800 dark:text-blue-200">
+                  <AnimatedNumber value={stat.value} />
+                </p>
+                <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">{stat.label}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
-function OrnamentDivider() {
+function NewsletterCTA({ copy }: { copy: AnyRecord }) {
   return (
-    <div aria-hidden="true" className="legal-container relative z-10 flex items-center gap-4 py-3">
-      <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#1e3a8a]/35 to-[#1e3a8a]/10" />
-      <span className="font-serif text-2xl text-[#1e3a8a] dark:text-[#60a5fa]">§</span>
-      <span className="h-px flex-1 bg-gradient-to-l from-transparent via-[#1e3a8a]/35 to-[#1e3a8a]/10" />
-    </div>
+    <section className="bg-white px-5 py-24 text-slate-950 dark:bg-slate-950 dark:text-white md:px-8 md:py-32">
+      <Reveal>
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[3rem] border border-blue-500/25 bg-slate-950 p-8 text-white shadow-[0_40px_140px_rgba(2,6,23,0.38)] md:p-12">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.26),transparent_34%),linear-gradient(135deg,rgba(30,64,175,0.18),transparent_50%)]" />
+          <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent" />
+          <div className="absolute inset-y-8 right-0 w-px bg-gradient-to-b from-transparent via-blue-300 to-transparent" />
+          <div className="relative z-10 grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+            <div>
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.28em] text-blue-300">{copy.newsletterEyebrow}</p>
+              <h2 className="mt-5 font-serif text-5xl font-semibold leading-[0.96] tracking-[-0.04em] md:text-7xl">{copy.newsletterTitle}</h2>
+              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300">{copy.newsletterBody}</p>
+            </div>
+            <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-blue-300" />
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-blue-300">{copy.newsletterPanel}</p>
+              </div>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <Link href="/submit" className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-500">
+                  {copy.submitArticle}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/lexai" className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-blue-300/25 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15">
+                  {copy.tryLexAI}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </section>
   );
 }
 
-function CitationCloud({ lines }: { lines: readonly string[] }) {
-  return (
-    <div aria-hidden="true" className="absolute right-10 top-28 grid gap-3">
-      {lines.map((line, index) => (
-        <span key={line} className="border border-[#2563eb]/20 bg-[#020617]/80 px-3 py-2 font-mono text-[9px] uppercase tracking-[0.18em] text-[#60a5fa]/80" style={{ transform: `translateX(${index % 2 ? 24 : 0}px)` }}>
-          {line}
-        </span>
-      ))}
-    </div>
-  );
+function buildCopy(dictionary: AnyRecord | undefined) {
+  const d = dictionary ?? {};
+  const home = d.home ?? {};
+  const common = d.common ?? {};
+  const pages = d.pages ?? {};
+
+  return {
+    heroEyebrow: pickText(home.cinematicEyebrow, "Legal knowledge. Structured debate. Research intelligence."),
+    heroTitleA: pickText(home.cinematicHeroA, "Law,"),
+    heroTitleB: pickText(home.cinematicHeroB, "frame by frame."),
+    heroBody: pickText(
+      home.cinematicHeroBody,
+      "LexAzerbaijan is a premium legal platform for articles, discussions, case-law exploration, author portfolios, and LexAI-powered research assistance.",
+    ),
+    exploreArticles: pickText(home.exploreArticles ?? common.articles, "Explore Articles"),
+    submitArticle: pickText(home.submitArticle ?? common.submitArticle, "Submit Article"),
+    tryLexAI: pickText(home.tryLexAI ?? pages.lexAiTitle, "Try LexAI"),
+    scroll: pickText(home.scroll, "Scroll"),
+    heroStats: [
+      { value: "01", label: pickText(common.articles, "Articles"), href: "/articles" },
+      { value: "02", label: pickText(common.discussions, "Discussions"), href: "/discussions" },
+      { value: "03", label: pickText(common.cases, "Cases"), href: "/cases" },
+      { value: "04", label: pickText(common.authors, "Authors"), href: "/authors" },
+    ],
+
+    timelineEyebrow: "Motion chapter system",
+    timelineTitle: "A legal platform revealed through scroll.",
+    timelineBody: "Each frame introduces one layer of the platform with controlled motion, sticky context, and precise visual hierarchy.",
+    timelineArticlesTitle: "Publish legal research",
+    timelineArticlesBody: "Articles appear as structured legal papers: title, abstract, sources, categories, and editorial visibility.",
+    timelineDiscussionsTitle: "Turn legal questions into debate",
+    timelineDiscussionsBody: "Discussions are presented as professional legal argument threads, not casual social noise.",
+    timelineLexAITitle: "Research with LexAI",
+    timelineLexAIBody: "LexAI supports legal concept explanation, article drafting structure, and case summarization previews.",
+    timelineCasesTitle: "Explore case-law",
+    timelineCasesBody: "US, ECHR, and EU case areas are presented as a searchable legal archive.",
+    timelineAuthorsTitle: "Build your legal voice",
+    timelineAuthorsBody: "Author profiles turn writing into a visible legal portfolio for contributors.",
+    rightPanelLabel: "Sticky detail panel",
+    rightPanelBody: "Crossfade follows the active chapter.",
+    openDiscussions: "Open Discussions",
+    exploreCases: "Explore Cases",
+    viewAuthors: "View Authors",
+
+    articleLabel: "Legal article",
+    emptyArticleA: "A new legal argument begins here",
+    emptyArticleB: "Structured research for modern legal readers",
+    emptyArticleC: "Legal notes, cases, and analysis",
+    articleFallback: "A concise legal research preview from the LexAzerbaijan archive.",
+    readArticle: "Read Article",
+
+    debateA: "Should courts expand digital evidence standards?",
+    debateB: "How should private international law classify hybrid claims?",
+    debateC: "What makes legal reasoning persuasive?",
+    debateFallback: "A professional legal discussion designed for structured argument and reply.",
+    discussionLabel: "Legal debate",
+
+    aiQuestion: "Explain choice of law under Article 24 in simple legal structure.",
+    aiAnswer: "Start with party autonomy, then test formal validity, mandatory rules, and public policy limits. Apply the selected law only if the choice is valid.",
+    caseSearchLabel: "Search across legal archives",
+    summarizeCase: "Summarize case with LexAI",
+    authorFallback: "Legal contributor",
+    profileBadge: "Research Contributor",
+
+    featuredEyebrow: pickText(home.featuredEyebrow, "Featured legal writing"),
+    featuredTitle: pickText(home.featuredTitle, "Research that deserves attention."),
+    statsEyebrow: "Credibility layer",
+    statsTitle: "A platform built for legal visibility.",
+    statArticles: "Articles",
+    statAuthors: "Authors",
+    statTopics: "Topics",
+    statDiscussions: "Discussions",
+
+    newsletterEyebrow: "Final frame",
+    newsletterTitle: "Write, debate, research, and be discovered.",
+    newsletterBody: "Join LexAzerbaijan as a reader, author, researcher, or contributor. Build legal visibility through structured legal writing.",
+    newsletterPanel: "Editorial entry point",
+  };
 }
 
-function ScaleIllustration({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 220 220" fill="none" className={className} aria-hidden="true">
-      <path d="M110 28v154" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-      <path d="M62 182h96" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-      <path d="M82 52h56" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-      <path d="M42 65h136" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      <path d="M55 67 29 126h52L55 67Z" stroke="currentColor" strokeWidth="4" />
-      <path d="M165 67 139 126h52L165 67Z" stroke="currentColor" strokeWidth="4" />
-      <path d="M26 126c6 13 17 20 29 20s23-7 29-20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      <path d="M136 126c6 13 17 20 29 20s23-7 29-20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      <circle cx="110" cy="52" r="11" fill="currentColor" opacity="0.35" />
-    </svg>
-  );
-}
+export function CinematicHomepage(props: CinematicHomepageProps) {
+  const copy = buildCopy(props.dictionary);
 
-function GavelSketch({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 160 160" fill="none" className={className} aria-hidden="true">
-      <path d="M54 42 84 12l20 20-30 30L54 42Z" stroke="currentColor" strokeWidth="7" />
-      <path d="M42 54 62 74" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-      <path d="M93 43 142 92" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-      <path d="M24 122h74" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-      <path d="M34 104h54" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-    </svg>
+  const articles = useMemo(
+    () => [
+      ...safeArray(props.featuredArticles),
+      ...safeArray(props.latestArticles),
+      ...safeArray(props.articles),
+    ].filter(Boolean),
+    [props.articles, props.featuredArticles, props.latestArticles],
   );
-}
 
-function ColumnsSketch({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 180 180" fill="none" className={className} aria-hidden="true">
-      <path d="M20 52 90 18l70 34H20Z" stroke="currentColor" strokeWidth="6" strokeLinejoin="round" />
-      <path d="M34 64v74M66 64v74M114 64v74M146 64v74" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-      <path d="M24 146h132M14 162h152" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-    </svg>
-  );
-}
+  const categories = safeArray(props.categories);
+  const authors = [...safeArray(props.topAuthors), ...safeArray(props.authors)].filter(Boolean);
+  const discussions = safeArray(props.discussions);
 
-function ShieldSketch({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 180 180" fill="none" className={className} aria-hidden="true">
-      <path d="M90 18 148 42v42c0 38-23 62-58 78-35-16-58-40-58-78V42l58-24Z" stroke="currentColor" strokeWidth="7" />
-      <path d="M63 90h54M90 63v54" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-    </svg>
+    <main className="min-h-screen overflow-hidden">
+      <ScrollProgress />
+      <HeroSection copy={copy} articles={articles} />
+      <TimelineSection copy={copy} articles={articles} categories={categories} authors={authors} discussions={discussions} />
+      <FeaturedCards copy={copy} articles={articles} />
+      <StatsSection copy={copy} articles={articles} authors={authors} categories={categories} discussions={discussions} />
+      <NewsletterCTA copy={copy} />
+
+      <style jsx global>{`
+        @keyframes panelIn {
+          from {
+            opacity: 0;
+            transform: translateY(18px) scale(0.985);
+            filter: blur(8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            scroll-behavior: auto !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
+      `}</style>
+    </main>
   );
 }
