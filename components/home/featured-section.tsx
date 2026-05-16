@@ -8,10 +8,12 @@ import { ArticleCard } from "@/components/articles/article-card";
 
 gsap.registerPlugin(ScrollTrigger);
 
+type Locale = "en" | "az" | "ru";
+
 type FeaturedSectionProps = {
   featured: any[];
   dictionary: any;
-  locale: string;
+  locale: Locale;
 };
 
 export function FeaturedSection({ featured, dictionary, locale }: FeaturedSectionProps) {

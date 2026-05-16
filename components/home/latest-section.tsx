@@ -8,10 +8,12 @@ import { ArticleCard } from "@/components/articles/article-card";
 
 gsap.registerPlugin(ScrollTrigger);
 
+type Locale = "en" | "az" | "ru";
+
 type LatestSectionProps = {
   articles: any[];
   dictionary: any;
-  locale: string;
+  locale: Locale;
 };
 
 export function LatestSection({ articles, dictionary, locale }: LatestSectionProps) {

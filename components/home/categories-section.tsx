@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 
 import { CategoryCard } from "@/components/articles/category-card";
 
+type Locale = "en" | "az" | "ru";
+
 type CategoriesSectionProps = {
   categories: any[];
   dictionary: any;
-  locale: string;
+  locale: Locale;
 };
 
 export function CategoriesSection({
