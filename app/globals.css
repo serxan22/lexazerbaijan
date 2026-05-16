@@ -175,6 +175,17 @@
     @apply rounded-lg border border-white/10 bg-white/[0.075] shadow-2xl shadow-black/25 backdrop-blur-2xl;
   }
 
+  .legal-grain-overlay {
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E");
+  }
+
+  .dark .legal-grain-overlay {
+    opacity: 0.12;
+    mix-blend-mode: screen;
+  }
+
   .premium-input {
     @apply rounded-md border border-input bg-background/80 text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
