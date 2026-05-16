@@ -1,13 +1,21 @@
 "use client";
 
-import { motion, useScroll, useTransform, type MotionValue, type Variants } from "framer-motion";
+import Link from "next/link";
+import { useRef, type ReactNode } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+  type Variants,
+} from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
   BrainCircuit,
-  CircleDot,
   FileText,
   Landmark,
+  Library,
   MessageSquareText,
   Scale,
   Search,
@@ -15,53 +23,56 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import Link from "next/link";
-import { useRef } from "react";
 
-const features = [
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const platformCards = [
   {
     title: "Articles",
     href: "/articles",
-    description: "Publish legal ideas, research notes, case comments, and legal opinions.",
+    description:
+      "Publish legal analysis, research notes, commentary, and carefully written legal ideas.",
     icon: BookOpen,
   },
   {
     title: "Discussions",
     href: "/discussions",
-    description: "Debate legal questions and build structured arguments with the community.",
+    description:
+      "Test arguments, exchange views, and debate difficult legal questions with the community.",
     icon: MessageSquareText,
   },
   {
     title: "Cases",
     href: "/cases",
-    description: "Explore judgments, legal reasoning, and case summaries in one place.",
+    description:
+      "Navigate judgments, legal reasoning, and case summaries through a modern interface.",
     icon: Landmark,
   },
 ];
 
-const journey = [
+const workflow = [
   {
-    label: "01",
+    step: "01",
     title: "Write",
-    body: "Turn legal ideas into visible publications.",
+    body: "Turn legal thought into clear and visible publication.",
     icon: FileText,
   },
   {
-    label: "02",
-    title: "Discuss",
-    body: "Test arguments with students, lawyers, and researchers.",
+    step: "02",
+    title: "Debate",
+    body: "Challenge and refine arguments through discussions.",
     icon: Users,
   },
   {
-    label: "03",
-    title: "Discover",
-    body: "Find legal materials, cases, and analysis faster.",
+    step: "03",
+    title: "Research",
+    body: "Move through topics, sources, and legal materials faster.",
     icon: Search,
   },
   {
-    label: "04",
+    step: "04",
     title: "Understand",
-    body: "Use AI-assisted summaries for quicker legal orientation.",
+    body: "Use structured legal tools and AI-assisted orientation.",
     icon: BrainCircuit,
   },
 ];
@@ -69,9 +80,9 @@ const journey = [
 const frameVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 80,
-    scale: 0.96,
-    filter: "blur(18px)",
+    y: 72,
+    scale: 0.965,
+    filter: "blur(16px)",
   },
   visible: {
     opacity: 1,
@@ -79,8 +90,8 @@ const frameVariants: Variants = {
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      duration: 1,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.9,
+      ease: EASE,
       staggerChildren: 0.1,
     },
   },
@@ -89,16 +100,16 @@ const frameVariants: Variants = {
 const lineVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 30,
-    filter: "blur(10px)",
+    y: 24,
+    filter: "blur(8px)",
   },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
     transition: {
-      duration: 0.78,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.72,
+      ease: EASE,
     },
   },
 };
@@ -106,9 +117,9 @@ const lineVariants: Variants = {
 const cardVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 44,
-    scale: 0.96,
-    filter: "blur(12px)",
+    y: 38,
+    scale: 0.97,
+    filter: "blur(10px)",
   },
   visible: {
     opacity: 1,
@@ -116,18 +127,18 @@ const cardVariants: Variants = {
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      duration: 0.78,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.75,
+      ease: EASE,
     },
   },
 };
 
-function PremiumFrame({
+function FrameReveal({
   children,
   className = "",
-  amount = 0.28,
+  amount = 0.25,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   amount?: number;
 }) {
@@ -136,7 +147,7 @@ function PremiumFrame({
       variants={frameVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount, margin: "-8% 0px -8% 0px" }}
+      viewport={{ once: false, amount, margin: "-10% 0px -10% 0px" }}
       className={className}
     >
       {children}
@@ -144,7 +155,38 @@ function PremiumFrame({
   );
 }
 
-function LegalCore({
+function StoryTextFrame({
+  opacity,
+  y,
+  eyebrow,
+  title,
+  body,
+}: {
+  opacity: MotionValue<number>;
+  y: MotionValue<number>;
+  eyebrow: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <motion.div
+      style={{ opacity, y }}
+      className="absolute inset-0 flex flex-col justify-center will-change-transform"
+    >
+      <p className="text-sm font-medium uppercase tracking-[0.26em] text-white/42">
+        {eyebrow}
+      </p>
+      <h2 className="mt-4 max-w-2xl text-balance text-4xl font-semibold leading-tight text-white md:text-6xl">
+        {title}
+      </h2>
+      <p className="mt-6 max-w-xl text-base leading-8 text-white/62 md:text-lg">
+        {body}
+      </p>
+    </motion.div>
+  );
+}
+
+function FloatingLegalCore({
   rotate,
   y,
   scale,
@@ -156,19 +198,20 @@ function LegalCore({
   return (
     <motion.div
       style={{ rotate, y, scale }}
-      className="relative mx-auto flex h-52 w-52 items-center justify-center rounded-[2.4rem] border border-white/15 bg-white/[0.075] shadow-2xl shadow-black/45 backdrop-blur-2xl md:h-72 md:w-72"
+      className="relative mx-auto flex h-56 w-56 items-center justify-center rounded-[2.3rem] border border-white/15 bg-white/[0.08] shadow-[0_30px_100px_rgba(0,0,0,0.45)] backdrop-blur-2xl md:h-80 md:w-80"
     >
-      <div className="absolute inset-0 rounded-[2.4rem] bg-[radial-gradient(circle_at_25%_18%,rgba(255,255,255,0.32),transparent_34%)]" />
-      <div className="absolute -inset-6 rounded-[3rem] border border-white/10" />
-      <div className="absolute -inset-14 rounded-full bg-gold/10 blur-3xl" />
-      <div className="absolute inset-8 rounded-[2rem] border border-white/10 bg-white/[0.035]" />
+      <div className="absolute inset-0 rounded-[2.3rem] bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.28),transparent_34%)]" />
+      <div className="absolute -inset-7 rounded-[2.8rem] border border-white/10" />
+      <div className="absolute -inset-10 rounded-full bg-[rgba(212,163,90,0.10)] blur-3xl" />
+      <div className="absolute inset-7 rounded-[1.8rem] border border-white/10 bg-white/[0.04]" />
+      <div className="absolute inset-16 rounded-[1.4rem] border border-white/8" />
 
       <motion.div
-        animate={{ y: [0, -8, 0], rotate: [-1.5, 1.5, -1.5] }}
+        animate={{ y: [0, -8, 0], rotate: [-1.2, 1.2, -1.2] }}
         transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
         className="relative"
       >
-        <Scale className="h-24 w-24 text-white/88 md:h-32 md:w-32" />
+        <Scale className="h-24 w-24 text-white/90 md:h-36 md:w-36" />
       </motion.div>
     </motion.div>
   );
@@ -176,214 +219,257 @@ function LegalCore({
 
 export function PremiumScrollShowcase() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const stickyRef = useRef<HTMLDivElement | null>(null);
+  const storyRef = useRef<HTMLDivElement | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  const { scrollYProgress: stickyProgress } = useScroll({
-    target: stickyRef,
+  const { scrollYProgress: storyProgress } = useScroll({
+    target: storyRef,
     offset: ["start start", "end end"],
   });
 
-  const gridOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.22, 0.36, 0.2]);
-  const topGlowY = useTransform(scrollYProgress, [0, 1], [0, 260]);
-  const bottomGlowY = useTransform(scrollYProgress, [0, 1], [0, -240]);
+  const gridOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.16, 0.3, 0.18]);
+  const topGlowY = useTransform(scrollYProgress, [0, 1], [0, 220]);
+  const bottomGlowY = useTransform(scrollYProgress, [0, 1], [0, -200]);
 
-  const coreRotate = useTransform(stickyProgress, [0, 1], [-8, 18]);
-  const coreY = useTransform(stickyProgress, [0, 0.5, 1], [70, -10, -70]);
-  const coreScale = useTransform(stickyProgress, [0, 0.5, 1], [0.78, 1.08, 0.86]);
+  const coreRotate = useTransform(storyProgress, [0, 0.35, 0.7, 1], [-8, 6, 14, 18]);
+  const coreY = useTransform(storyProgress, [0, 0.35, 0.7, 1], [60, 0, -28, -48]);
+  const coreScale = useTransform(storyProgress, [0, 0.35, 0.7, 1], [0.82, 1.04, 1.08, 0.92]);
 
-  // Overlapped frame transitions: no dead/blank zone between scenes.
-  const sceneOneOpacity = useTransform(stickyProgress, [0, 0.16, 0.28], [1, 1, 0]);
-  const sceneTwoOpacity = useTransform(stickyProgress, [0.18, 0.32, 0.48], [0, 1, 0]);
-  const sceneThreeOpacity = useTransform(stickyProgress, [0.40, 0.56, 0.72], [0, 1, 0]);
-  const sceneFourOpacity = useTransform(stickyProgress, [0.64, 0.80, 1], [0, 1, 1]);
+  const sceneOneOpacity = useTransform(storyProgress, [0, 0.12, 0.24, 0.32], [1, 1, 0.2, 0]);
+  const sceneTwoOpacity = useTransform(storyProgress, [0.20, 0.32, 0.44, 0.56], [0, 1, 1, 0]);
+  const sceneThreeOpacity = useTransform(storyProgress, [0.44, 0.58, 0.72, 0.84], [0, 1, 1, 0]);
+  const sceneFourOpacity = useTransform(storyProgress, [0.76, 0.88, 1], [0, 1, 1]);
 
-  const sceneOneY = useTransform(stickyProgress, [0, 0.16, 0.28], [0, 0, -70]);
-  const sceneTwoY = useTransform(stickyProgress, [0.18, 0.32, 0.48], [70, 0, -60]);
-  const sceneThreeY = useTransform(stickyProgress, [0.40, 0.56, 0.72], [70, 0, -60]);
-  const sceneFourY = useTransform(stickyProgress, [0.64, 0.80, 1], [70, 0, 0]);
+  const sceneOneY = useTransform(storyProgress, [0, 0.24, 0.32], [0, -10, -56]);
+  const sceneTwoY = useTransform(storyProgress, [0.20, 0.32, 0.56], [56, 0, -52]);
+  const sceneThreeY = useTransform(storyProgress, [0.44, 0.58, 0.84], [56, 0, -52]);
+  const sceneFourY = useTransform(storyProgress, [0.76, 0.88, 1], [56, 0, 0]);
 
-  const progressWidth = useTransform(stickyProgress, [0, 1], ["0%", "100%"]);
+  const sceneOneGlow = useTransform(storyProgress, [0, 0.2, 0.32], [0.16, 0.22, 0]);
+  const sceneTwoGlow = useTransform(storyProgress, [0.2, 0.4, 0.56], [0, 0.2, 0]);
+  const sceneThreeGlow = useTransform(storyProgress, [0.44, 0.66, 0.84], [0, 0.2, 0]);
+  const sceneFourGlow = useTransform(storyProgress, [0.76, 0.9, 1], [0, 0.18, 0.18]);
+
+  const progressWidth = useTransform(storyProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={sectionRef} className="relative isolate overflow-hidden bg-[#050816] text-white">
-      <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_8%,rgba(212,163,90,0.20),transparent_24%),radial-gradient(circle_at_78%_70%,rgba(70,95,200,0.18),transparent_28%),linear-gradient(180deg,#050816_0%,#071126_45%,#050816_100%)]" />
+    <section
+      ref={sectionRef}
+      className="relative isolate overflow-hidden bg-[#040816] text-white"
+    >
+      <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_50%_8%,rgba(212,163,90,0.16),transparent_24%),radial-gradient(circle_at_78%_72%,rgba(70,95,200,0.16),transparent_28%),linear-gradient(180deg,#040816_0%,#071126_48%,#040816_100%)]" />
 
       <motion.div
         style={{ opacity: gridOpacity }}
-        className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px)] bg-[size:64px_64px]"
+        className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:64px_64px]"
       />
 
       <motion.div
         style={{ y: topGlowY }}
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[560px] w-[860px] -translate-x-1/2 rounded-full bg-gold/10 blur-[125px]"
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[520px] w-[860px] -translate-x-1/2 rounded-full bg-[rgba(212,163,90,0.08)] blur-[120px]"
       />
 
       <motion.div
         style={{ y: bottomGlowY }}
-        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 h-[560px] w-[860px] -translate-x-1/2 rounded-full bg-blue-900/20 blur-[125px]"
+        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 h-[520px] w-[860px] -translate-x-1/2 rounded-full bg-[rgba(80,110,255,0.12)] blur-[120px]"
       />
 
-      {/* FRAME 1 — Intro scrollytelling */}
-      <div className="legal-container flex min-h-[calc(100vh-5rem)] items-center justify-center py-24 text-center">
-        <PremiumFrame className="mx-auto max-w-5xl" amount={0.32}>
-          <motion.div variants={lineVariants} className="relative mx-auto mb-9 flex h-28 w-28 items-center justify-center rounded-[2rem] border border-white/15 bg-white/[0.08] shadow-2xl shadow-black/40 backdrop-blur-2xl">
-            <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.32),transparent_34%)]" />
-            <div className="absolute -inset-3 rounded-[2.4rem] border border-white/10" />
-            <div className="absolute -inset-8 rounded-full bg-gold/10 blur-2xl" />
-            <motion.div animate={{ y: [0, -7, 0], rotate: [-1.5, 1.5, -1.5] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}>
-              <Scale className="h-14 w-14 text-white/88" />
+      {/* HERO */}
+      <div className="relative min-h-[calc(100vh-4.5rem)] overflow-hidden">
+        <div
+          className="absolute inset-0 -z-20 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?auto=format&fit=crop&w=1800&q=80')",
+            filter: "grayscale(18%) brightness(0.28) blur(1.8px)",
+            transform: "scale(1.06)",
+          }}
+        />
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(4,8,22,0.94),rgba(4,8,22,0.78),rgba(4,8,22,0.58))]" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_20%,rgba(212,163,90,0.14),transparent_24%)]" />
+
+        <div className="legal-container flex min-h-[calc(100vh-4.5rem)] items-center py-24">
+          <FrameReveal className="max-w-5xl">
+            <motion.div
+              variants={lineVariants}
+              className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/78 shadow-2xl shadow-black/20 backdrop-blur-xl"
+            >
+              <Sparkles className="h-4 w-4 text-[#D4A35A]" />
+              A premium legal home for writing, debate, and discovery
             </motion.div>
-          </motion.div>
 
-          <motion.p variants={lineVariants} className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/75 shadow-2xl shadow-black/20 backdrop-blur-xl">
-            <Sparkles className="h-4 w-4 text-gold" />
-            Modern legal publishing for Azerbaijan
-          </motion.p>
+            <motion.h1
+              variants={lineVariants}
+              className="max-w-4xl text-balance font-serif text-5xl font-semibold leading-[1.02] text-white md:text-7xl"
+            >
+              “LexAzerbaijan is where legal thought is written, tested in discussion,
+              and transformed into practical understanding.”
+            </motion.h1>
 
-          <motion.h1 variants={lineVariants} className="text-balance text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
-            Legal knowledge, transformed into a cinematic digital experience.
-          </motion.h1>
+            <motion.p
+              variants={lineVariants}
+              className="mt-7 max-w-2xl text-lg leading-8 text-slate-200"
+            >
+              Built for students, researchers, and lawyers who want a sharper way to
+              publish legal ideas, explore cases, and move through complex topics.
+            </motion.p>
 
-          <motion.p variants={lineVariants} className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/65 md:text-lg">
-            A legal platform where articles, discussions, cases, and AI-assisted discovery move through one premium scroll story.
-          </motion.p>
+            <motion.div
+              variants={lineVariants}
+              className="mt-10 flex flex-col gap-3 sm:flex-row"
+            >
+              <Link
+                href="/articles"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D4A35A] px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_20px_60px_rgba(212,163,90,0.25)] transition hover:-translate-y-0.5 hover:bg-[#c89749]"
+              >
+                Explore articles
+                <ArrowRight className="h-4 w-4" />
+              </Link>
 
-          <motion.div variants={lineVariants} className="mx-auto mt-10 flex w-fit items-center gap-3 rounded-full border border-white/12 bg-white/[0.07] px-5 py-3 text-sm text-white/62 backdrop-blur-xl">
-            <span className="h-2 w-2 rounded-full bg-gold shadow-[0_0_24px_rgba(212,163,90,0.75)]" />
-            Scroll to enter the legal interface
-          </motion.div>
-        </PremiumFrame>
+              <Link
+                href="/submit"
+                className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-2xl shadow-black/20 backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/15"
+              >
+                Submit your article
+              </Link>
+            </motion.div>
+          </FrameReveal>
+        </div>
       </div>
 
-      {/* FRAME 2-5 — Sticky scroll-driven scene */}
-      <div ref={stickyRef} className="relative h-[340vh]">
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+      {/* STICKY SCROLL STORY */}
+      <div ref={storyRef} className="relative h-[320vh]">
+        <div className="sticky top-0 h-screen overflow-hidden">
           <motion.div
-            style={{ opacity: sceneOneOpacity }}
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_46%,rgba(212,163,90,0.12),transparent_30%)]"
+            style={{ opacity: sceneOneGlow }}
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_44%,rgba(212,163,90,0.12),transparent_32%)]"
           />
           <motion.div
-            style={{ opacity: sceneTwoOpacity }}
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_64%_42%,rgba(80,120,255,0.14),transparent_32%)]"
+            style={{ opacity: sceneTwoGlow }}
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_65%_42%,rgba(80,110,255,0.16),transparent_34%)]"
           />
           <motion.div
-            style={{ opacity: sceneThreeOpacity }}
+            style={{ opacity: sceneThreeGlow }}
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_58%,rgba(255,255,255,0.10),transparent_28%)]"
           />
           <motion.div
-            style={{ opacity: sceneFourOpacity }}
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,163,90,0.13),transparent_34%)]"
+            style={{ opacity: sceneFourGlow }}
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_52%_48%,rgba(212,163,90,0.12),transparent_34%)]"
           />
 
           <div className="absolute left-0 right-0 top-0 z-50 h-1 bg-white/5">
-            <motion.div style={{ width: progressWidth }} className="h-full bg-gold shadow-[0_0_24px_rgba(212,163,90,0.7)]" />
+            <motion.div
+              style={{ width: progressWidth }}
+              className="h-full bg-[#D4A35A] shadow-[0_0_24px_rgba(212,163,90,0.7)]"
+            />
           </div>
 
-          <div className="legal-container relative grid w-full gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div className="relative min-h-[420px]">
-              <motion.div style={{ opacity: sceneOneOpacity, y: sceneOneY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
-                <p className="eyebrow text-white/50">Scroll-driven scene</p>
-                <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
-                  The homepage becomes a legal story.
-                </h2>
-                <p className="mt-6 max-w-xl leading-8 text-white/62">
-                  Instead of a normal static hero, the interface reacts to the user’s scroll and changes frame by frame.
-                </p>
-              </motion.div>
+          <div className="legal-container grid h-full items-center gap-12 py-16 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="relative min-h-[360px]">
+              <StoryTextFrame
+                opacity={sceneOneOpacity}
+                y={sceneOneY}
+                eyebrow="Scroll-driven story"
+                title="The homepage becomes a legal story."
+                body="Instead of a static block, the first experience unfolds scene by scene. Scroll controls the narrative and the interface responds with premium motion."
+              />
 
-              <motion.div style={{ opacity: sceneTwoOpacity, y: sceneTwoY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
-                <p className="eyebrow text-white/50">Pinned section</p>
-                <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
-                  One fixed scene, many legal states.
-                </h2>
-                <p className="mt-6 max-w-xl leading-8 text-white/62">
-                  The scene stays pinned while text, legal objects, and content layers transform around it.
-                </p>
-              </motion.div>
+              <StoryTextFrame
+                opacity={sceneTwoOpacity}
+                y={sceneTwoY}
+                eyebrow="Pinned narrative"
+                title="One fixed scene, several legal states."
+                body="The canvas remains anchored while new ideas, tools, and legal spaces appear through layered motion and smoother transitions."
+              />
 
-              <motion.div style={{ opacity: sceneThreeOpacity, y: sceneThreeY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
-                <p className="eyebrow text-white/50">3D legal motion</p>
-                <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
-                  A legal core rotates with the journey.
-                </h2>
-                <p className="mt-6 max-w-xl leading-8 text-white/62">
-                  The scale object behaves like a controlled 3D product visual, but remains lightweight for your site.
-                </p>
-              </motion.div>
+              <StoryTextFrame
+                opacity={sceneThreeOpacity}
+                y={sceneThreeY}
+                eyebrow="3D visual feel"
+                title="A legal core rotates through the journey."
+                body="The balance scale behaves like a product object: rotating, floating, and guiding the eye while the story changes around it."
+              />
 
-              <motion.div style={{ opacity: sceneFourOpacity, y: sceneFourY }} className="absolute inset-0 flex flex-col justify-center will-change-transform">
-                <p className="eyebrow text-white/50">Morphing transition</p>
-                <h2 className="mt-4 text-balance text-4xl font-semibold text-white md:text-6xl">
-                  The object becomes the platform.
-                </h2>
-                <p className="mt-6 max-w-xl leading-8 text-white/62">
-                  The motion leads naturally into articles, discussions, cases, and legal discovery.
-                </p>
-              </motion.div>
+              <StoryTextFrame
+                opacity={sceneFourOpacity}
+                y={sceneFourY}
+                eyebrow="Platform reveal"
+                title="The motion resolves into the platform itself."
+                body="The user is naturally led from story into structure: articles, discussions, cases, and AI-assisted discovery."
+              />
             </div>
 
             <div className="relative flex min-h-[520px] items-center justify-center">
-              <LegalCore rotate={coreRotate} y={coreY} scale={coreScale} />
+              <FloatingLegalCore rotate={coreRotate} y={coreY} scale={coreScale} />
 
               <motion.div
-                style={{ opacity: sceneTwoOpacity }}
+                style={{ opacity: sceneTwoOpacity, y: useTransform(storyProgress, [0.20, 0.32, 0.56], [26, 0, -18]) }}
                 className="absolute left-0 top-10 hidden w-56 rounded-2xl border border-white/12 bg-white/[0.08] p-4 shadow-2xl shadow-black/30 backdrop-blur-2xl md:block"
               >
                 <div className="flex items-center gap-3">
-                  <BookOpen className="h-5 w-5 text-gold" />
+                  <BookOpen className="h-5 w-5 text-[#D4A35A]" />
                   <p className="font-medium text-white">Articles</p>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-white/55">Publish legal research and opinion.</p>
+                <p className="mt-2 text-xs leading-5 text-white/55">
+                  Publish legal research and public legal analysis.
+                </p>
               </motion.div>
 
               <motion.div
-                style={{ opacity: sceneThreeOpacity }}
+                style={{ opacity: sceneThreeOpacity, y: useTransform(storyProgress, [0.44, 0.58, 0.84], [26, 0, -18]) }}
                 className="absolute right-0 top-16 hidden w-56 rounded-2xl border border-white/12 bg-white/[0.08] p-4 shadow-2xl shadow-black/30 backdrop-blur-2xl md:block"
               >
                 <div className="flex items-center gap-3">
-                  <Landmark className="h-5 w-5 text-gold" />
+                  <Landmark className="h-5 w-5 text-[#D4A35A]" />
                   <p className="font-medium text-white">Cases</p>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-white/55">Turn judgments into understanding.</p>
+                <p className="mt-2 text-xs leading-5 text-white/55">
+                  Turn judgments and legal reasoning into clarity.
+                </p>
               </motion.div>
 
               <motion.div
-                style={{ opacity: sceneFourOpacity }}
-                className="absolute bottom-12 left-1/2 hidden w-64 -translate-x-1/2 rounded-2xl border border-white/12 bg-white/[0.08] p-4 shadow-2xl shadow-black/30 backdrop-blur-2xl md:block"
+                style={{ opacity: sceneFourOpacity, y: useTransform(storyProgress, [0.76, 0.88, 1], [22, 0, 0]) }}
+                className="absolute bottom-10 left-1/2 hidden w-64 -translate-x-1/2 rounded-2xl border border-white/12 bg-white/[0.08] p-4 shadow-2xl shadow-black/30 backdrop-blur-2xl md:block"
               >
                 <div className="flex items-center gap-3">
-                  <BrainCircuit className="h-5 w-5 text-gold" />
+                  <BrainCircuit className="h-5 w-5 text-[#D4A35A]" />
                   <p className="font-medium text-white">LexAI</p>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-white/55">AI-assisted legal orientation.</p>
+                <p className="mt-2 text-xs leading-5 text-white/55">
+                  AI-assisted legal orientation and faster understanding.
+                </p>
               </motion.div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* FRAME 6 — Platform cards */}
+      {/* PLATFORM CARDS */}
       <div className="legal-container flex min-h-screen items-center justify-center py-24">
-        <PremiumFrame className="w-full" amount={0.26}>
+        <FrameReveal className="w-full" amount={0.22}>
           <motion.div variants={lineVariants} className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow text-white/55">Explore the platform</p>
+            <p className="text-sm font-medium uppercase tracking-[0.26em] text-white/42">
+              Explore the platform
+            </p>
             <h2 className="mt-4 text-balance text-3xl font-semibold text-white md:text-5xl">
               Three legal spaces, connected in one premium flow.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-white/58">
-              Each area is designed as part of the same legal ecosystem: writing, discussion, and case discovery.
+              Each part of the platform is designed to feel consistent, structured, and useful.
             </p>
           </motion.div>
 
-          <motion.div variants={{ visible: { transition: { staggerChildren: 0.13, delayChildren: 0.12 } } }} className="mt-12 grid gap-5 md:grid-cols-3">
-            {features.map((feature) => {
+          <motion.div
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 0.08 } } }}
+            className="mt-12 grid gap-5 md:grid-cols-3"
+          >
+            {platformCards.map((feature) => {
               const Icon = feature.icon;
-
               return (
                 <motion.div
                   key={feature.title}
@@ -391,25 +477,33 @@ export function PremiumScrollShowcase() {
                   whileHover={{
                     y: -10,
                     scale: 1.018,
-                    transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                    transition: { duration: 0.35, ease: EASE },
                   }}
-                  className="group relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.095] p-7 text-left shadow-2xl shadow-black/40 backdrop-blur-2xl"
+                  className="group relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.09] p-7 text-left shadow-2xl shadow-black/40 backdrop-blur-2xl"
                 >
                   <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-700 group-hover:opacity-100">
-                    <div className="absolute -right-20 -top-20 h-44 w-44 rounded-full bg-gold/15 blur-3xl" />
-                    <div className="absolute -bottom-20 -left-20 h-44 w-44 rounded-full bg-blue-500/10 blur-3xl" />
+                    <div className="absolute -right-20 -top-20 h-44 w-44 rounded-full bg-[rgba(212,163,90,0.15)] blur-3xl" />
+                    <div className="absolute -bottom-20 -left-20 h-44 w-44 rounded-full bg-[rgba(80,110,255,0.12)] blur-3xl" />
                   </div>
 
                   <div className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(115deg,transparent,rgba(255,255,255,0.12),transparent)] transition duration-1000 group-hover:translate-x-full" />
 
-                  <div className="relative mb-8 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 transition duration-500 group-hover:border-gold/30 group-hover:bg-gold/10">
-                    <Icon className="h-6 w-6 text-white/85 transition duration-500 group-hover:text-gold" />
+                  <div className="relative mb-8 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 transition duration-500 group-hover:border-[#D4A35A]/30 group-hover:bg-[rgba(212,163,90,0.10)]">
+                    <Icon className="h-6 w-6 text-white/88 transition duration-500 group-hover:text-[#D4A35A]" />
                   </div>
 
-                  <h3 className="relative text-2xl font-semibold text-white">{feature.title}</h3>
-                  <p className="relative mt-4 text-sm leading-7 text-white/64">{feature.description}</p>
+                  <h3 className="relative text-2xl font-semibold text-white">
+                    {feature.title}
+                  </h3>
 
-                  <Link href={feature.href} className="relative mt-7 inline-flex items-center gap-2 text-sm font-medium text-white/70 transition duration-300 group-hover:text-gold">
+                  <p className="relative mt-4 text-sm leading-7 text-white/64">
+                    {feature.description}
+                  </p>
+
+                  <Link
+                    href={feature.href}
+                    className="relative mt-7 inline-flex items-center gap-2 text-sm font-medium text-white/70 transition duration-300 group-hover:text-[#D4A35A]"
+                  >
                     Open section
                     <ArrowRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1" />
                   </Link>
@@ -417,105 +511,137 @@ export function PremiumScrollShowcase() {
               );
             })}
           </motion.div>
-        </PremiumFrame>
+        </FrameReveal>
       </div>
 
-      {/* FRAME 7 — Journey timeline */}
+      {/* WORKFLOW TIMELINE */}
       <div className="legal-container flex min-h-screen items-center justify-center py-24">
-        <PremiumFrame className="w-full" amount={0.25}>
+        <FrameReveal className="w-full" amount={0.22}>
           <motion.div variants={lineVariants} className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow text-white/55">Legal workflow</p>
+            <p className="text-sm font-medium uppercase tracking-[0.26em] text-white/42">
+              Legal workflow
+            </p>
             <h2 className="mt-4 text-balance text-3xl font-semibold text-white md:text-5xl">
-              From idea to public legal contribution.
+              From legal idea to public legal contribution.
             </h2>
           </motion.div>
 
-          <div className="relative mx-auto mt-14 max-w-5xl">
-            <div className="absolute left-6 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-white/20 to-transparent md:block" />
-            <div className="grid gap-5">
-              {journey.map((item, index) => {
-                const Icon = item.icon;
+          <motion.div
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } } }}
+            className="mx-auto mt-14 max-w-5xl space-y-5"
+          >
+            {workflow.map((item) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.step}
+                  variants={cardVariants}
+                  className="group relative grid gap-5 rounded-[2rem] border border-white/12 bg-white/[0.075] p-6 shadow-2xl shadow-black/30 backdrop-blur-2xl md:grid-cols-[0.22fr_0.78fr]"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#D4A35A]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <p className="text-sm tracking-[0.24em] text-white/38">
+                      {item.step}
+                    </p>
+                  </div>
 
-                return (
-                  <motion.div
-                    key={item.title}
-                    variants={cardVariants}
-                    className="group relative grid gap-5 rounded-[2rem] border border-white/12 bg-white/[0.075] p-6 shadow-2xl shadow-black/30 backdrop-blur-2xl md:grid-cols-[0.2fr_0.8fr]"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-gold">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <p className="text-sm tracking-[0.25em] text-white/38">{item.label}</p>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-semibold text-white">{item.title}</h3>
-                      <p className="mt-2 text-white/60">{item.body}</p>
-                    </div>
-                    <div className="pointer-events-none absolute inset-0 rounded-[2rem] opacity-0 transition duration-700 group-hover:opacity-100">
-                      <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-gold/10 blur-3xl" />
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </PremiumFrame>
+                  <div>
+                    <h3 className="text-2xl font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-white/60">{item.body}</p>
+                  </div>
+
+                  <div className="pointer-events-none absolute inset-0 rounded-[2rem] opacity-0 transition duration-700 group-hover:opacity-100">
+                    <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-[rgba(212,163,90,0.10)] blur-3xl" />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </FrameReveal>
       </div>
 
-      {/* FRAME 8 — Final CTA */}
+      {/* FINAL CTA */}
       <div className="legal-container flex min-h-screen items-center justify-center py-24">
-        <PremiumFrame
-          amount={0.32}
+        <FrameReveal
+          amount={0.25}
           className="relative mx-auto w-full max-w-5xl overflow-hidden rounded-[2.8rem] border border-white/12 bg-white/[0.10] p-8 text-center shadow-2xl shadow-black/50 backdrop-blur-2xl md:p-14"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.16),transparent_35%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.14),transparent_35%)]" />
           <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
           <div className="relative">
-            <motion.div variants={lineVariants} className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-gold">
+            <motion.div
+              variants={lineVariants}
+              className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#D4A35A]"
+            >
               <ShieldCheck className="h-7 w-7" />
             </motion.div>
 
-            <motion.p variants={lineVariants} className="text-sm uppercase tracking-[0.32em] text-white/45">
+            <motion.p
+              variants={lineVariants}
+              className="text-sm uppercase tracking-[0.32em] text-white/45"
+            >
               LexAzerbaijan
             </motion.p>
 
-            <motion.h2 variants={lineVariants} className="mt-5 text-balance text-3xl font-semibold text-white md:text-6xl">
+            <motion.h2
+              variants={lineVariants}
+              className="mt-5 text-balance text-3xl font-semibold text-white md:text-6xl"
+            >
               One platform for legal writing, dialogue, and discovery.
             </motion.h2>
 
-            <motion.p variants={lineVariants} className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/62 md:text-base">
-              Designed for students, researchers, lawyers, and legal minds who want their ideas to be visible, searchable, and useful for the wider community.
+            <motion.p
+              variants={lineVariants}
+              className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/62 md:text-base"
+            >
+              Built for those who want legal publishing in Azerbaijan to look sharper,
+              move smoother, and feel more serious.
             </motion.p>
 
-            <motion.div variants={lineVariants} className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-              <Link href="/articles" className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-slate-950 shadow-2xl shadow-gold/20 transition hover:-translate-y-0.5 hover:bg-gold/90">
+            <motion.div
+              variants={lineVariants}
+              className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"
+            >
+              <Link
+                href="/articles"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D4A35A] px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_20px_60px_rgba(212,163,90,0.25)] transition hover:-translate-y-0.5 hover:bg-[#c89749]"
+              >
                 Explore articles
                 <ArrowRight className="h-4 w-4" />
               </Link>
 
-              <Link href="/submit" className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-2xl shadow-black/20 backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/15">
+              <Link
+                href="/submit"
+                className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-2xl shadow-black/20 backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/15"
+              >
                 Submit your article
               </Link>
             </motion.div>
 
-            <motion.div variants={lineVariants} className="mx-auto mt-10 grid max-w-xl grid-cols-3 gap-3 text-xs text-white/45">
+            <motion.div
+              variants={lineVariants}
+              className="mx-auto mt-10 grid max-w-xl grid-cols-3 gap-3 text-xs text-white/45"
+            >
               <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
-                <CircleDot className="mx-auto mb-2 h-4 w-4 text-gold" />
-                Articles
+                <Library className="mx-auto mb-2 h-4 w-4 text-[#D4A35A]" />
+                Publish
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
-                <CircleDot className="mx-auto mb-2 h-4 w-4 text-gold" />
-                Cases
+                <Users className="mx-auto mb-2 h-4 w-4 text-[#D4A35A]" />
+                Discuss
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
-                <CircleDot className="mx-auto mb-2 h-4 w-4 text-gold" />
-                LexAI
+                <BrainCircuit className="mx-auto mb-2 h-4 w-4 text-[#D4A35A]" />
+                Discover
               </div>
             </motion.div>
           </div>
-        </PremiumFrame>
+        </FrameReveal>
       </div>
     </section>
   );
