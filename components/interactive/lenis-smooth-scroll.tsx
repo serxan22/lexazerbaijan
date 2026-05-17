@@ -27,10 +27,10 @@ export function LenisSmoothScroll() {
       gsap.registerPlugin(ScrollTrigger);
 
       const lenis = new Lenis({
-        duration: 1.08,
+        duration: 0.72,
         smoothWheel: true,
-        wheelMultiplier: 0.9,
-        touchMultiplier: 1.05
+        wheelMultiplier: 1,
+        touchMultiplier: 1
       });
 
       const updateScrollTrigger = () => ScrollTrigger.update();

@@ -52,7 +52,7 @@ export function HomeScrollStorytelling() {
               scale: 1,
               rotateX: 0,
               filter: "blur(0px)",
-              duration: 0.9,
+              duration: 0.68,
               ease: "power3.out",
               force3D: true,
               immediateRender: false,

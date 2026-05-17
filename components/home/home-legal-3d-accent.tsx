@@ -22,8 +22,8 @@ export function HomeLegal3DAccent({
   const { scrollYProgress } = useScroll();
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const rotateX = useSpring(pointerY, { stiffness: 92, damping: 22, mass: 0.45 });
-  const rotateY = useSpring(pointerX, { stiffness: 92, damping: 22, mass: 0.45 });
+  const rotateX = useSpring(pointerY, { stiffness: 70, damping: 28, mass: 0.45 });
+  const rotateY = useSpring(pointerX, { stiffness: 70, damping: 28, mass: 0.45 });
   const scrollRotate = useTransform(scrollYProgress, [0, 1], variant === "orb" ? [-7, 9] : [8, -9]);
   const scrollY = useTransform(scrollYProgress, [0, 1], variant === "seal" ? [22, -24] : [-16, 24]);
   const scrollScale = useTransform(scrollYProgress, [0, 0.48, 1], [0.96, 1.035, 0.985]);
@@ -33,8 +33,8 @@ export function HomeLegal3DAccent({
     if (!canAnimate || isMobile) return;
 
     const updatePointer = (event: PointerEvent) => {
-      const x = (event.clientX / window.innerWidth - 0.5) * 11 * intensity;
-      const y = (0.5 - event.clientY / window.innerHeight) * 9 * intensity;
+      const x = (event.clientX / window.innerWidth - 0.5) * 5 * intensity;
+      const y = (0.5 - event.clientY / window.innerHeight) * 4 * intensity;
 
       pointerX.set(x);
       pointerY.set(y);
@@ -79,7 +79,7 @@ export function HomeLegal3DAccent({
 function ScalesAccent({ canAnimate }: { canAnimate: boolean }) {
   return (
     <>
-      <div className="absolute inset-4 rounded-full border border-[#c7aa73]/45 bg-[#fff8e8]/45 shadow-[0_34px_90px_rgba(184,137,74,0.18)] backdrop-blur-md dark:border-[#b8894a]/35 dark:bg-[#06101d]/58 dark:shadow-[0_34px_90px_rgba(184,137,74,0.12)]" />
+      <div className="absolute inset-4 rounded-full border border-[#c7aa73]/45 bg-[#fff8e8]/45 shadow-[0_22px_54px_rgba(184,137,74,0.18)] backdrop-blur-sm dark:border-[#b8894a]/35 dark:bg-[#06101d]/58 dark:shadow-[0_22px_54px_rgba(184,137,74,0.12)]" />
       <div className="absolute inset-10 rounded-full border border-[#b8894a]/35 bg-[radial-gradient(circle_at_35%_25%,rgba(255,238,192,0.72),rgba(184,137,74,0.16)_40%,rgba(7,17,31,0.02)_70%)] dark:bg-[radial-gradient(circle_at_35%_25%,rgba(241,215,157,0.26),rgba(184,137,74,0.12)_42%,rgba(7,17,31,0.22)_72%)]" />
       <div className="absolute left-1/2 top-11 h-24 w-px -translate-x-1/2 bg-gradient-to-b from-[#f1d79d] via-[#b8894a] to-transparent" />
       <div className="absolute left-[23%] right-[23%] top-[43%] h-px bg-gradient-to-r from-transparent via-[#b8894a] to-transparent" />
@@ -94,7 +94,7 @@ function ScalesAccent({ canAnimate }: { canAnimate: boolean }) {
         style={{ transform: "translateZ(30px) rotateX(62deg)" }}
       />
       <div
-        className="absolute left-1/2 top-[26%] flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-full border border-[#f1d79d]/70 bg-[#111827] text-[#f1d79d] shadow-[0_20px_55px_rgba(17,24,39,0.22)]"
+        className="absolute left-1/2 top-[26%] flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-full border border-[#f1d79d]/70 bg-[#111827] text-[#f1d79d] shadow-[0_14px_34px_rgba(17,24,39,0.22)]"
         style={{ transform: "translateX(-50%) translateZ(46px)" }}
       >
         <Scale className="h-7 w-7" />
@@ -113,7 +113,7 @@ function ScalesAccent({ canAnimate }: { canAnimate: boolean }) {
 function OrbAccent({ canAnimate }: { canAnimate: boolean }) {
   return (
     <>
-      <div className="absolute inset-3 rounded-full border border-[#b8894a]/25 bg-[radial-gradient(circle_at_32%_24%,rgba(241,215,157,0.54),rgba(38,72,112,0.16)_38%,transparent_72%)] shadow-[0_34px_88px_rgba(38,72,112,0.16)] backdrop-blur-md dark:bg-[radial-gradient(circle_at_32%_24%,rgba(241,215,157,0.22),rgba(38,72,112,0.22)_40%,transparent_72%)]" />
+      <div className="absolute inset-3 rounded-full border border-[#b8894a]/25 bg-[radial-gradient(circle_at_32%_24%,rgba(241,215,157,0.54),rgba(38,72,112,0.16)_38%,transparent_72%)] shadow-[0_22px_52px_rgba(38,72,112,0.16)] backdrop-blur-sm dark:bg-[radial-gradient(circle_at_32%_24%,rgba(241,215,157,0.22),rgba(38,72,112,0.22)_40%,transparent_72%)]" />
       <div className="absolute inset-11 rounded-full border border-[#f1d79d]/45 bg-[#111827]/90 shadow-[inset_0_0_34px_rgba(241,215,157,0.16),0_0_44px_rgba(184,137,74,0.14)]" />
       <div
         className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#b8894a]/65 bg-[#07111f] text-[#f1d79d]"
@@ -138,7 +138,7 @@ function OrbAccent({ canAnimate }: { canAnimate: boolean }) {
 function SealAccent({ canAnimate }: { canAnimate: boolean }) {
   return (
     <>
-      <div className="absolute inset-3 rounded-full border border-[#c7aa73]/45 bg-[#fff8e8]/55 shadow-[0_34px_90px_rgba(15,23,42,0.08)] backdrop-blur-md dark:border-[#b8894a]/35 dark:bg-[#06101d]/60 dark:shadow-[0_34px_90px_rgba(184,137,74,0.1)]" />
+      <div className="absolute inset-3 rounded-full border border-[#c7aa73]/45 bg-[#fff8e8]/55 shadow-[0_22px_54px_rgba(15,23,42,0.08)] backdrop-blur-sm dark:border-[#b8894a]/35 dark:bg-[#06101d]/60 dark:shadow-[0_22px_54px_rgba(184,137,74,0.1)]" />
       <div className="absolute inset-8 rounded-full border border-dashed border-[#b8894a]/45" />
       <div className="absolute inset-14 rounded-full bg-[linear-gradient(145deg,#f6e2ad,#b8894a_54%,#6f4c20)] shadow-[inset_0_1px_20px_rgba(255,255,255,0.34),0_22px_50px_rgba(184,137,74,0.2)]" />
       <div
