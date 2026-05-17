@@ -141,7 +141,7 @@ export function CinematicHomepage() {
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <motion.a whileHover={{ y: -3 }} href="/articles" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">
+              <motion.a whileHover={{ y: -3 }} href="/articles" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black dark:text-[#0b1f3a]">
                 Explore articles
               </motion.a>
               <motion.a whileHover={{ y: -3 }} href="/lexai" className="rounded-full border border-white/15 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur-xl">
