@@ -34,6 +34,41 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const openTimerRef = useRef<number | null>(null);
+  const closeTimerRef = useRef<number | null>(null);
+
+  function clearSearchTimers() {
+    if (openTimerRef.current) {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
+    }
+
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }
+
+  function openSearchSmoothly() {
+    clearSearchTimers();
+
+    setExpanded(true);
+
+    openTimerRef.current = window.setTimeout(() => {
+      setOpen(true);
+    }, 110);
+  }
+
+  function closeSearchSmoothly() {
+    clearSearchTimers();
+
+    if (query.trim()) return;
+
+    closeTimerRef.current = window.setTimeout(() => {
+      setOpen(false);
+      setExpanded(false);
+    }, 180);
+  }
 
   const showSuggestions = open && expanded && query.trim().length < 2;
 
@@ -44,6 +79,10 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
     } catch {
       setRecent([]);
     }
+  }, []);
+
+  useEffect(() => {
+    return () => clearSearchTimers();
   }, []);
 
   function saveRecentSearch(value: string) {
@@ -104,20 +143,12 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
   return (
     <div
       ref={wrapperRef}
-      onMouseEnter={() => {
-        setExpanded(true);
-        setOpen(true);
-      }}
-      onMouseLeave={() => {
-        if (!query.trim()) {
-          setExpanded(false);
-          setOpen(false);
-        }
-      }}
-      className={`relative transition-all duration-300 ${expanded ? "w-[260px]" : "w-11"}`}
+      onMouseEnter={openSearchSmoothly}
+      onMouseLeave={closeSearchSmoothly}
+      className={`relative transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${expanded ? "w-[260px]" : "w-11"}`}
     >
       <div
-        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition dark:bg-[#0b1728] ${
+        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] dark:bg-[#0b1728] ${
           expanded ? "border-[#b8894a]/70 dark:border-[#b8894a]/35" : "justify-center border-[#d9c79f]/70 dark:border-[#b8894a]/25"
         }`}
       >
@@ -136,7 +167,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
             }
           }}
           placeholder={placeholder}
-          className={`h-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 transition-all duration-300 dark:text-white dark:placeholder:text-slate-500 ${
+          className={`h-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] dark:text-white dark:placeholder:text-slate-500 ${
             expanded ? "w-full opacity-100" : "w-0 opacity-0"
           }`}
         />

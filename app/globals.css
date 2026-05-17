@@ -2187,3 +2187,30 @@ body.dark .gold-hero-btn svg,
     transform 220ms cubic-bezier(.22, 1, .36, 1),
     opacity 220ms cubic-bezier(.22, 1, .36, 1) !important;
 }
+
+/* FINAL SEARCH SMOOTHNESS — slower premium reveal */
+.search-panel-smooth {
+  transform-origin: top right;
+  animation: searchPanelSmoothIn 460ms cubic-bezier(.22, 1, .36, 1) both !important;
+  will-change: opacity, transform, filter;
+}
+
+@keyframes searchPanelSmoothIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(.965);
+    filter: blur(10px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.008);
+    filter: blur(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
