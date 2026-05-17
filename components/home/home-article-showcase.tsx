@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Eye, Heart, Timer } from "lucide-react";
 
+import { HomeReveal, homeEase, homeRevealVariants, homeViewport, useHomeMotion } from "@/components/home/home-motion";
 import type { ArticleCardItem } from "@/lib/content-types";
 import type { Dictionary } from "@/lib/i18n";
 
@@ -21,49 +21,48 @@ type HomeArticleShowcaseProps = {
 };
 
 export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps) {
-  const reduceMotion = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
-  const canAnimate = mounted && !reduceMotion;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { canAnimate, isMobile } = useHomeMotion();
 
   return (
     <section className="relative px-5 py-20 md:py-28">
       <div className="legal-container">
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1fr] lg:items-end">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a77738] dark:text-[#d6b574]">
-              {copy.articlesEyebrow}
-            </p>
-            <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-[1.05] text-[#111827] dark:text-white md:text-6xl">
-              {copy.articlesTitle}
-            </h2>
-          </div>
-          <div className="lg:justify-self-end">
-            <p className="max-w-2xl text-base leading-8 text-[#5f6877] dark:text-[#cbd5e1]">
-              {copy.articlesLead}
-            </p>
-            <Link
-              href="/articles"
-              className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#c7aa73] bg-[#fff8e8]/80 px-5 text-sm font-semibold text-[#5d421f] hover:border-[#b8894a] hover:bg-[#fff3d4] dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-[#f1d79d] dark:hover:bg-[#111f34]"
-            >
-              {copy.ctas.viewAllArticles}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+          <HomeReveal y={32} mobileY={18}>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a77738] dark:text-[#d6b574]">
+                {copy.articlesEyebrow}
+              </p>
+              <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-[1.05] text-[#111827] dark:text-white md:text-6xl">
+                {copy.articlesTitle}
+              </h2>
+            </div>
+          </HomeReveal>
+          <HomeReveal className="lg:justify-self-end" delay={0.08} y={28} mobileY={18}>
+            <div>
+              <p className="max-w-2xl text-base leading-8 text-[#5f6877] dark:text-[#cbd5e1]">
+                {copy.articlesLead}
+              </p>
+              <Link
+                href="/articles"
+                className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#c7aa73] bg-[#fff8e8]/80 px-5 text-sm font-semibold text-[#5d421f] hover:border-[#b8894a] hover:bg-[#fff3d4] dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-[#f1d79d] dark:hover:bg-[#111f34]"
+              >
+                {copy.ctas.viewAllArticles}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </HomeReveal>
         </div>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {articles.map((article, index) => (
             <motion.article
               key={article.id}
-              initial={canAnimate ? { opacity: 0, y: 28, filter: "blur(8px)" } : false}
-              whileInView={canAnimate ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
+              initial={canAnimate ? "hidden" : false}
+              whileInView={canAnimate ? "visible" : undefined}
               whileHover={canAnimate ? { y: -7 } : undefined}
-              viewport={{ once: true, amount: 0.24 }}
-              transition={{ delay: Math.min(index * 0.06, 0.24), duration: 0.55, ease: "easeOut" }}
+              viewport={{ ...homeViewport, amount: 0.24 }}
+              variants={homeRevealVariants({ y: 30, mobileY: 18, blur: 9, mobileBlur: 6, isMobile })}
+              transition={{ delay: Math.min(index * 0.06, 0.24), duration: 0.58, ease: homeEase }}
               className="group relative h-full overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur dark:border-[#b8894a]/20 dark:bg-[#07111f]/90 dark:shadow-[0_18px_60px_rgba(0,0,0,0.25)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100">
