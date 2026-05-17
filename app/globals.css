@@ -1747,3 +1747,17 @@ header [data-state="open"] {
   fill: none !important;
   -webkit-text-fill-color: #071a33 !important;
 }
+
+/* Final hard override: gold buttons must keep dark navy text in dark mode too */
+.lex-btn-gold,
+.lex-btn-gold *,
+.dark .lex-btn-gold,
+.dark .lex-btn-gold * {
+  color: #071a33 !important;
+}
+
+.lex-btn-gold svg,
+.dark .lex-btn-gold svg {
+  color: #071a33 !important;
+  stroke: #071a33 !important;
+}
