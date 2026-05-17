@@ -1816,3 +1816,20 @@ header [data-state="open"] {
   color: #071a33 !important;
   -webkit-text-fill-color: #071a33 !important;
 }
+
+/* Gold hero button — nuclear override */
+.gold-hero-btn {
+  color: #ffffff;
+}
+html.dark .gold-hero-btn,
+:root.dark .gold-hero-btn,
+.dark .gold-hero-btn {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
+.dark .gold-hero-btn svg,
+.dark .gold-hero-btn * {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+  fill: #071a33 !important;
+}
