@@ -94,7 +94,7 @@ export function NotificationBell({
           <span>Notifications</span>
           {unreadCount ? (
             <form action={markAllNotificationsReadAction}>
-              <button type="submit" className="text-xs font-normal text-blue-700 hover:underline">
+              <button type="submit" className="text-xs font-normal text-[#8a612f] hover:underline dark:text-[#f1d79d]">
                 Mark all read
               </button>
             </form>
@@ -108,7 +108,7 @@ export function NotificationBell({
             <DropdownMenuItem key={item.id} asChild>
               <Link
                 href={item.href ?? "#"}
-                className={item.readAt ? "block whitespace-normal p-3" : "block whitespace-normal bg-blue-50 p-3"}
+                className={item.readAt ? "block whitespace-normal p-3" : "block whitespace-normal bg-[#f5efe5] p-3 dark:bg-[#172033]"}
                 onClick={() => {
                   if (!item.readAt) {
                     const formData = new FormData();

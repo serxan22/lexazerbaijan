@@ -28,14 +28,14 @@ export function TableOfContents({ content, label }: { content: string; label: st
   if (!headings.length) return null;
 
   return (
-    <aside className="sticky top-28 hidden max-h-[calc(100vh-8rem)] overflow-auto rounded-lg border bg-white p-5 lg:block">
+    <aside className="premium-surface sticky top-28 hidden max-h-[calc(100vh-8rem)] overflow-auto p-5 lg:block">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">{label}</p>
       <nav className="mt-4 grid gap-2 text-sm">
         {headings.map((heading) => (
           <Link
             key={heading.id}
             href={`#${heading.id}`}
-            className={heading.level > 2 ? "pl-3 text-slate-500 hover:text-slate-950" : "text-slate-700 hover:text-slate-950"}
+            className={heading.level > 2 ? "pl-3 text-slate-500 hover:text-[#8a612f] dark:text-slate-400 dark:hover:text-[#f1d79d]" : "text-slate-700 hover:text-[#8a612f] dark:text-slate-300 dark:hover:text-[#f1d79d]"}
           >
             {heading.text}
           </Link>

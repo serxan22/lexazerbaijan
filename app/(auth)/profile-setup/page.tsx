@@ -25,7 +25,7 @@ export default async function ProfileSetupPage() {
       : {};
 
   return (
-    <div className="bg-slate-50 py-12">
+    <div className="premium-page py-12">
       <div className="legal-container">
         <ProfileSetupForm
           dictionary={dictionary}

@@ -84,7 +84,7 @@ export function HeaderClient({
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/92 backdrop-blur supports-[backdrop-filter]:bg-white/82">
+    <header className="sticky top-0 z-40 border-b border-[#d9c79f]/70 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/82 dark:border-[#b8894a]/20 dark:bg-[#020611]/86">
       <div className="legal-container flex h-20 items-center justify-between gap-6">
         <Logo tagline={dictionary.site.journal} />
 
@@ -103,11 +103,11 @@ export function HeaderClient({
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="start" className="w-72 border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-white">
+            <DropdownMenuContent align="start" className="w-72">
               <DropdownMenuItem asChild>
                 <Link href="/cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900">{dictionary.nav.usCases}</span>
-                  <span className="text-xs text-slate-500">
+                  <span className="font-semibold text-slate-900 dark:text-white">{dictionary.nav.usCases}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
                     Search American federal and state case-law.
                   </span>
                 </Link>
@@ -115,8 +115,8 @@ export function HeaderClient({
 
               <DropdownMenuItem asChild>
                 <Link href="/echr-cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900">{dictionary.nav.echrCases}</span>
-                  <span className="text-xs text-slate-500">
+                  <span className="font-semibold text-slate-900 dark:text-white">{dictionary.nav.echrCases}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
                     Explore European Court of Human Rights judgments.
                   </span>
                 </Link>
@@ -124,8 +124,8 @@ export function HeaderClient({
 
               <DropdownMenuItem asChild>
                 <Link href="/eu-cases" className="flex flex-col items-start gap-1 py-3">
-                  <span className="font-semibold text-slate-900">{dictionary.nav.euCases}</span>
-                  <span className="text-xs text-slate-500">
+                  <span className="font-semibold text-slate-900 dark:text-white">{dictionary.nav.euCases}</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">
                     Search CJEU and General Court case-law.
                   </span>
                 </Link>
@@ -229,42 +229,42 @@ export function HeaderClient({
             <Button
               variant="outline"
               size="icon"
-              className="border-slate-300 bg-white text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-white lg:hidden"
+              className="lg:hidden"
               aria-label={dictionary.nav.navigation}
             >
               <Menu className="h-5 w-5" />
             </Button>
           </DialogTrigger>
-          <DialogContent className="top-6 max-h-[90vh] overflow-y-auto translate-y-0 border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-white sm:max-w-md">
+          <DialogContent className="top-6 max-h-[90vh] overflow-y-auto translate-y-0 sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="text-slate-950 dark:text-white">{dictionary.nav.navigation}</DialogTitle>
               <DialogDescription className="text-slate-600 dark:text-slate-300">{dictionary.site.description}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-2">
               {[...navItems, { title: dictionary.nav.submitArticle, href: "/submit" }].map((item) => (
-                <Button key={item.href} variant="ghost" asChild className="justify-start text-slate-800 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900">
+                <Button key={item.href} variant="ghost" asChild className="justify-start">
                   <Link href={item.href} onClick={() => setMobileNavOpen(false)}>{item.title}</Link>
                 </Button>
               ))}
-              <div className="rounded-xl border bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+              <div className="premium-panel p-3">
                 <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
                   {dictionary.nav.cases}
                 </p>
                 <div className="grid gap-2">
-                  <Button variant="ghost" asChild className="justify-start text-slate-800 hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800">
+                  <Button variant="ghost" asChild className="justify-start">
                     <Link href="/cases" onClick={() => setMobileNavOpen(false)}>{dictionary.nav.usCases}</Link>
                   </Button>
-                  <Button variant="ghost" asChild className="justify-start text-slate-800 hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800">
+                  <Button variant="ghost" asChild className="justify-start">
                     <Link href="/echr-cases" onClick={() => setMobileNavOpen(false)}>{dictionary.nav.echrCases}</Link>
                   </Button>
-                  <Button variant="ghost" asChild className="justify-start text-slate-800 hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800">
+                  <Button variant="ghost" asChild className="justify-start">
                     <Link href="/eu-cases" onClick={() => setMobileNavOpen(false)}>{dictionary.nav.euCases}</Link>
                   </Button>
                 </div>
               </div>
 
               <div className="my-2 border-t" />
-              <Button variant="outline" asChild className="justify-start border-slate-300 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+              <Button variant="outline" asChild className="justify-start">
                 <Link href="/articles" onClick={() => setMobileNavOpen(false)}>
                   <BookOpen className="h-4 w-4" />
                   {dictionary.nav.exploreArticles}
@@ -272,20 +272,20 @@ export function HeaderClient({
               </Button>
               <LanguageSwitcher locale={locale} label={dictionary.nav.language} />
 
-              <div className="flex items-center justify-between rounded-lg border px-4 py-3 text-sm text-slate-700 dark:border-slate-800 dark:text-slate-200">
+              <div className="flex items-center justify-between rounded-lg border border-[#d9c79f]/70 px-4 py-3 text-sm text-slate-700 dark:border-[#b8894a]/20 dark:text-slate-200">
                 <span>Dark mode</span>
                 <ThemeToggle />
               </div>
               {profile ? (
                 <>
-                  <Button variant="outline" asChild className="justify-start border-slate-300 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+                  <Button variant="outline" asChild className="justify-start">
                     <Link href="/dashboard" onClick={() => setMobileNavOpen(false)}>
                       <LayoutDashboard className="h-4 w-4" />
                       {dictionary.nav.dashboard}
                     </Link>
                   </Button>
                   <form action="/auth/logout" method="post">
-                    <Button variant="ghost" className="w-full justify-start text-slate-800 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900">
+                    <Button variant="ghost" className="w-full justify-start">
                       <LogOut className="h-4 w-4" />
                       {dictionary.nav.signOut}
                     </Button>

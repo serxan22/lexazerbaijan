@@ -33,9 +33,9 @@ export async function CommentsSection({
     : { data: null };
 
   return (
-    <section className="mt-16 rounded-lg border bg-white p-6">
+    <section className="premium-surface mt-16 p-6">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-50 text-blue-800">
+        <div className="premium-icon flex h-10 w-10 items-center justify-center rounded-md">
           <MessageSquare className="h-5 w-5" />
         </div>
         <div>
@@ -47,7 +47,7 @@ export async function CommentsSection({
       <div className="mt-6 grid gap-4">
         {comments.length ? (
           comments.map((comment) => (
-            <article key={comment.id} className="rounded-md border bg-slate-50 p-4">
+            <article key={comment.id} className="premium-panel p-4">
               <div className="flex items-center gap-3">
                 <Avatar className="h-9 w-9">
                   <AvatarImage src={comment.author.avatarUrl ?? undefined} alt={comment.author.fullName} />

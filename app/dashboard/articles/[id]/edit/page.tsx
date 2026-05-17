@@ -23,8 +23,8 @@ export default async function EditArticlePage({ params }: { params: { id: string
   if (!article) notFound();
 
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-12">
+    <div className="premium-page">
+      <section className="premium-hero py-12">
         <div className="legal-container">
           <p className="eyebrow">{dictionary.dashboard.editDraft}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.dashboard.reviseTitle}</h1>

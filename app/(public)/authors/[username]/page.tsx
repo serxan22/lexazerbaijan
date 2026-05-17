@@ -32,8 +32,8 @@ export default async function AuthorProfilePage({ params }: { params: { username
   const articles = await getAuthorArticles(author.id);
 
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-14">
+    <div className="premium-page">
+      <section className="premium-hero py-14">
         <div className="legal-container grid gap-8 lg:grid-cols-[1fr_360px]">
           <div className="flex flex-col gap-6 md:flex-row">
             <Avatar className="h-24 w-24">
@@ -46,7 +46,7 @@ export default async function AuthorProfilePage({ params }: { params: { username
               {author.verifiedWriter ? (
                 <span
                   title="Verified Writer"
-                  className="ml-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white shadow-sm"
+                  className="ml-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#b8894a] text-sm font-bold text-white shadow-sm"
                 >
                   ✓
                 </span>
@@ -112,7 +112,7 @@ export default async function AuthorProfilePage({ params }: { params: { username
           ))}
         </div>
         {!articles.length ? (
-          <div className="mt-8 rounded-lg border border-dashed bg-white p-10 text-center text-slate-500">
+          <div className="premium-surface mt-8 border-dashed p-10 text-center text-slate-500 dark:text-slate-400">
             {dictionary.pages.noArticlesTitle}
           </div>
         ) : null}

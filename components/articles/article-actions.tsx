@@ -179,7 +179,7 @@ export function ArticleActions({
         aria-pressed={bookmarked}
         className={`transition-all duration-200 active:scale-95 ${
           bookmarked
-            ? "bg-blue-700 text-white hover:bg-blue-800"
+            ? "bg-[#0B1220] text-white hover:bg-[#172033] dark:bg-[#f3d28d] dark:text-[#0B1220] dark:hover:bg-[#ffe2a4]"
             : ""
         }`}
       >

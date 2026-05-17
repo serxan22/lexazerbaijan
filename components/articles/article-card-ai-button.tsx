@@ -48,7 +48,7 @@ export function ArticleCardAiButton({
         type="button"
         onClick={summarizeArticle}
         disabled={loading}
-        className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex items-center gap-2 rounded-lg border border-[#d9c79f]/80 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-[#f5efe5] disabled:cursor-not-allowed disabled:opacity-60 dark:border-[#b8894a]/30 dark:text-slate-200 dark:hover:bg-[#172033]"
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -59,7 +59,7 @@ export function ArticleCardAiButton({
       </button>
 
       {summary ? (
-        <div className="mt-3 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+        <div className="premium-panel mt-3 whitespace-pre-line p-4 text-sm leading-7 text-slate-700 dark:text-slate-200">
           <p className="mb-2 font-semibold text-slate-950">{resultTitle}</p>
           {summary}
         </div>

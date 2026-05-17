@@ -48,15 +48,15 @@ export function LexAiForm() {
       <Card className="flex h-[700px] flex-col">
         <CardHeader className="border-b">
           <CardTitle className="flex items-center gap-2">
-            <Bot className="h-5 w-5 text-blue-700" />
+            <Bot className="h-5 w-5 text-[#b8894a]" />
             Ask LexAI
           </CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-1 flex-col gap-4 overflow-hidden p-0">
-          <div className="flex-1 space-y-4 overflow-y-auto bg-slate-50 p-6">
+          <div className="flex-1 space-y-4 overflow-y-auto bg-[#f8fafc] p-6 dark:bg-[#020611]">
             {messages.length === 0 ? (
-              <div className="rounded-xl border border-dashed bg-white p-6 text-center text-sm text-slate-500">
+              <div className="premium-panel border-dashed p-6 text-center text-sm text-slate-500 dark:text-slate-400">
                 Start a conversation with LexAI
               </div>
             ) : (
@@ -72,8 +72,8 @@ export function LexAiForm() {
                   <div
                     className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-7 shadow-sm ${
                       message.role === "user"
-                        ? "bg-blue-700 text-white"
-                        : "border bg-white text-slate-700"
+                        ? "bg-[#0B1220] text-white dark:bg-[#f3d28d] dark:text-[#0B1220]"
+                        : "border border-[#d9c79f]/70 bg-white text-slate-700 dark:border-[#b8894a]/20 dark:bg-[#0b1728] dark:text-slate-200"
                     }`}
                   >
                     <div className="mb-2 flex items-center gap-2 text-xs font-semibold opacity-80">
@@ -108,7 +108,7 @@ export function LexAiForm() {
 
               action(formData);
             }}
-            className="border-t bg-white p-4"
+            className="border-t border-[#d9c79f]/70 bg-white p-4 dark:border-[#b8894a]/20 dark:bg-[#07111f]"
           >
             <div className="flex items-end gap-3">
               <Textarea
@@ -136,14 +136,14 @@ export function LexAiForm() {
           <CardTitle>What LexAI can help with</CardTitle>
         </CardHeader>
 
-        <CardContent className="space-y-3 text-sm leading-6 text-slate-600">
+        <CardContent className="space-y-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
           <p>• Explain legal concepts</p>
           <p>• Structure IRAC answers</p>
           <p>• Generate arguments and counterarguments</p>
           <p>• Summarize legal topics</p>
           <p>• Help with legal article ideas</p>
 
-          <div className="rounded-lg border bg-amber-50 p-3 text-xs leading-5 text-amber-800">
+          <div className="rounded-lg border border-[#d9c79f]/70 bg-[#f5efe5] p-3 text-xs leading-5 text-[#6f4c20] dark:border-[#b8894a]/25 dark:bg-[#172033] dark:text-[#f1d79d]">
             LexAI is for educational and research support only. It does not provide legal advice.
           </div>
         </CardContent>

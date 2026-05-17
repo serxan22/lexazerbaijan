@@ -99,9 +99,9 @@ export function LegalWritingScore() {
   const score = useMemo(() => scoreContent(content), [content]);
 
   return (
-    <section className="rounded-3xl border bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+    <section className="premium-surface p-5">
       <div className="flex items-start gap-3">
-        <div className="rounded-2xl border bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+        <div className="premium-panel p-3">
           <BarChart3 className="h-5 w-5 text-slate-900 dark:text-slate-100" aria-hidden="true" />
         </div>
 
@@ -115,7 +115,7 @@ export function LegalWritingScore() {
         </div>
       </div>
 
-      <div className="mt-5 rounded-2xl bg-slate-50 p-4 text-center dark:bg-slate-900">
+      <div className="mt-5 rounded-2xl bg-[#f8fafc] p-4 text-center dark:bg-[#0b1728]">
         <p className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
           Overall
         </p>

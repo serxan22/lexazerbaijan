@@ -43,16 +43,18 @@ export function homeRevealVariants(options?: {
   mobileScale?: number;
   blur?: number;
   mobileBlur?: number;
+  hiddenOpacity?: number;
+  mobileHiddenOpacity?: number;
   isMobile?: boolean;
 }): Variants {
   const isMobile = Boolean(options?.isMobile);
 
   return {
     hidden: {
-      opacity: 0,
-      y: isMobile ? options?.mobileY ?? 16 : options?.y ?? 28,
-      scale: isMobile ? options?.mobileScale ?? 0.995 : options?.scale ?? 0.985,
-      filter: `blur(${isMobile ? options?.mobileBlur ?? 2 : options?.blur ?? 3}px)`
+      opacity: isMobile ? options?.mobileHiddenOpacity ?? 0.9 : options?.hiddenOpacity ?? 0.86,
+      y: isMobile ? options?.mobileY ?? 12 : options?.y ?? 18,
+      scale: isMobile ? options?.mobileScale ?? 0.996 : options?.scale ?? 0.992,
+      filter: `blur(${isMobile ? options?.mobileBlur ?? 0 : options?.blur ?? 0}px)`
     },
     visible: {
       opacity: 1,
@@ -75,7 +77,9 @@ export function HomeReveal({
   scale,
   mobileScale,
   blur,
-  mobileBlur
+  mobileBlur,
+  hiddenOpacity,
+  mobileHiddenOpacity
 }: {
   children: ReactNode;
   className?: string;
@@ -89,6 +93,8 @@ export function HomeReveal({
   mobileScale?: number;
   blur?: number;
   mobileBlur?: number;
+  hiddenOpacity?: number;
+  mobileHiddenOpacity?: number;
 }) {
   const { canAnimate, isMobile } = useHomeMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -124,7 +130,17 @@ export function HomeReveal({
       ref={ref}
       initial={false}
       animate={canAnimate ? (shown ? "visible" : "hidden") : "visible"}
-      variants={homeRevealVariants({ y, mobileY, scale, mobileScale, blur, mobileBlur, isMobile })}
+      variants={homeRevealVariants({
+        y,
+        mobileY,
+        scale,
+        mobileScale,
+        blur,
+        mobileBlur,
+        hiddenOpacity,
+        mobileHiddenOpacity,
+        isMobile
+      })}
       transition={{ delay, duration, ease: homeEase }}
       className={className}
       style={canAnimate ? { willChange: "transform, opacity" } : undefined}

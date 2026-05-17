@@ -77,7 +77,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
 
   return (
     <motion.div
-      initial={canAnimate ? { opacity: 0 } : false}
+      initial={canAnimate ? { opacity: 0.96 } : false}
       animate={canAnimate ? { opacity: 1 } : undefined}
       transition={{ duration: 0.45, ease: homeEase }}
       className="relative isolate overflow-hidden bg-[#f8f5ef] text-[#121827] dark:bg-[#020611] dark:text-[#f8fafc]"
@@ -94,7 +94,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
         <div className="legal-container relative z-10 grid min-h-[82svh] gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="max-w-4xl">
             <motion.p
-              initial={canAnimate ? { opacity: 0, y: 14 } : false}
+              initial={canAnimate ? { opacity: 0.86, y: 14 } : false}
               animate={canAnimate ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.55, ease: homeEase }}
               className="inline-flex items-center gap-2 rounded-full border border-[#c7aa73]/70 bg-[#fff8e8]/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#805b2c] shadow-[0_10px_30px_rgba(15,23,42,0.05)] backdrop-blur dark:border-[#b8894a]/30 dark:bg-[#07111f]/70 dark:text-[#e5c98f]"
@@ -104,7 +104,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
             </motion.p>
 
             <motion.h1
-              initial={canAnimate ? { opacity: 0, y: 30, filter: "blur(3px)" } : false}
+              initial={canAnimate ? { opacity: 0.86, y: 30, filter: "blur(0px)" } : false}
               animate={canAnimate ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
               transition={{ delay: 0.08, duration: 0.78, ease: homeEase }}
               className="mt-7 max-w-5xl font-serif text-4xl font-semibold leading-[0.98] text-[#111827] dark:text-white md:text-5xl xl:text-6xl"
@@ -113,7 +113,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
             </motion.h1>
 
             <motion.p
-              initial={canAnimate ? { opacity: 0, y: 24 } : false}
+              initial={canAnimate ? { opacity: 0.86, y: 24 } : false}
               animate={canAnimate ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: 0.18, duration: 0.65, ease: homeEase }}
               className="mt-7 max-w-3xl text-lg leading-8 text-[#4e5969] dark:text-[#cbd5e1] md:text-xl"
@@ -122,7 +122,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
             </motion.p>
 
             <motion.div
-              initial={canAnimate ? { opacity: 0, y: 18 } : false}
+              initial={canAnimate ? { opacity: 0.9, y: 18 } : false}
               animate={canAnimate ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: 0.26, duration: 0.6, ease: homeEase }}
               className="mt-9 flex flex-wrap gap-3"
@@ -151,7 +151,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
             </motion.div>
 
             <motion.div
-              initial={canAnimate ? { opacity: 0, y: 20 } : false}
+              initial={canAnimate ? { opacity: 0.9, y: 20 } : false}
               animate={canAnimate ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: 0.34, duration: 0.64, ease: homeEase }}
               className="mt-12 grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
@@ -170,7 +170,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
           </div>
 
           <motion.div
-            initial={canAnimate ? { opacity: 0, x: 34, scale: 0.97, filter: "blur(3px)" } : false}
+            initial={canAnimate ? { opacity: 0.9, x: 34, scale: 0.97, filter: "blur(0px)" } : false}
             animate={canAnimate ? { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" } : undefined}
             transition={{ delay: 0.18, duration: 0.84, ease: homeEase }}
             className="relative overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/80 p-4 shadow-[0_30px_90px_rgba(15,23,42,0.14)] backdrop-blur dark:border-[#b8894a]/25 dark:bg-[#07111f]/80 dark:shadow-[0_30px_90px_rgba(0,0,0,0.34)]"

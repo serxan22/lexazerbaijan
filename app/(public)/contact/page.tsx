@@ -19,8 +19,8 @@ export default async function ContactPage() {
   const icons = [Mail, MessageSquare, Scale];
 
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-14">
+    <div className="premium-page">
+      <section className="premium-hero py-14">
         <div className="legal-container">
           <p className="eyebrow">{dictionary.footer.contact}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.pages.contactTitle}</h1>
@@ -34,7 +34,7 @@ export default async function ContactPage() {
           {dictionary.pages.contactCards.map(([title, body], index) => {
             const Icon = icons[index] ?? Mail;
             return (
-            <div key={title} className="rounded-lg border bg-white p-5">
+            <div key={title} className="premium-surface p-5">
               <Icon className="h-5 w-5 text-gold" />
               <h2 className="mt-3 font-semibold text-slate-950">{title}</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">{body}</p>

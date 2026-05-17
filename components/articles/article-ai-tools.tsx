@@ -42,7 +42,7 @@ export function ArticleAiTools({
   }
 
   return (
-    <div className="sticky top-24 rounded-2xl border bg-white p-5 shadow-sm">
+    <div className="premium-surface sticky top-24 p-5">
       <h3 className="text-lg font-semibold text-slate-950">
         ✨ AI Article Tools
       </h3>
@@ -50,28 +50,28 @@ export function ArticleAiTools({
       <div className="mt-4 grid gap-2">
         <button
           onClick={() => runTool("summarize")}
-          className="rounded-lg border px-4 py-2 text-left text-sm hover:bg-slate-50"
+          className="rounded-lg border border-[#d9c79f]/70 px-4 py-2 text-left text-sm hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:hover:bg-[#172033]"
         >
           ✨ Summarize article
         </button>
 
         <button
           onClick={() => runTool("simple")}
-          className="rounded-lg border px-4 py-2 text-left text-sm hover:bg-slate-50"
+          className="rounded-lg border border-[#d9c79f]/70 px-4 py-2 text-left text-sm hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:hover:bg-[#172033]"
         >
           ✨ Explain in simple English
         </button>
 
         <button
           onClick={() => runTool("irac")}
-          className="rounded-lg border px-4 py-2 text-left text-sm hover:bg-slate-50"
+          className="rounded-lg border border-[#d9c79f]/70 px-4 py-2 text-left text-sm hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:hover:bg-[#172033]"
         >
           ✨ Convert to IRAC
         </button>
 
         <button
           onClick={() => runTool("counter")}
-          className="rounded-lg border px-4 py-2 text-left text-sm hover:bg-slate-50"
+          className="rounded-lg border border-[#d9c79f]/70 px-4 py-2 text-left text-sm hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:hover:bg-[#172033]"
         >
           ✨ Generate counterarguments
         </button>
@@ -84,7 +84,7 @@ export function ArticleAiTools({
       ) : null}
 
       {result ? (
-        <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+        <div className="premium-panel mt-4 whitespace-pre-line p-4 text-sm leading-7 text-slate-700 dark:text-slate-200">
           {result}
         </div>
       ) : null}

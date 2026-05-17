@@ -84,14 +84,14 @@ const content = sanitizeArticleContent(article.content);
   };
 
   return (
-    <article className="bg-white dark:bg-slate-950">
+    <article className="premium-page">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <ReadingProgressBar />
       <ArticleViewTracker slug={params.slug} />
-      <section style={{ position: "relative", zIndex: 0 }} className="border-b bg-slate-50">
+      <section style={{ position: "relative", zIndex: 0 }} className="premium-hero">
         <div className="legal-container grid gap-10 py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
             <div className="flex flex-wrap items-center gap-2">
@@ -154,7 +154,7 @@ const content = sanitizeArticleContent(article.content);
             </div>
           </div>
           {article.coverImageUrl ? (
-            <div className="overflow-hidden rounded-lg border bg-white shadow-soft">
+            <div className="overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-white shadow-soft dark:border-[#b8894a]/20 dark:bg-[#07111f]">
               <Image
                 src={article.coverImageUrl}
                 alt={`${article.title} article cover`}
@@ -171,11 +171,11 @@ const content = sanitizeArticleContent(article.content);
 
       <div className="legal-container relative z-0 grid gap-10 py-12 lg:grid-cols-[1fr_280px]">
         <div className="mx-auto w-full max-w-3xl">
-          <div className="rounded-lg border bg-gold-muted p-5 text-sm leading-6 text-slate-700">
+          <div className="premium-panel bg-gold-muted p-5 text-sm leading-6 text-slate-700 dark:bg-[#101a2b] dark:text-slate-200">
             {dictionary.article.disclaimer}
           </div>
 
-          <div className="mt-6 rounded-2xl border bg-white p-5 shadow-sm">
+          <div className="premium-surface mt-6 p-5">
             <ArticleCardAiButton
               slug={article.slug}
               label={dictionary.common.summarizeArticle}
@@ -195,7 +195,7 @@ const content = sanitizeArticleContent(article.content);
 
           <Separator className="my-12" />
 
-          <section className="rounded-lg border bg-slate-50 p-6">
+          <section className="premium-panel p-6">
             <div className="flex items-start gap-4">
               <Avatar className="h-14 w-14">
                 <AvatarImage src={article.author.avatarUrl ?? undefined} alt={article.author.fullName} />
@@ -234,7 +234,7 @@ const content = sanitizeArticleContent(article.content);
       </div>
 
       {article.related.length ? (
-        <section className="section-shell bg-slate-50">
+        <section className="section-shell premium-section">
           <div className="legal-container">
             <p className="eyebrow">{dictionary.article.relatedEyebrow}</p>
             <h2 className="mt-3 font-serif text-4xl font-semibold text-slate-950">{dictionary.article.relatedTitle}</h2>

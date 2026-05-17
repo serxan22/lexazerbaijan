@@ -63,6 +63,10 @@ export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps
               mobileY={16}
               blur={0}
               mobileBlur={0}
+              hiddenOpacity={0.92}
+              mobileHiddenOpacity={0.95}
+              scale={0.995}
+              mobileScale={0.998}
             >
               <motion.article
                 whileHover={canAnimate ? { y: -7 } : undefined}

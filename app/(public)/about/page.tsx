@@ -19,8 +19,8 @@ export default async function AboutPage() {
   const icons = [GraduationCap, Scale, Users];
 
   return (
-    <div className="bg-white">
-      <section className="border-b bg-slate-50 py-16">
+    <div className="premium-page">
+      <section className="premium-hero py-16">
         <div className="legal-container max-w-4xl">
           <p className="eyebrow">{dictionary.nav.about}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold leading-tight text-slate-950">
@@ -37,7 +37,7 @@ export default async function AboutPage() {
           return (
           <Card key={title}>
             <CardContent className="p-6">
-              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-blue-800">
+              <div className="premium-icon flex h-11 w-11 items-center justify-center rounded-md">
                 <Icon className="h-5 w-5" />
               </div>
               <h2 className="mt-5 font-serif text-2xl font-semibold text-slate-950">{title}</h2>
@@ -47,7 +47,7 @@ export default async function AboutPage() {
           );
         })}
       </section>
-      <section className="border-y bg-slate-50 py-14">
+      <section className="premium-section py-14">
         <div className="legal-container max-w-4xl">
           <BookOpen className="h-8 w-8 text-gold" />
           <h2 className="mt-5 font-serif text-4xl font-semibold text-slate-950">{dictionary.pages.editorialStandard}</h2>

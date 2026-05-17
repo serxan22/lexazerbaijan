@@ -117,8 +117,8 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
       className={`relative transition-all duration-300 ${expanded ? "w-[260px]" : "w-11"}`}
     >
       <div
-        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition dark:bg-slate-900 ${
-          expanded ? "border-slate-300 dark:border-slate-700" : "justify-center border-slate-200 dark:border-slate-700"
+        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition dark:bg-[#0b1728] ${
+          expanded ? "border-[#b8894a]/70 dark:border-[#b8894a]/35" : "justify-center border-[#d9c79f]/70 dark:border-[#b8894a]/25"
         }`}
       >
         <Search className="h-4 w-4 shrink-0 text-slate-600 dark:text-slate-200" />
@@ -157,7 +157,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
       </div>
 
       {open && expanded ? (
-        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl border bg-white shadow-xl dark:border-slate-800 dark:bg-slate-950">
+        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl border border-[#d9c79f]/70 bg-white shadow-xl dark:border-[#b8894a]/20 dark:bg-[#07111f]">
           {showSuggestions ? (
             <div className="p-4">
               {recent.length ? (
@@ -173,7 +173,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
                         key={item}
                         type="button"
                         onClick={() => handleSuggestion(item)}
-                        className="rounded-full border px-3 py-1.5 text-xs text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+                        className="rounded-full border border-[#d9c79f]/70 px-3 py-1.5 text-xs text-slate-700 transition hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:text-slate-200 dark:hover:bg-[#172033]"
                       >
                         {item}
                       </button>
@@ -194,7 +194,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
                       key={item}
                       type="button"
                       onClick={() => handleSuggestion(item)}
-                      className="rounded-full border px-3 py-1.5 text-xs text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900"
+                      className="rounded-full border border-[#d9c79f]/70 px-3 py-1.5 text-xs text-slate-700 transition hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:text-slate-200 dark:hover:bg-[#172033]"
                     >
                       {item}
                     </button>
@@ -218,10 +218,10 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
                     setOpen(false);
                     setExpanded(false);
                   }}
-                  className="block rounded-xl p-3 transition hover:bg-slate-50 dark:hover:bg-slate-900"
+                  className="block rounded-xl p-3 transition hover:bg-[#f5efe5] dark:hover:bg-[#172033]"
                 >
                   {item.category ? (
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700 dark:text-blue-300">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8a612f] dark:text-[#f1d79d]">
                       {item.category}
                     </p>
                   ) : null}

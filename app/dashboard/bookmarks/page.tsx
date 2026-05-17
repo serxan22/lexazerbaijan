@@ -23,8 +23,8 @@ export default async function BookmarksPage() {
   const articles = await getUserBookmarkedArticles(user.id);
 
   return (
-    <div className="bg-slate-50 min-h-screen">
-      <section className="border-b bg-white py-10">
+    <div className="premium-page min-h-screen">
+      <section className="premium-hero py-10">
         <div className="legal-container flex items-center justify-between gap-4">
           <div>
             <p className="eyebrow">Dashboard</p>
@@ -57,7 +57,7 @@ export default async function BookmarksPage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-xl border border-dashed bg-white p-10 text-center">
+          <div className="premium-surface border-dashed p-10 text-center">
             <Bookmark className="mx-auto h-10 w-10 text-slate-400" />
             <h2 className="mt-4 text-xl font-semibold text-slate-900">
               No saved articles yet

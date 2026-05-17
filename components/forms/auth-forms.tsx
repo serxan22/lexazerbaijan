@@ -60,7 +60,7 @@ export function LoginForm({ dictionary }: { dictionary: Dictionary }) {
           <Link href="/forgot-password" className="text-slate-500 hover:text-slate-950">
             {dictionary.forms.forgotPassword}
           </Link>
-          <Link href="/signup" className="font-medium text-blue-800 hover:text-blue-950">
+          <Link href="/signup" className="font-medium text-[#8a612f] hover:text-[#5d421f] dark:text-[#f1d79d] dark:hover:text-[#ffe2a4]">
             {dictionary.forms.createAccount}
           </Link>
         </div>
@@ -90,7 +90,7 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
             </p>
             <Link
               href="/login"
-              className="mt-5 inline-flex items-center rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white transition hover:bg-green-700"
+              className="mt-5 inline-flex items-center rounded-lg bg-[#b8894a] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#a77738]"
             >
               Go to Login
             </Link>
@@ -132,7 +132,7 @@ export function SignUpForm({ dictionary }: { dictionary: Dictionary }) {
 
             <p className="mt-5 text-center text-sm text-slate-500">
               {dictionary.forms.alreadyHaveAccount}{" "}
-              <Link href="/login" className="font-medium text-blue-800 hover:text-blue-950">
+              <Link href="/login" className="font-medium text-[#8a612f] hover:text-[#5d421f] dark:text-[#f1d79d] dark:hover:text-[#ffe2a4]">
                 {dictionary.nav.login}
               </Link>
             </p>

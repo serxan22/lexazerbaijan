@@ -94,7 +94,7 @@ export function EchrCasesSearch() {
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSearch} className="rounded-2xl border bg-white p-4 shadow-sm">
+      <form onSubmit={handleSearch} className="premium-surface p-4">
         <div className="flex flex-col gap-3 md:flex-row">
           <Input
             value={query}
@@ -121,10 +121,10 @@ export function EchrCasesSearch() {
           const summaryKey = String(item.id || `${item.caseName}-${index}`);
 
           return (
-          <article key={summaryKey} className="rounded-2xl border bg-white p-5 shadow-sm">
+          <article key={summaryKey} className="premium-surface p-5">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8a612f] dark:text-[#f1d79d]">
                   {item.type}
                 </p>
 
@@ -170,7 +170,7 @@ export function EchrCasesSearch() {
             ) : null}
 
             {summaries[summaryKey] ? (
-              <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+              <div className="premium-panel mt-4 whitespace-pre-line p-4 text-sm leading-7 text-slate-700 dark:text-slate-200">
                 <p className="mb-2 font-semibold text-slate-950">LexAI case summary</p>
                 {summaries[summaryKey]}
               </div>

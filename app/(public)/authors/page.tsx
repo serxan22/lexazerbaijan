@@ -19,8 +19,8 @@ export default async function AuthorsPage() {
   const authors = await getTopAuthors();
 
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-14">
+    <div className="premium-page">
+      <section className="premium-hero py-14">
         <div className="legal-container">
           <p className="eyebrow">{dictionary.nav.authors}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.pages.authorsTitle}</h1>

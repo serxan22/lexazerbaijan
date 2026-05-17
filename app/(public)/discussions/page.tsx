@@ -16,8 +16,8 @@ export default async function DiscussionsPage() {
   const threads = await getDiscussionThreads();
 
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-10">
+    <div className="premium-page">
+      <section className="premium-hero py-10">
         <div className="legal-container">
           <p className="eyebrow">Community</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.nav.discussions}</h1>
@@ -60,7 +60,7 @@ export default async function DiscussionsPage() {
           ) : (
             <a
               href="#discussion-title-input"
-              className="block rounded-xl border border-dashed bg-white p-10 text-center text-slate-500 transition hover:-translate-y-1 hover:border-gold hover:text-slate-800 hover:shadow-sm"
+              className="premium-surface block border-dashed p-10 text-center text-slate-500 transition hover:-translate-y-1 hover:border-gold hover:text-slate-800 hover:shadow-sm dark:text-slate-400 dark:hover:text-slate-100"
             >
               <PlusCircle className="mx-auto h-10 w-10" />
               <p className="mt-3">{dictionary.pages.noDiscussions}</p>

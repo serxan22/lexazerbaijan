@@ -12,8 +12,8 @@ export default async function AiContentPolicyPage() {
   const dictionary = await getDictionary(locale);
 
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-10">
+    <div className="premium-page">
+      <section className="premium-hero py-10">
         <div className="legal-container">
           <p className="eyebrow">{dictionary.pages.policyEyebrow}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">

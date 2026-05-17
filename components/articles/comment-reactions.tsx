@@ -71,7 +71,7 @@ export function CommentReactions({
           key={reaction.key}
           type="button"
           onClick={() => react(reaction.key)}
-          className="inline-flex items-center gap-1 rounded-full border bg-white px-2 py-1 text-xs transition hover:bg-slate-100"
+          className="inline-flex items-center gap-1 rounded-full border border-[#d9c79f]/70 bg-white px-2 py-1 text-xs transition hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:bg-[#0b1728] dark:hover:bg-[#172033]"
         >
           <span>{reaction.emoji}</span>
           <span>{counts[reaction.key] ?? 0}</span>

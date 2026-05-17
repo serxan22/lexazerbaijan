@@ -25,13 +25,13 @@ export function DiscussionReplyForm({ threadId, slug }: { threadId: string; slug
       <textarea
         name="content"
         placeholder="Write a message..."
-        className="min-h-[46px] flex-1 resize-none rounded-2xl border bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-green-500 focus:bg-white"
+        className="premium-input min-h-[46px] flex-1 resize-none rounded-2xl border px-4 py-3 text-sm outline-none transition focus:border-[#b8894a]"
         required
       />
 
       <button
         type="submit"
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-green-600 text-white transition hover:bg-green-700"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#b8894a] text-white transition hover:bg-[#a77738]"
         aria-label="Send message"
       >
         <Send className="h-5 w-5" />

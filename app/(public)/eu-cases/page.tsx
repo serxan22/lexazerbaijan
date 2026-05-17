@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function EuCasesPage() {
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-10">
+    <div className="premium-page">
+      <section className="premium-hero py-10">
         <div className="legal-container">
           <p className="eyebrow">Court of Justice of the European Union</p>
 

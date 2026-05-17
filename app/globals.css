@@ -18,7 +18,7 @@
     --secondary-foreground: 222 47% 11%;
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-    --accent: 213 88% 28%;
+    --accent: 32 44% 51%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
@@ -26,6 +26,26 @@
     --input: 214 32% 91%;
     --ring: 213 88% 28%;
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 54% 5%;
+    --foreground: 210 40% 98%;
+    --card: 218 45% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 218 45% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 222 64% 8%;
+    --primary-foreground: 43 77% 84%;
+    --secondary: 218 33% 16%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 218 33% 16%;
+    --muted-foreground: 215 20% 76%;
+    --accent: 32 44% 51%;
+    --accent-foreground: 222 47% 11%;
+    --border: 218 28% 24%;
+    --input: 218 28% 24%;
+    --ring: 32 44% 51%;
   }
 
   * {
@@ -59,19 +79,19 @@
   }
 
   .article-prose {
-    @apply font-serif text-lg leading-8 text-slate-800;
+    @apply font-serif text-lg leading-8 text-slate-800 dark:text-slate-200;
   }
 
   .article-prose h2 {
-    @apply mt-12 scroll-mt-24 font-sans text-2xl font-semibold text-slate-950;
+    @apply mt-12 scroll-mt-24 font-sans text-2xl font-semibold text-slate-950 dark:text-white;
   }
 
   .article-prose h3 {
-    @apply mt-9 scroll-mt-24 font-sans text-xl font-semibold text-slate-950;
+    @apply mt-9 scroll-mt-24 font-sans text-xl font-semibold text-slate-950 dark:text-white;
   }
 
   .article-prose h4 {
-    @apply mt-8 scroll-mt-24 font-sans text-lg font-semibold text-slate-950;
+    @apply mt-8 scroll-mt-24 font-sans text-lg font-semibold text-slate-950 dark:text-white;
   }
 
   .article-prose p {
@@ -79,11 +99,11 @@
   }
 
   .article-prose a {
-    @apply text-blue-800 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-950;
+    @apply text-[#8a612f] underline decoration-[#d9c79f] underline-offset-4 transition hover:text-[#5d421f] dark:text-[#f1d79d] dark:decoration-[#b8894a]/40 dark:hover:text-[#ffe2a4];
   }
 
   .article-prose blockquote {
-    @apply my-8 border-l-2 border-gold bg-gold-muted px-6 py-4 font-sans text-base leading-7 text-slate-700;
+    @apply my-8 border-l-2 border-gold bg-gold-muted px-6 py-4 font-sans text-base leading-7 text-slate-700 dark:bg-[#101a2b] dark:text-slate-200;
   }
 
   .article-prose ul,
@@ -96,11 +116,55 @@
   }
 
   .article-prose code {
-    @apply rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm;
+    @apply rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm dark:bg-[#172033] dark:text-slate-100;
   }
 
   .article-prose pre {
     @apply mt-6 overflow-x-auto rounded-md bg-slate-950 p-5 text-sm text-slate-50;
+  }
+
+  .premium-page {
+    @apply min-h-screen bg-[#f8fafc] text-slate-950 dark:bg-[#020611] dark:text-slate-100;
+  }
+
+  .premium-hero {
+    @apply border-b border-[#d9c79f]/70 bg-white/95 dark:border-[#b8894a]/20 dark:bg-[#07111f]/95;
+  }
+
+  .premium-section {
+    @apply border-y border-[#d9c79f]/50 bg-[#f5efe5]/55 dark:border-[#b8894a]/15 dark:bg-[#07111f]/70;
+  }
+
+  .premium-surface {
+    @apply rounded-lg border border-[#d9c79f]/70 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] dark:border-[#b8894a]/20 dark:bg-[#07111f] dark:shadow-[0_18px_60px_rgba(0,0,0,0.28)];
+  }
+
+  .premium-panel {
+    @apply rounded-lg border border-[#d9c79f]/60 bg-[#fffdf8] shadow-[0_14px_42px_rgba(15,23,42,0.06)] dark:border-[#b8894a]/20 dark:bg-[#0b1728];
+  }
+
+  .premium-heading {
+    @apply text-slate-950 dark:text-white;
+  }
+
+  .premium-copy {
+    @apply text-slate-600 dark:text-slate-300;
+  }
+
+  .premium-muted-copy {
+    @apply text-slate-500 dark:text-slate-400;
+  }
+
+  .premium-icon {
+    @apply bg-[#0B1220] text-[#f1d79d] dark:bg-[#f1d79d] dark:text-[#0B1220];
+  }
+
+  .premium-accent-text {
+    @apply text-[#8a612f] dark:text-[#f1d79d];
+  }
+
+  .premium-input {
+    @apply border-[#d9c79f]/80 bg-white text-slate-950 placeholder:text-slate-400 focus-visible:ring-[#b8894a] dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-white dark:placeholder:text-slate-500;
   }
 }
 

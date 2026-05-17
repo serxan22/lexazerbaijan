@@ -141,7 +141,7 @@ export function ArticleForm({
                 id="categoryId"
                 name="categoryId"
                 defaultValue={defaults?.categoryId ?? ""}
-                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="premium-input h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#b8894a]"
                
               >
                 <option value="" disabled>
@@ -160,7 +160,7 @@ export function ArticleForm({
                 id="language"
                 name="language"
                 defaultValue={defaults?.language ?? "az"}
-                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="premium-input h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#b8894a]"
                
               >
                 {locales.map((language) => (
@@ -195,7 +195,7 @@ export function ArticleForm({
                   <button
                     type="button"
                     onClick={() => openConsent("pending_review")}
-                    className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90"
+                    className="inline-flex h-11 items-center justify-center rounded-md bg-[#b8894a] px-6 text-sm font-semibold text-white transition hover:bg-[#a77738]"
                   >
                     {dictionary.forms.submitForReview}
                   </button>
@@ -203,7 +203,7 @@ export function ArticleForm({
                   <button
                     type="button"
                     onClick={() => openConsent("draft")}
-                    className="inline-flex h-11 items-center justify-center rounded-md border px-6 text-sm font-medium transition hover:bg-slate-50"
+                    className="inline-flex h-11 items-center justify-center rounded-md border border-[#d9c79f]/80 bg-white px-6 text-sm font-semibold text-[#243044] transition hover:bg-[#fff8e8] dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-slate-100 dark:hover:bg-[#111f34]"
                   >
                     {dictionary.common.saveDraft}
                   </button>
@@ -243,7 +243,7 @@ export function ArticleForm({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex items-start gap-3 rounded-xl border bg-slate-50 p-4">
+          <div className="premium-panel flex items-start gap-3 p-4">
             <input
               id="copyright-consent"
               type="checkbox"
@@ -261,9 +261,9 @@ export function ArticleForm({
           </div>
 
           {(consentSubmitting || formSubmitting) ? (
-            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm leading-6 text-blue-800">
+            <div className="rounded-xl border border-[#d9c79f]/70 bg-[#f5efe5] p-4 text-sm leading-6 text-[#6f4c20] dark:border-[#b8894a]/25 dark:bg-[#172033] dark:text-[#f1d79d]">
               <div className="flex items-center gap-3">
-                <span className="h-5 w-5 animate-spin rounded-full border-2 border-blue-200 border-t-blue-700" />
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#d9c79f] border-t-[#b8894a]" />
                 <span className="font-semibold">{dictionary.common.submitting}</span>
               </div>
               <p className="mt-2 text-xs">
@@ -277,7 +277,7 @@ export function ArticleForm({
               type="button"
               onClick={handleConfirmedSubmit}
               disabled={!consentChecked || consentSubmitting || formSubmitting}
-              className="inline-flex h-11 items-center justify-center rounded-md bg-[#C6A55C] px-6 text-sm font-medium text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-[#b8894a] px-6 text-sm font-semibold text-white transition hover:bg-[#a77738] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {consentSubmitting || formSubmitting ? dictionary.common.submitting : dictionary.forms.acceptAndSubmit}
             </button>

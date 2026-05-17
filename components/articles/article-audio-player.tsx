@@ -97,10 +97,10 @@ export function ArticleAudioPlayer({ title, content }: ArticleAudioPlayerProps) 
   }
 
   return (
-    <div className="mt-6 rounded-2xl border bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+    <div className="premium-surface mt-6 p-5">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
-          <div className="rounded-2xl border bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+          <div className="premium-panel p-3">
             <Volume2 className="h-5 w-5 text-slate-800 dark:text-slate-100" aria-hidden="true" />
           </div>
 
@@ -118,7 +118,7 @@ export function ArticleAudioPlayer({ title, content }: ArticleAudioPlayerProps) 
           <button
             type="button"
             onClick={play}
-            className="inline-flex items-center gap-2 rounded-full border bg-slate-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 dark:border-slate-700 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+            className="inline-flex items-center gap-2 rounded-full border border-[#0B1220] bg-[#0B1220] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#172033] dark:border-[#f3d28d] dark:bg-[#f3d28d] dark:text-[#0B1220] dark:hover:bg-[#ffe2a4]"
           >
             <Play className="h-4 w-4" aria-hidden="true" />
             {status === "paused" ? "Resume" : status === "playing" ? "Restart" : "Play"}
@@ -128,7 +128,7 @@ export function ArticleAudioPlayer({ title, content }: ArticleAudioPlayerProps) 
             type="button"
             onClick={pause}
             disabled={status !== "playing"}
-            className="inline-flex items-center gap-2 rounded-full border bg-white px-4 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+            className="inline-flex items-center gap-2 rounded-full border border-[#d9c79f] bg-white px-4 py-2 text-sm font-medium text-slate-800 transition hover:bg-[#f5efe5] disabled:cursor-not-allowed disabled:opacity-50 dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-slate-100 dark:hover:bg-[#172033]"
           >
             <Pause className="h-4 w-4" aria-hidden="true" />
             Pause
@@ -138,7 +138,7 @@ export function ArticleAudioPlayer({ title, content }: ArticleAudioPlayerProps) 
             type="button"
             onClick={stop}
             disabled={status === "idle"}
-            className="inline-flex items-center gap-2 rounded-full border bg-white px-4 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+            className="inline-flex items-center gap-2 rounded-full border border-[#d9c79f] bg-white px-4 py-2 text-sm font-medium text-slate-800 transition hover:bg-[#f5efe5] disabled:cursor-not-allowed disabled:opacity-50 dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-slate-100 dark:hover:bg-[#172033]"
           >
             <Square className="h-4 w-4" aria-hidden="true" />
             Stop

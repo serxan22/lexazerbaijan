@@ -31,8 +31,8 @@ export default async function DashboardPage() {
   const totalComments = articles.reduce((sum, article) => sum + article.commentsCount, 0);
 
   return (
-    <div className="bg-slate-50">
-      <section className="border-b bg-white py-10">
+    <div className="premium-page">
+      <section className="premium-hero py-10">
         <div className="legal-container flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="flex items-start gap-4">
             <Avatar className="h-16 w-16">

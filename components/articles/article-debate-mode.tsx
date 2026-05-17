@@ -75,9 +75,9 @@ export function ArticleDebateMode({
   }
 
   return (
-    <section className="my-12 rounded-3xl border bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+    <section className="premium-surface my-12 p-6">
       <div className="flex items-start gap-3">
-        <div className="rounded-2xl border bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+        <div className="premium-panel p-3">
           <MessageSquareText className="h-5 w-5 text-slate-900 dark:text-slate-100" aria-hidden="true" />
         </div>
 
@@ -102,7 +102,7 @@ export function ArticleDebateMode({
           className={`rounded-2xl border p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-60 ${
             selectedSide === "agree"
               ? "border-emerald-500 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/40"
-              : "bg-slate-50 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+              : "bg-[#f8fafc] hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:bg-[#0b1728] dark:hover:bg-[#172033]"
           }`}
         >
           <span className="flex items-center gap-2 text-sm font-semibold text-slate-950 dark:text-slate-50">
@@ -121,7 +121,7 @@ export function ArticleDebateMode({
           className={`rounded-2xl border p-4 text-left transition disabled:cursor-not-allowed disabled:opacity-60 ${
             selectedSide === "disagree"
               ? "border-rose-500 bg-rose-50 dark:border-rose-400 dark:bg-rose-950/40"
-              : "bg-slate-50 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+              : "bg-[#f8fafc] hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:bg-[#0b1728] dark:hover:bg-[#172033]"
           }`}
         >
           <span className="flex items-center gap-2 text-sm font-semibold text-slate-950 dark:text-slate-50">
@@ -144,7 +144,7 @@ export function ArticleDebateMode({
               : "Choose Agree or Disagree first..."
           }
           disabled={!selectedSide || isPending}
-          className="min-h-28 w-full rounded-2xl border bg-white p-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-amber-500 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
+          className="premium-input min-h-28 w-full rounded-2xl border p-4 text-sm outline-none transition disabled:cursor-not-allowed disabled:opacity-60"
         />
 
         <div className="mt-3 flex justify-end">
@@ -152,7 +152,7 @@ export function ArticleDebateMode({
             type="button"
             onClick={() => selectedSide && submit(selectedSide, argumentText)}
             disabled={!selectedSide || argumentText.trim().length < 10 || isPending}
-            className="rounded-full bg-slate-950 px-5 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+            className="rounded-full bg-[#0B1220] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#f3d28d] dark:text-[#0B1220] dark:hover:bg-[#ffe2a4]"
           >
             {isPending ? "Saving..." : "Add argument"}
           </button>
@@ -160,7 +160,7 @@ export function ArticleDebateMode({
       </div>
 
       {message ? (
-        <p className="mt-4 rounded-2xl border bg-slate-50 p-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
+        <p className="premium-panel mt-4 p-3 text-xs text-slate-600 dark:text-slate-300">
           {message}
         </p>
       ) : null}
@@ -171,7 +171,7 @@ export function ArticleDebateMode({
             .filter((entry) => entry.argument)
             .slice(0, 8)
             .map((entry) => (
-              <div key={entry.id} className="rounded-2xl border bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
+              <div key={entry.id} className="premium-panel p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
                   {entry.side === "agree" ? "Agree" : "Disagree"}
                 </p>

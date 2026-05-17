@@ -48,8 +48,8 @@ export function HomeLexAiPreview({ copy }: { copy: LexAiCopy }) {
         mobileY={16}
         scale={0.985}
         mobileScale={0.995}
-        blur={3}
-        mobileBlur={2}
+        blur={0}
+        mobileBlur={0}
         className="relative overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/90 p-4 shadow-[0_30px_90px_rgba(15,23,42,0.12)] backdrop-blur dark:border-[#b8894a]/25 dark:bg-[#07111f]/90 dark:shadow-[0_30px_90px_rgba(0,0,0,0.34)]"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_12%,rgba(184,137,74,0.18),transparent_34%),radial-gradient(circle_at_88%_18%,rgba(63,94,151,0.18),transparent_28%)]" />
@@ -82,8 +82,10 @@ export function HomeLexAiPreview({ copy }: { copy: LexAiCopy }) {
             mobileY={10}
             scale={0.992}
             mobileScale={0.998}
-            blur={1}
+            blur={0}
             mobileBlur={0}
+            hiddenOpacity={0.92}
+            mobileHiddenOpacity={0.95}
             className="ml-auto max-w-[86%]"
           >
             <div className="rounded-lg rounded-tr-sm border border-[#d6c399] bg-[#10213a] p-4 text-sm leading-6 text-white shadow-[0_14px_38px_rgba(16,33,58,0.20)]">
@@ -98,8 +100,10 @@ export function HomeLexAiPreview({ copy }: { copy: LexAiCopy }) {
             mobileY={10}
             scale={0.992}
             mobileScale={0.998}
-            blur={1}
+            blur={0}
             mobileBlur={0}
+            hiddenOpacity={0.92}
+            mobileHiddenOpacity={0.95}
             className="max-w-[90%]"
           >
             <div className="rounded-lg rounded-tl-sm border border-[#d9c79f]/70 bg-[#fff8e8] p-4 text-sm leading-6 text-[#233044] dark:border-[#b8894a]/25 dark:bg-[#0d1a2d] dark:text-[#e8eef8]">

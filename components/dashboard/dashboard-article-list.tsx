@@ -22,7 +22,7 @@ export function DashboardArticleList({
 }) {
   if (!articles.length) {
     return (
-      <div className="rounded-lg border border-dashed bg-white p-10 text-center">
+      <div className="premium-surface border-dashed p-10 text-center">
         <h2 className="font-serif text-2xl font-semibold text-slate-950">{dictionary.dashboard.noSubmissionsTitle}</h2>
         <p className="mt-2 text-slate-500">{dictionary.dashboard.noSubmissionsBody}</p>
         <Button asChild className="mt-6">

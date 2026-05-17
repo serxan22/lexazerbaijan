@@ -155,7 +155,7 @@ export function EuCasesSearch() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border bg-white p-4 shadow-sm">
+      <div className="premium-surface p-4">
         <div className="flex flex-col gap-3 md:flex-row">
           <Input
             value={query}
@@ -173,10 +173,10 @@ export function EuCasesSearch() {
 
       <div className="space-y-4">
         {results.map((item) => (
-          <article key={item.citation} className="rounded-2xl border bg-white p-5 shadow-sm">
+          <article key={item.citation} className="premium-surface p-5">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8a612f] dark:text-[#f1d79d]">
                   {item.topic}
                 </p>
 
@@ -214,7 +214,7 @@ export function EuCasesSearch() {
               </div>
             </div>
             {summaries[item.citation] ? (
-              <div className="mt-4 whitespace-pre-line rounded-xl border bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+              <div className="premium-panel mt-4 whitespace-pre-line p-4 text-sm leading-7 text-slate-700 dark:text-slate-200">
                 <p className="mb-2 font-semibold text-slate-950">LexAI case summary</p>
                 {summaries[item.citation]}
               </div>
@@ -223,7 +223,7 @@ export function EuCasesSearch() {
         ))}
 
         {results.length === 0 ? (
-          <div className="rounded-2xl border bg-white p-6 text-center text-sm text-slate-500">
+          <div className="premium-surface p-6 text-center text-sm text-slate-500 dark:text-slate-400">
             No EU cases found in the current selected database.
           </div>
         ) : null}

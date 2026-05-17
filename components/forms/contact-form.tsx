@@ -14,7 +14,7 @@ export function ContactForm({ dictionary }: { dictionary: Dictionary }) {
   const [state, action] = useFormState(contactAction, initialActionState);
 
   return (
-    <form action={action} className="space-y-5 rounded-lg border bg-white p-6 shadow-sm">
+    <form action={action} className="premium-surface space-y-5 p-6">
       <div className="grid gap-5 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name">{dictionary.forms.name}</Label>

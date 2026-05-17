@@ -5,18 +5,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b8894a] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-sm hover:bg-primary/92",
-        accent: "bg-blue-800 text-white shadow-sm hover:bg-blue-900",
+        default: "bg-[#0B1220] text-white shadow-sm hover:bg-[#172033] dark:bg-[#f3d28d] dark:text-[#0B1220] dark:hover:bg-[#ffe2a4]",
+        accent: "bg-gold text-white shadow-sm hover:bg-[#A7783F]",
         gold: "bg-gold text-white shadow-sm hover:bg-[#A7783F]",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline: "border border-input bg-background text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-white",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
-        ghost: "text-foreground hover:bg-accent/10 hover:text-accent dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-white",
-        link: "text-accent underline-offset-4 hover:underline"
+        outline: "border border-[#d9c79f]/80 bg-white/80 text-[#243044] shadow-sm hover:border-[#b8894a] hover:bg-[#fff8e8] dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-slate-100 dark:hover:bg-[#111f34] dark:hover:text-white",
+        secondary: "bg-[#f5efe5] text-[#172033] shadow-sm hover:bg-[#efe3cf] dark:bg-[#172033] dark:text-slate-100 dark:hover:bg-[#22304a]",
+        ghost: "text-[#243044] hover:bg-[#f5efe5] hover:text-[#8a612f] dark:text-slate-100 dark:hover:bg-[#172033] dark:hover:text-[#f1d79d]",
+        link: "text-[#8a612f] underline-offset-4 hover:underline dark:text-[#f1d79d]"
       },
       size: {
         default: "h-10 px-4 py-2",

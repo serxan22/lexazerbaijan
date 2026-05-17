@@ -23,7 +23,7 @@ export function ArticleFilters({
   dictionary: Dictionary;
 }) {
   return (
-    <form className="grid gap-3 rounded-lg border bg-white p-3 shadow-sm md:grid-cols-[1fr_200px_170px_190px_auto]" action="/articles">
+    <form className="premium-surface grid gap-3 p-3 md:grid-cols-[1fr_200px_170px_190px_auto]" action="/articles">
       <label className="relative">
         <span className="sr-only">{dictionary.common.searchArticles}</span>
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -34,7 +34,7 @@ export function ArticleFilters({
         <select
           name="category"
           defaultValue={category ?? ""}
-          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          className="premium-input h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#b8894a]"
         >
           <option value="">{dictionary.common.allCategories}</option>
           {categories.map((item) => (
@@ -49,7 +49,7 @@ export function ArticleFilters({
         <select
           name="language"
           defaultValue={language ?? ""}
-          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          className="premium-input h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#b8894a]"
         >
           <option value="">{dictionary.nav.language}</option>
           {locales.map((item) => (
@@ -64,7 +64,7 @@ export function ArticleFilters({
         <select
           name="sort"
           defaultValue={sort ?? "latest"}
-          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          className="premium-input h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#b8894a]"
         >
           <option value="latest">{dictionary.common.latest}</option>
           <option value="most_liked">{dictionary.common.mostLiked}</option>

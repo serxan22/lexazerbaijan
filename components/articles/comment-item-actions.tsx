@@ -50,12 +50,12 @@ export function CommentItemActions({
           name="content"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="min-h-[100px] w-full rounded-md border bg-white p-3 text-sm"
+          className="premium-input min-h-[100px] w-full rounded-md border p-3 text-sm"
           required
         />
 
         <div className="flex gap-2">
-          <button type="submit" className="rounded-md bg-blue-600 px-3 py-1.5 text-sm text-white">
+          <button type="submit" className="rounded-md bg-[#b8894a] px-3 py-1.5 text-sm text-white hover:bg-[#a77738]">
             Save
           </button>
           <button type="button" onClick={() => setEditing(false)} className="rounded-md border px-3 py-1.5 text-sm">
@@ -71,7 +71,7 @@ export function CommentItemActions({
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="absolute right-0 top-0 rounded-full p-1 text-slate-500 hover:bg-slate-200 hover:text-slate-900"
+        className="absolute right-0 top-0 rounded-full p-1 text-slate-500 hover:bg-[#f5efe5] hover:text-[#8a612f] dark:text-slate-400 dark:hover:bg-[#172033] dark:hover:text-[#f1d79d]"
         aria-label="Comment options"
       >
         <MoreHorizontal className="h-4 w-4" />
@@ -85,7 +85,7 @@ export function CommentItemActions({
             className="fixed inset-0 z-10 cursor-default bg-transparent"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-7 z-20 w-36 rounded-md border bg-white p-1 text-sm shadow-lg">
+          <div className="absolute right-0 top-7 z-20 w-36 rounded-md border border-[#d9c79f]/70 bg-white p-1 text-sm shadow-lg dark:border-[#b8894a]/20 dark:bg-[#07111f]">
           {canManage ? (
             <>
               <button
@@ -94,7 +94,7 @@ export function CommentItemActions({
                   setEditing(true);
                   setOpen(false);
                 }}
-                className="w-full rounded px-3 py-2 text-left hover:bg-slate-100"
+                className="w-full rounded px-3 py-2 text-left hover:bg-[#f5efe5] dark:hover:bg-[#172033]"
               >
                 Edit
               </button>
@@ -117,7 +117,7 @@ export function CommentItemActions({
                 setReported(true);
                 setOpen(false);
               }}
-              className="w-full rounded px-3 py-2 text-left hover:bg-slate-100"
+              className="w-full rounded px-3 py-2 text-left hover:bg-[#f5efe5] dark:hover:bg-[#172033]"
             >
               {reported ? "Reported" : "Report"}
             </button>

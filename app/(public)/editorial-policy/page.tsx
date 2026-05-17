@@ -19,8 +19,8 @@ export default async function EditorialPolicyPage() {
   const icons = [FileCheck2, Ban, ShieldAlert, CheckCircle2];
 
   return (
-    <div className="bg-white">
-      <section className="border-b bg-slate-50 py-14">
+    <div className="premium-page">
+      <section className="premium-hero py-14">
         <div className="legal-container max-w-4xl">
           <p className="eyebrow">{dictionary.footer.editorialPolicy}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold text-slate-950">{dictionary.pages.policyTitle}</h1>
@@ -35,7 +35,7 @@ export default async function EditorialPolicyPage() {
           return (
           <Card key={title}>
             <CardContent className="p-6">
-              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-blue-50 text-blue-800">
+              <div className="premium-icon flex h-11 w-11 items-center justify-center rounded-md">
                 <Icon className="h-5 w-5" />
               </div>
               <h2 className="mt-5 font-serif text-2xl font-semibold text-slate-950">{title}</h2>
@@ -45,7 +45,7 @@ export default async function EditorialPolicyPage() {
           );
         })}
       </section>
-      <section id="disclaimer" className="border-y bg-gold-muted py-12">
+      <section id="disclaimer" className="premium-section py-12">
         <div className="legal-container max-w-4xl">
           <AlertTriangle className="h-8 w-8 text-gold" />
           <h2 className="mt-5 font-serif text-4xl font-semibold text-slate-950">{dictionary.pages.legalDisclaimer}</h2>

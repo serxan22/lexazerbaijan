@@ -48,9 +48,9 @@ export function CitationGenerator({
   }
 
   return (
-    <div className="rounded-2xl border bg-white p-5 shadow-sm">
+    <div className="premium-surface p-5">
       <div className="flex items-center gap-2">
-        <Quote className="h-5 w-5 text-blue-700" />
+        <Quote className="h-5 w-5 text-[#b8894a]" />
         <h2 className="font-serif text-xl font-semibold text-slate-950">
           Cite this article
         </h2>
@@ -58,7 +58,7 @@ export function CitationGenerator({
 
       <div className="mt-4 grid gap-3">
         {Object.entries(citations).map(([label, citation]) => (
-          <div key={label} className="rounded-xl border bg-slate-50 p-3">
+          <div key={label} className="premium-panel p-3">
             <div className="mb-2 flex items-center justify-between gap-3">
               <p className="text-sm font-semibold text-slate-900">{label}</p>
               <Button

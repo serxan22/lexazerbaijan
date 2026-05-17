@@ -35,8 +35,8 @@ function ToolbarButton({
       onClick={onClick}
       className={`flex h-9 w-9 items-center justify-center rounded-md border transition ${
         active
-          ? "border-green-600 bg-green-600 text-white"
-          : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+          ? "border-[#b8894a] bg-[#b8894a] text-white"
+          : "border-[#d9c79f]/70 bg-white text-slate-700 hover:bg-[#f5efe5] dark:border-[#b8894a]/20 dark:bg-[#0b1728] dark:text-slate-200 dark:hover:bg-[#172033]"
       }`}
     >
       {children}
@@ -74,8 +74,8 @@ export function RichTextEditor({
   if (!editor) return null;
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-white">
-      <div className="flex flex-wrap gap-2 border-b bg-slate-50 p-3">
+    <div className="overflow-hidden rounded-xl border border-[#d9c79f]/70 bg-white dark:border-[#b8894a]/20 dark:bg-[#07111f]">
+      <div className="flex flex-wrap gap-2 border-b border-[#d9c79f]/60 bg-[#f8fafc] p-3 dark:border-[#b8894a]/20 dark:bg-[#0b1728]">
         <ToolbarButton
           active={editor.isActive("bold")}
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -155,7 +155,7 @@ export function RichTextEditor({
 
       <EditorContent
         editor={editor}
-        className="min-h-[420px] max-w-none p-5 prose prose-slate"
+        className="min-h-[420px] max-w-none p-5 prose prose-slate dark:prose-invert"
       />
 
       <input type="hidden" name={name} value={editor.getHTML()} />
