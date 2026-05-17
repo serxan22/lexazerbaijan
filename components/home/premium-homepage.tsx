@@ -22,6 +22,7 @@ import {
 
 import { HomeAnimatedBackground } from "@/components/home/home-animated-background";
 import { HomeArticleShowcase } from "@/components/home/home-article-showcase";
+import { HomeLegal3DAccent } from "@/components/home/home-legal-3d-accent";
 import { HomeLexAiPreview } from "@/components/home/home-lexai-preview";
 import { HomeMarquee } from "@/components/home/home-marquee";
 import { HomeReveal, homeEase, useHomeMotion } from "@/components/home/home-motion";
@@ -89,7 +90,8 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
       />
 
       <section className="relative px-5 pb-14 pt-16 md:pb-20 md:pt-24">
-        <div className="legal-container grid min-h-[82svh] gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <HomeLegal3DAccent variant="scales" className="right-[2%] top-24 xl:right-[7%]" />
+        <div className="legal-container relative z-10 grid min-h-[82svh] gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="max-w-4xl">
             <motion.p
               initial={canAnimate ? { opacity: 0, y: 14 } : false}
@@ -102,7 +104,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
             </motion.p>
 
             <motion.h1
-              initial={canAnimate ? { opacity: 0, y: 30, filter: "blur(10px)" } : false}
+              initial={canAnimate ? { opacity: 0, y: 30, filter: "blur(3px)" } : false}
               animate={canAnimate ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
               transition={{ delay: 0.08, duration: 0.78, ease: homeEase }}
               className="mt-7 max-w-5xl font-serif text-4xl font-semibold leading-[0.98] text-[#111827] dark:text-white md:text-5xl xl:text-6xl"
@@ -168,7 +170,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
           </div>
 
           <motion.div
-            initial={canAnimate ? { opacity: 0, x: 34, scale: 0.97, filter: "blur(12px)" } : false}
+            initial={canAnimate ? { opacity: 0, x: 34, scale: 0.97, filter: "blur(3px)" } : false}
             animate={canAnimate ? { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" } : undefined}
             transition={{ delay: 0.18, duration: 0.84, ease: homeEase }}
             className="relative overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/80 p-4 shadow-[0_30px_90px_rgba(15,23,42,0.14)] backdrop-blur dark:border-[#b8894a]/25 dark:bg-[#07111f]/80 dark:shadow-[0_30px_90px_rgba(0,0,0,0.34)]"
@@ -320,7 +322,8 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
       </section>
 
       <section className="relative px-5 py-20 md:py-28">
-        <div className="legal-container">
+        <HomeLegal3DAccent variant="orb" className="left-[3%] top-12 xl:left-[7%]" intensity={0.72} />
+        <div className="legal-container relative z-10">
           <HomeReveal>
             <HomeLexAiPreview copy={copy} />
           </HomeReveal>
@@ -328,7 +331,8 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
       </section>
 
       <section className="relative px-5 py-20 md:py-28">
-        <div className="legal-container">
+        <HomeLegal3DAccent variant="seal" className="bottom-10 right-[3%] xl:right-[7%]" intensity={0.62} />
+        <div className="legal-container relative z-10">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <div>
               <HomeReveal y={22} mobileY={14}>

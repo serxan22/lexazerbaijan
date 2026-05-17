@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Eye, Heart, Timer } from "lucide-react";
 
-import { HomeReveal, homeEase, homeRevealVariants, homeViewport, useHomeMotion } from "@/components/home/home-motion";
+import { HomeReveal, homeEase, useHomeMotion } from "@/components/home/home-motion";
 import type { ArticleCardItem } from "@/lib/content-types";
 import type { Dictionary } from "@/lib/i18n";
 
@@ -21,7 +21,7 @@ type HomeArticleShowcaseProps = {
 };
 
 export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps) {
-  const { canAnimate, isMobile } = useHomeMotion();
+  const { canAnimate } = useHomeMotion();
 
   return (
     <section className="relative px-5 py-20 md:py-28">
@@ -55,16 +55,20 @@ export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {articles.map((article, index) => (
-            <motion.article
+            <HomeReveal
               key={article.id}
-              initial={canAnimate ? "hidden" : false}
-              whileInView={canAnimate ? "visible" : undefined}
-              whileHover={canAnimate ? { y: -7 } : undefined}
-              viewport={{ ...homeViewport, amount: 0.24 }}
-              variants={homeRevealVariants({ y: 30, mobileY: 18, blur: 9, mobileBlur: 6, isMobile })}
-              transition={{ delay: Math.min(index * 0.06, 0.24), duration: 0.58, ease: homeEase }}
-              className="group relative h-full overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur dark:border-[#b8894a]/20 dark:bg-[#07111f]/90 dark:shadow-[0_18px_60px_rgba(0,0,0,0.25)]"
+              delay={Math.min(index * 0.06, 0.24)}
+              duration={0.62}
+              y={28}
+              mobileY={16}
+              blur={0}
+              mobileBlur={0}
             >
+              <motion.article
+                whileHover={canAnimate ? { y: -7 } : undefined}
+                transition={{ duration: 0.28, ease: homeEase }}
+                className="group relative h-full overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur dark:border-[#b8894a]/20 dark:bg-[#07111f]/90 dark:shadow-[0_18px_60px_rgba(0,0,0,0.25)]"
+              >
               <div className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <div className="absolute inset-0 rounded-lg border border-[#b8894a]/70 shadow-[0_0_42px_rgba(184,137,74,0.22)]" />
               </div>
@@ -136,7 +140,8 @@ export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps
                   </div>
                 </div>
               </div>
-            </motion.article>
+              </motion.article>
+            </HomeReveal>
           ))}
         </div>
       </div>

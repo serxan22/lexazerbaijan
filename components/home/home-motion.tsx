@@ -1,14 +1,14 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { useEffect, useState, type ReactNode } from "react";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export const homeEase = [0.22, 1, 0.36, 1] as const;
 
 export const homeViewport = {
   once: false,
-  amount: 0.22,
-  margin: "0px 0px -8% 0px"
+  amount: 0.25,
+  margin: "0px 0px -12% 0px"
 } as const;
 
 export function useHomeMotion() {
@@ -50,9 +50,9 @@ export function homeRevealVariants(options?: {
   return {
     hidden: {
       opacity: 0,
-      y: isMobile ? options?.mobileY ?? 22 : options?.y ?? 36,
-      scale: isMobile ? options?.mobileScale ?? 0.99 : options?.scale ?? 0.98,
-      filter: `blur(${isMobile ? options?.mobileBlur ?? 7 : options?.blur ?? 10}px)`
+      y: isMobile ? options?.mobileY ?? 16 : options?.y ?? 28,
+      scale: isMobile ? options?.mobileScale ?? 0.995 : options?.scale ?? 0.985,
+      filter: `blur(${isMobile ? options?.mobileBlur ?? 2 : options?.blur ?? 3}px)`
     },
     visible: {
       opacity: 1,
@@ -68,7 +68,8 @@ export function HomeReveal({
   className,
   delay = 0,
   duration = 0.72,
-  amount = 0.22,
+  amount = homeViewport.amount,
+  exitDelay = 220,
   y,
   mobileY,
   scale,
@@ -81,6 +82,7 @@ export function HomeReveal({
   delay?: number;
   duration?: number;
   amount?: number;
+  exitDelay?: number;
   y?: number;
   mobileY?: number;
   scale?: number;
@@ -89,15 +91,43 @@ export function HomeReveal({
   mobileBlur?: number;
 }) {
   const { canAnimate, isMobile } = useHomeMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, {
+    amount,
+    margin: homeViewport.margin,
+    once: false
+  });
+  const [shown, setShown] = useState(true);
+
+  useEffect(() => {
+    if (!canAnimate) {
+      setShown(true);
+      return;
+    }
+
+    if (inView) {
+      setShown(true);
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setShown(false);
+    }, exitDelay);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [canAnimate, exitDelay, inView]);
 
   return (
     <motion.div
-      initial={canAnimate ? "hidden" : false}
-      whileInView={canAnimate ? "visible" : undefined}
-      viewport={{ ...homeViewport, amount }}
+      ref={ref}
+      initial={false}
+      animate={canAnimate ? (shown ? "visible" : "hidden") : "visible"}
       variants={homeRevealVariants({ y, mobileY, scale, mobileScale, blur, mobileBlur, isMobile })}
       transition={{ delay, duration, ease: homeEase }}
       className={className}
+      style={canAnimate ? { willChange: "transform, opacity" } : undefined}
     >
       {children}
     </motion.div>

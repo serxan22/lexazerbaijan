@@ -4,13 +4,13 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Bot, BrainCircuit, Sparkles } from "lucide-react";
 
-import { HomeReveal, homeEase, homeRevealVariants, homeViewport, useHomeMotion } from "@/components/home/home-motion";
+import { HomeReveal, homeEase, useHomeMotion } from "@/components/home/home-motion";
 import type { Dictionary } from "@/lib/i18n";
 
 type LexAiCopy = Dictionary["home"]["premium"];
 
 export function HomeLexAiPreview({ copy }: { copy: LexAiCopy }) {
-  const { canAnimate, isMobile } = useHomeMotion();
+  const { canAnimate } = useHomeMotion();
 
   return (
     <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
@@ -41,12 +41,15 @@ export function HomeLexAiPreview({ copy }: { copy: LexAiCopy }) {
         </HomeReveal>
       </div>
 
-      <motion.div
-        initial={canAnimate ? "hidden" : false}
-        whileInView={canAnimate ? "visible" : undefined}
-        viewport={{ ...homeViewport, amount: 0.35 }}
-        variants={homeRevealVariants({ y: 30, mobileY: 18, scale: 0.97, mobileScale: 0.99, isMobile })}
-        transition={{ duration: 0.78, ease: homeEase }}
+      <HomeReveal
+        amount={0.35}
+        duration={0.78}
+        y={28}
+        mobileY={16}
+        scale={0.985}
+        mobileScale={0.995}
+        blur={3}
+        mobileBlur={2}
         className="relative overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/90 p-4 shadow-[0_30px_90px_rgba(15,23,42,0.12)] backdrop-blur dark:border-[#b8894a]/25 dark:bg-[#07111f]/90 dark:shadow-[0_30px_90px_rgba(0,0,0,0.34)]"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_12%,rgba(184,137,74,0.18),transparent_34%),radial-gradient(circle_at_88%_18%,rgba(63,94,151,0.18),transparent_28%)]" />
@@ -72,47 +75,41 @@ export function HomeLexAiPreview({ copy }: { copy: LexAiCopy }) {
         </div>
 
         <div className="relative mt-5 space-y-4">
-          <motion.div
-            initial={canAnimate ? "hidden" : false}
-            whileInView={canAnimate ? "visible" : undefined}
-            viewport={{ ...homeViewport, amount: 0.42 }}
-            variants={{
-              hidden: {
-                opacity: 0,
-                x: isMobile ? 10 : 18,
-                y: isMobile ? 10 : 0,
-                filter: `blur(${isMobile ? 5 : 8}px)`
-              },
-              visible: { opacity: 1, x: 0, y: 0, filter: "blur(0px)" }
-            }}
-            transition={{ delay: 0.1, duration: 0.56, ease: homeEase }}
-            className="ml-auto max-w-[86%] rounded-lg rounded-tr-sm border border-[#d6c399] bg-[#10213a] p-4 text-sm leading-6 text-white shadow-[0_14px_38px_rgba(16,33,58,0.20)]"
+          <HomeReveal
+            delay={0.1}
+            duration={0.56}
+            y={14}
+            mobileY={10}
+            scale={0.992}
+            mobileScale={0.998}
+            blur={1}
+            mobileBlur={0}
+            className="ml-auto max-w-[86%]"
           >
-            {copy.lexaiUser}
-          </motion.div>
-
-          <motion.div
-            initial={canAnimate ? "hidden" : false}
-            whileInView={canAnimate ? "visible" : undefined}
-            viewport={{ ...homeViewport, amount: 0.42 }}
-            variants={{
-              hidden: {
-                opacity: 0,
-                x: isMobile ? -10 : -18,
-                y: isMobile ? 10 : 0,
-                filter: `blur(${isMobile ? 5 : 8}px)`
-              },
-              visible: { opacity: 1, x: 0, y: 0, filter: "blur(0px)" }
-            }}
-            transition={{ delay: 0.22, duration: 0.58, ease: homeEase }}
-            className="max-w-[90%] rounded-lg rounded-tl-sm border border-[#d9c79f]/70 bg-[#fff8e8] p-4 text-sm leading-6 text-[#233044] dark:border-[#b8894a]/25 dark:bg-[#0d1a2d] dark:text-[#e8eef8]"
-          >
-            <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9b6d31] dark:text-[#dec18f]">
-              <BrainCircuit className="h-4 w-4" />
-              {copy.lexaiAnswerLabel}
+            <div className="rounded-lg rounded-tr-sm border border-[#d6c399] bg-[#10213a] p-4 text-sm leading-6 text-white shadow-[0_14px_38px_rgba(16,33,58,0.20)]">
+              {copy.lexaiUser}
             </div>
-            {copy.lexaiAnswer}
-          </motion.div>
+          </HomeReveal>
+
+          <HomeReveal
+            delay={0.22}
+            duration={0.58}
+            y={16}
+            mobileY={10}
+            scale={0.992}
+            mobileScale={0.998}
+            blur={1}
+            mobileBlur={0}
+            className="max-w-[90%]"
+          >
+            <div className="rounded-lg rounded-tl-sm border border-[#d9c79f]/70 bg-[#fff8e8] p-4 text-sm leading-6 text-[#233044] dark:border-[#b8894a]/25 dark:bg-[#0d1a2d] dark:text-[#e8eef8]">
+              <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9b6d31] dark:text-[#dec18f]">
+                <BrainCircuit className="h-4 w-4" />
+                {copy.lexaiAnswerLabel}
+              </div>
+              {copy.lexaiAnswer}
+            </div>
+          </HomeReveal>
 
           <div className="grid grid-cols-3 gap-3 pt-2">
             {copy.lexaiSteps.map((item) => (
@@ -125,7 +122,7 @@ export function HomeLexAiPreview({ copy }: { copy: LexAiCopy }) {
             ))}
           </div>
         </div>
-      </motion.div>
+      </HomeReveal>
     </div>
   );
 }
