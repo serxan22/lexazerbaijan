@@ -85,13 +85,13 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
       <HomeAnimatedBackground />
       <motion.div
         aria-hidden="true"
-        className="fixed left-0 top-20 z-30 h-[2px] w-full origin-left bg-[linear-gradient(90deg,#b8894a,#f4dfac,#264870)]"
+        className="fixed left-0 top-[73px] z-30 h-[2px] w-full origin-left bg-[linear-gradient(90deg,#b8894a,#f4dfac,#264870)] md:top-[80px]"
         style={{ scaleX: progressScale }}
       />
 
-      <section className="relative px-5 pb-14 pt-16 md:pb-20 md:pt-24">
+      <section className="relative scroll-mt-28 px-5 pb-12 pt-16 md:pb-16 md:pt-20">
         <HomeLegal3DAccent variant="scales" className="right-[2%] top-24 xl:right-[7%]" />
-        <div className="legal-container relative z-10 grid min-h-[82svh] gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="legal-container relative z-10 grid min-h-[calc(100svh-5rem)] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="max-w-4xl">
             <motion.p
               initial={canAnimate ? { opacity: 0.86, y: 14 } : false}
@@ -221,7 +221,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
       <HomeMarquee phrases={copy.marquee} />
       <HomeArticleShowcase articles={articles} copy={copy} />
 
-      <section className="relative px-5 py-20 md:py-28">
+      <section className="relative scroll-mt-28 px-5 py-12 md:py-16">
         <div className="legal-container">
           <HomeReveal className="grid gap-10 rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/80 p-5 shadow-[0_26px_80px_rgba(15,23,42,0.09)] backdrop-blur dark:border-[#b8894a]/20 dark:bg-[#07111f]/80 md:p-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
             <div>
@@ -280,7 +280,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
         </div>
       </section>
 
-      <section className="relative px-5 py-20 md:py-28">
+      <section className="relative scroll-mt-28 px-5 py-12 md:py-16">
         <div className="legal-container grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <HomeReveal>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a77738] dark:text-[#d6b574]">
@@ -321,7 +321,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
         </div>
       </section>
 
-      <section className="relative px-5 py-20 md:py-28">
+      <section className="relative scroll-mt-28 px-5 py-12 md:py-16">
         <HomeLegal3DAccent variant="orb" className="left-[3%] top-12 xl:left-[7%]" intensity={0.72} />
         <div className="legal-container relative z-10">
           <HomeReveal>
@@ -330,7 +330,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
         </div>
       </section>
 
-      <section className="relative px-5 py-20 md:py-28">
+      <section className="relative scroll-mt-28 px-5 py-12 md:py-16">
         <HomeLegal3DAccent variant="seal" className="bottom-10 right-[3%] xl:right-[7%]" intensity={0.62} />
         <div className="legal-container relative z-10">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
@@ -383,7 +383,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
         </div>
       </section>
 
-      <section className="relative px-5 py-20 md:py-28">
+      <section className="relative scroll-mt-28 px-5 py-12 md:py-16">
         <div className="legal-container">
           <HomeReveal className="overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#111827] p-6 text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)] dark:border-[#b8894a]/25 dark:bg-[#07111f] md:p-10" y={42} mobileY={22} scale={0.97}>
             <div className="relative">
