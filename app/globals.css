@@ -2214,3 +2214,52 @@ body.dark .gold-hero-btn svg,
     filter: blur(0);
   }
 }
+
+/* REAL SEARCH SMOOTHNESS — open + exit animation */
+.search-panel-smooth {
+  transform-origin: top right;
+  animation: searchPanelSmoothIn 520ms cubic-bezier(.16, 1, .3, 1) both !important;
+  will-change: opacity, transform, filter;
+}
+
+.search-panel-closing {
+  pointer-events: none;
+  animation: searchPanelSmoothOut 300ms cubic-bezier(.7, 0, .84, 0) both !important;
+}
+
+@keyframes searchPanelSmoothIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px) scale(.955);
+    filter: blur(12px);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.006);
+    filter: blur(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes searchPanelSmoothOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-8px) scale(.97);
+    filter: blur(8px);
+  }
+}
+
+/* SEARCH PANEL SMOOTH OPEN */
+.search-panel-smooth{transform-origin:top right;animation:searchPanelSmoothIn 900ms cubic-bezier(.16,1,.3,1) both!important;will-change:opacity,transform,filter}@keyframes searchPanelSmoothIn{0%{opacity:0;transform:translateY(-14px) scale(.95);filter:blur(12px)}65%{opacity:1;transform:translateY(2px) scale(1.006);filter:blur(1px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}

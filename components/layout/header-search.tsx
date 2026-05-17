@@ -188,7 +188,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
       </div>
 
       {open && expanded ? (
-        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl border border-[#d9c79f]/70 bg-white shadow-xl dark:border-[#b8894a]/20 dark:bg-[#07111f] search-panel-smooth">
+        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl border border-[#d9c79f]/70 bg-white shadow-xl dark:border-[#b8894a]/20 dark:bg-[#07111f] search-panel-smooth search-panel-smooth">
           {showSuggestions ? (
             <div className="p-4">
               {recent.length ? (
