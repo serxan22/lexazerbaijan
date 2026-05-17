@@ -1719,3 +1719,31 @@ header [data-state="open"] {
     transition: none !important;
   }
 }
+
+/* FINAL FINAL FIX — force gold button text to dark navy everywhere */
+.lex-home a.lex-btn-gold,
+.lex-home a.lex-btn-gold:link,
+.lex-home a.lex-btn-gold:visited,
+.lex-home a.lex-btn-gold:hover,
+.lex-home a.lex-btn-gold:active,
+.lex-home .lex-btn-gold,
+.lex-home .lex-btn-gold *,
+.dark .lex-home a.lex-btn-gold,
+.dark .lex-home a.lex-btn-gold:link,
+.dark .lex-home a.lex-btn-gold:visited,
+.dark .lex-home a.lex-btn-gold:hover,
+.dark .lex-home a.lex-btn-gold:active,
+.dark .lex-home .lex-btn-gold,
+.dark .lex-home .lex-btn-gold * {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+  text-shadow: none !important;
+}
+
+.lex-home .lex-btn-gold svg,
+.dark .lex-home .lex-btn-gold svg {
+  color: #071a33 !important;
+  stroke: #071a33 !important;
+  fill: none !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
