@@ -472,7 +472,7 @@ export function PremiumScrollShowcase() {
             </motion.p>
 
             <motion.div variants={lineVariants} className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-              <Link href="/articles" className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-slate-950 shadow-2xl shadow-gold/20 transition hover:-translate-y-0.5 hover:bg-gold/90">
+              <Link href="/articles" className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold !text-[#071a33] shadow-2xl shadow-gold/20 transition hover:-translate-y-0.5 hover:bg-gold/90">
                 Explore articles
                 <ArrowRight className="h-4 w-4" />
               </Link>
