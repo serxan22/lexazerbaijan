@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { PremiumAnimations } from "@/components/animations/premium-animations";
+import { LenisSmoothScroll } from "@/components/interactive/lenis-smooth-scroll";
 import { PremiumCursor } from "@/components/interactive/premium-cursor";
 import { PremiumScrollRevealRuntime } from "@/components/interactive/premium-scroll-reveal-runtime";
 import { RouteLoadingIndicator } from "@/components/layout/route-loading-indicator";
@@ -52,6 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ThemeProvider>
           <RouteLoadingIndicator />
           <PremiumAnimations />
+          <LenisSmoothScroll />
           <PremiumScrollRevealRuntime />
           <PremiumCursor />
           <SiteHeader />

@@ -35,22 +35,9 @@ export function PremiumAnimations() {
       });
     };
 
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? window.scrollY / max : 0;
-      animate(".scroll-progress", {
-        scaleX: progress,
-        duration: 250,
-        easing: "easeOutQuad",
-      });
-    };
-
     if (finePointer) {
       window.addEventListener("mousemove", onMouseMove, { passive: true });
     }
-
-    window.addEventListener("scroll", onScroll);
-    onScroll();
 
     const magneticItems = document.querySelectorAll<HTMLElement>(
       "button, a[href]"
@@ -127,14 +114,12 @@ export function PremiumAnimations() {
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("scroll", onScroll);
       cleanupHandlers.forEach((cleanup) => cleanup());
     };
   }, []);
 
   return (
     <>
-      <div className="scroll-progress" />
       <div className="premium-grid-bg" />
       <div className="premium-noise" />
       <div className="cursor-glow" />

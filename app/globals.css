@@ -26,6 +26,7 @@
     --input: 214 32% 91%;
     --ring: 213 88% 28%;
     --radius: 0.5rem;
+    --site-header-height: 80px;
     --lex-navy: #0b1220;
     --lex-navy-soft: #172033;
     --lex-gold: #b8894a;
@@ -950,6 +951,7 @@ footer {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--site-header-height) + 1rem);
 }
 
 body {
@@ -2589,6 +2591,10 @@ body.dark .gold-hero-btn svg,
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1) rotateX(0deg);
   filter: blur(0);
+}
+
+.homepage-scroll-progress {
+  box-shadow: 0 0 18px rgba(184, 137, 74, 0.3);
 }
 
 @media (max-width: 767px) {

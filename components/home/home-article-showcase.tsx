@@ -24,25 +24,26 @@ export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps
   const { canAnimate } = useHomeMotion();
 
   return (
-    <section className="relative px-5 py-20 md:py-28">
+    <section data-story-section className="relative px-5 py-20 md:py-28">
       <div className="legal-container">
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1fr] lg:items-end">
           <HomeReveal y={32} mobileY={18}>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a77738] dark:text-[#d6b574]">
+              <p data-story="articles-eyebrow" className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a77738] dark:text-[#d6b574]">
                 {copy.articlesEyebrow}
               </p>
-              <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-[1.05] text-[#111827] dark:text-white md:text-6xl">
+              <h2 data-story="articles-title" className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-[1.05] text-[#111827] dark:text-white md:text-6xl">
                 {copy.articlesTitle}
               </h2>
             </div>
           </HomeReveal>
           <HomeReveal className="lg:justify-self-end" delay={0.08} y={28} mobileY={18}>
             <div>
-              <p className="max-w-2xl text-base leading-8 text-[#5f6877] dark:text-[#cbd5e1]">
+              <p data-story="articles-copy" className="max-w-2xl text-base leading-8 text-[#5f6877] dark:text-[#cbd5e1]">
                 {copy.articlesLead}
               </p>
               <Link
+                data-story="articles-action"
                 href="/articles"
                 className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#c7aa73] bg-[#fff8e8]/80 px-5 text-sm font-semibold text-[#5d421f] hover:border-[#b8894a] hover:bg-[#fff3d4] dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-[#f1d79d] dark:hover:bg-[#111f34]"
               >
@@ -53,7 +54,7 @@ export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps
           </HomeReveal>
         </div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div data-story-group className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {articles.map((article, index) => (
             <HomeReveal
               key={article.id}
@@ -69,6 +70,7 @@ export function HomeArticleShowcase({ articles, copy }: HomeArticleShowcaseProps
               mobileScale={0.998}
             >
               <motion.article
+                data-story-card
                 whileHover={canAnimate ? { y: -7 } : undefined}
                 transition={{ duration: 0.28, ease: homeEase }}
                 className="group relative h-full overflow-hidden rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/90 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur dark:border-[#b8894a]/20 dark:bg-[#07111f]/90 dark:shadow-[0_18px_60px_rgba(0,0,0,0.25)]"
