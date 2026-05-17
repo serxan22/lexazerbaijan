@@ -2069,3 +2069,43 @@ header [data-radix-popper-content-wrapper] {
 }
 
 /* === HOMEPAGE PROFESSIONAL POLISH — END === */
+
+/* FINAL FIX — hero Explore Articles text color by theme
+   Light mode: white text on dark navy button
+   Dark mode: navy text on gold button
+*/
+html:not(.dark) .lex-home a.gold-hero-btn,
+html:not(.dark) .lex-home a.gold-hero-btn *,
+body:not(.dark) .lex-home a.gold-hero-btn,
+body:not(.dark) .lex-home a.gold-hero-btn *,
+.light .lex-home a.gold-hero-btn,
+.light .lex-home a.gold-hero-btn *,
+[data-theme="light"] .lex-home a.gold-hero-btn,
+[data-theme="light"] .lex-home a.gold-hero-btn * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.dark .lex-home a.gold-hero-btn,
+.dark .lex-home a.gold-hero-btn *,
+[data-theme="dark"] .lex-home a.gold-hero-btn,
+[data-theme="dark"] .lex-home a.gold-hero-btn * {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
+
+html:not(.dark) .lex-home a.gold-hero-btn svg,
+body:not(.dark) .lex-home a.gold-hero-btn svg,
+.light .lex-home a.gold-hero-btn svg,
+[data-theme="light"] .lex-home a.gold-hero-btn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.dark .lex-home a.gold-hero-btn svg,
+[data-theme="dark"] .lex-home a.gold-hero-btn svg {
+  color: #071a33 !important;
+  stroke: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
