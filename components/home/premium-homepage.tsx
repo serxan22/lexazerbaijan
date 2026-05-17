@@ -301,7 +301,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
       </section>
 
       <section data-story-section className="relative scroll-mt-28 px-5 py-12 md:py-16">
-        <HomeLegal3DAccent variant="orb" className="left-[3%] top-12 xl:left-[7%]" intensity={0.72} />
+        <HomeLegal3DAccent variant="orb" className="right-[4%] top-8 opacity-45 xl:right-[8%]" intensity={0.42} />
         <div className="legal-container relative z-10">
           <HomeReveal>
             <HomeLexAiPreview copy={copy} />
