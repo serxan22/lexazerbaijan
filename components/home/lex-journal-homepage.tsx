@@ -99,8 +99,8 @@ export function LexJournalHomepage() {
             LexAzerbaijan connects legal articles, case analysis, discussions and LexAI into one refined research platform.
           </p>
           <div className="lex-actions hero-load delay-4">
-            <Link className="lex-btn lex-btn-gold lex-gold-cta" href="/articles">Read Articles</Link>
-            <Link className="lex-btn lex-btn-ghost" href="/lexai">Start with LexAI</Link>
+            <Link className="lex-btn lex-btn-gold lex-gold-cta" href="/articles">Explore Articles</Link>
+            <Link className="lex-btn lex-btn-ghost" href="/lexai">Ask LexAI</Link>
           </div>
           <div className="lex-stats hero-load delay-5">
             <div><strong>120+</strong><span>Legal writings</span></div>
@@ -125,7 +125,7 @@ export function LexJournalHomepage() {
               <div>L</div>
               <section><strong>LexAzerbaijan Editorial</strong><small>6 min read · May 2026</small></section>
             </div>
-            <Link className="lex-btn lex-btn-gold lex-gold-cta lex-reveal delay-r3" href="/articles">Open article</Link>
+            <Link className="lex-btn lex-btn-gold lex-gold-cta lex-reveal delay-r3" href="/articles">Explore Articles</Link>
           </div>
           <article className="lex-feature-card lex-reveal-right">
             <h3>Law is not only text. It is reasoning, structure and public memory.</h3>
@@ -169,7 +169,7 @@ export function LexJournalHomepage() {
             <p className="lex-section-subtitle">
               LexAI structures complex legal issues, summarizes cases and gives you a clear starting point for research.
             </p>
-            <div className="lex-actions"><Link className="lex-btn lex-btn-gold lex-gold-cta" href="/lexai">Open LexAI</Link></div>
+            <div className="lex-actions"><Link className="lex-btn lex-btn-gold lex-gold-cta" href="/lexai">Ask LexAI</Link></div>
           </div>
           <div className="lex-chat lex-reveal-right">
             <div className="lex-chat-top"><span /> <strong>LexAI Assistant</strong></div>

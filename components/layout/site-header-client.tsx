@@ -194,7 +194,7 @@ export function HeaderClient({
                 ) : null}
                 <DropdownMenuSeparator />
                 <div className="flex items-center justify-between px-2 py-2">
-                  <span className="text-sm text-slate-600 dark:text-slate-200">Dark mode</span>
+                  <span className="text-sm text-slate-600 dark:text-slate-200">Appearance</span>
                   <ThemeToggle />
                 </div>
                 <DropdownMenuSeparator />
@@ -273,7 +273,7 @@ export function HeaderClient({
               <LanguageSwitcher locale={locale} label={dictionary.nav.language} />
 
               <div className="flex items-center justify-between rounded-lg border border-[#d9c79f]/70 px-4 py-3 text-sm text-slate-700 dark:border-[#b8894a]/20 dark:text-slate-200">
-                <span>Dark mode</span>
+                <span>Appearance</span>
                 <ThemeToggle />
               </div>
               {profile ? (

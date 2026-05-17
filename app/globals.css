@@ -1833,3 +1833,239 @@ html.dark .gold-hero-btn,
   -webkit-text-fill-color: #071a33 !important;
   fill: #071a33 !important;
 }
+
+/* === HOMEPAGE PROFESSIONAL POLISH — START === */
+
+/* 1) Reduce huge empty gaps between homepage sections */
+.lex-home section,
+.premium-home section,
+.homepage section,
+main section {
+  scroll-margin-top: 112px;
+}
+
+.lex-home .lex-section,
+.lex-home section,
+.premium-home .premium-panel,
+.premium-home section {
+  padding-top: clamp(48px, 6vw, 86px) !important;
+  padding-bottom: clamp(48px, 6vw, 86px) !important;
+}
+
+.lex-home section + section,
+.premium-home section + section,
+.homepage section + section {
+  margin-top: 0 !important;
+}
+
+.lex-home section:not(:first-child),
+.premium-home section:not(:first-child) {
+  min-height: auto !important;
+}
+
+/* 2) Sticky header should not cover section titles */
+[id],
+[data-section],
+.lex-reveal,
+.lex-reveal-left,
+.lex-reveal-right {
+  scroll-margin-top: 112px;
+}
+
+/* 3) Profile/menu polish */
+[role="menu"],
+[data-radix-menu-content],
+[data-radix-popper-content-wrapper] [role="dialog"],
+.site-header [role="menu"],
+header [role="menu"] {
+  border-radius: 20px !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  background: rgba(7, 16, 31, 0.92) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34) !important;
+}
+
+.light [role="menu"],
+.light [data-radix-menu-content],
+.light [data-radix-popper-content-wrapper] [role="dialog"],
+[data-theme="light"] [role="menu"],
+[data-theme="light"] [data-radix-menu-content],
+[data-theme="light"] [data-radix-popper-content-wrapper] [role="dialog"] {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.13) !important;
+}
+
+/* 4) Gold CTA text must stay dark navy */
+.lex-gold-cta,
+.lex-gold-cta *,
+.lex-home a.lex-gold-cta,
+.lex-home a.lex-gold-cta *,
+.premium-home a.lex-gold-cta,
+.premium-home a.lex-gold-cta *,
+.lex-btn-gold,
+.lex-btn-gold *,
+.gold-hero-btn,
+.gold-hero-btn *,
+.dark .lex-gold-cta,
+.dark .lex-gold-cta *,
+.dark .lex-home a.lex-gold-cta,
+.dark .lex-home a.lex-gold-cta *,
+.dark .premium-home a.lex-gold-cta,
+.dark .premium-home a.lex-gold-cta *,
+.dark .lex-btn-gold,
+.dark .lex-btn-gold *,
+.dark .gold-hero-btn,
+.dark .gold-hero-btn * {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+  text-shadow: none !important;
+}
+
+.lex-gold-cta svg,
+.lex-btn-gold svg,
+.gold-hero-btn svg,
+.dark .lex-gold-cta svg,
+.dark .lex-btn-gold svg,
+.dark .gold-hero-btn svg {
+  color: #071a33 !important;
+  stroke: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
+
+.lex-btn-ghost,
+.lex-btn-ghost *,
+.dark .lex-btn-ghost,
+.dark .lex-btn-ghost * {
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* 5) Light mode card contrast */
+.light .lex-home,
+[data-theme="light"] .lex-home {
+  background:
+    radial-gradient(circle at 85% 8%, rgba(206, 178, 122, 0.20), transparent 32%),
+    radial-gradient(circle at 8% 88%, rgba(15, 42, 78, 0.10), transparent 34%),
+    linear-gradient(180deg, #fbf8f1 0%, #f7f1e6 48%, #f4eadb 100%) !important;
+}
+
+.light .lex-card,
+.light .lex-panel,
+.light .lex-feature,
+.light .lex-stat,
+.light .lex-hero-card,
+[data-theme="light"] .lex-card,
+[data-theme="light"] .lex-panel,
+[data-theme="light"] .lex-feature,
+[data-theme="light"] .lex-stat,
+[data-theme="light"] .lex-hero-card {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(15, 23, 42, 0.14) !important;
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.08) !important;
+}
+
+.light .lex-card:hover,
+.light .lex-panel:hover,
+.light .lex-feature:hover,
+[data-theme="light"] .lex-card:hover,
+[data-theme="light"] .lex-panel:hover,
+[data-theme="light"] .lex-feature:hover {
+  border-color: rgba(184, 137, 74, 0.35) !important;
+  box-shadow: 0 26px 70px rgba(15, 23, 42, 0.12) !important;
+}
+
+/* 6) Premium dropdown animation */
+nav [data-radix-popper-content-wrapper],
+header [data-radix-popper-content-wrapper] {
+  animation: lexDropdownIn 220ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes lexDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.985);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* 7) Search popover/input should open smoother */
+.search-popover,
+.search-panel,
+.search-results,
+.command-panel,
+[cmdk-root],
+[cmdk-list],
+[data-search-panel],
+[data-command-menu],
+[data-radix-dialog-content] {
+  transition:
+    opacity 240ms cubic-bezier(.22, 1, .36, 1),
+    transform 240ms cubic-bezier(.22, 1, .36, 1),
+    filter 240ms cubic-bezier(.22, 1, .36, 1) !important;
+}
+
+.search-popover,
+.search-panel,
+.search-results,
+.command-panel,
+[data-search-panel],
+[data-command-menu] {
+  transform-origin: top center;
+}
+
+/* 8) Hero stats should not feel cut off */
+.lex-home .lex-hero,
+.premium-home .hero,
+.premium-home [data-hero],
+.lex-home section:first-child,
+.premium-home section:first-child {
+  min-height: auto !important;
+  padding-top: clamp(88px, 10vh, 128px) !important;
+  padding-bottom: clamp(48px, 7vh, 76px) !important;
+}
+
+.lex-stats,
+.hero-stats,
+.stats-grid {
+  margin-top: clamp(28px, 4vw, 48px) !important;
+}
+
+/* Keep reveal animations premium but not too delayed/heavy */
+.lex-reveal,
+.lex-reveal-left,
+.lex-reveal-right,
+.home-reveal,
+[data-reveal] {
+  transition-duration: 780ms !important;
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1) !important;
+}
+
+@media (max-width: 900px) {
+  .lex-home .lex-section,
+  .lex-home section,
+  .premium-home .premium-panel,
+  .premium-home section {
+    padding-top: 42px !important;
+    padding-bottom: 42px !important;
+  }
+
+  .lex-home section:first-child,
+  .premium-home section:first-child {
+    padding-top: 92px !important;
+  }
+
+  [id],
+  [data-section],
+  .lex-home section,
+  .premium-home section {
+    scroll-margin-top: 92px;
+  }
+}
+
+/* === HOMEPAGE PROFESSIONAL POLISH — END === */
