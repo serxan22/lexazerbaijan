@@ -1222,3 +1222,76 @@ header [data-state="open"] {
   .lex-feature-card { min-height: 400px; transform: none; }
   .lex-featured, .lex-frames, .lex-ai, .lex-terms, .lex-cta { padding: 78px 0; }
 }
+
+/* Lex homepage theme refinement */
+.lex-home {
+  background: #f8fafc;
+  color: #111827;
+}
+
+.dark .lex-home {
+  background: #0B1220;
+  color: #F8FAFC;
+}
+
+.dark .lex-featured,
+.dark .lex-terms {
+  background: #0B1220;
+  color: #F8FAFC;
+}
+
+.dark .lex-ai {
+  background: #172033;
+  color: #F8FAFC;
+}
+
+.dark .lex-featured p,
+.dark .lex-section-subtitle,
+.dark .lex-term-card p {
+  color: rgba(248, 250, 252, 0.68);
+}
+
+.dark .lex-term-card {
+  background: rgba(255,255,255,0.045);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.dark .lex-feature-card,
+.dark .lex-chat {
+  background: #172033;
+}
+
+.dark .lex-nav {
+  background: rgba(11, 18, 32, 0.92);
+}
+
+.dark .lex-cta {
+  background: #0B1220;
+}
+
+/* smoother repeat reveal */
+.lex-reveal,
+.lex-reveal-left,
+.lex-reveal-right {
+  transition-duration: 0.9s;
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+
+.lex-reveal:not(.visible),
+.lex-reveal-left:not(.visible),
+.lex-reveal-right:not(.visible) {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lex-reveal,
+  .lex-reveal-left,
+  .lex-reveal-right,
+  .hero-load {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
