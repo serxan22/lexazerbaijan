@@ -27,7 +27,7 @@ export function LexJournalHomepage() {
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
 
-    document.querySelectorAll(".lex-reveal, .lex-reveal-left, .lex-reveal-right").forEach((el) => observer.observe(el));
+    document.querySelectorAll(".lex-reveal, .lex-reveal-left, .lex-reveal-right, .home-reveal, [data-reveal]").forEach((el) => observer.observe(el));
 
     window.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("resize", updateProgress);
