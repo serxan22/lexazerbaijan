@@ -2109,3 +2109,43 @@ body:not(.dark) .lex-home a.gold-hero-btn svg,
   stroke: #071a33 !important;
   -webkit-text-fill-color: #071a33 !important;
 }
+
+/* REAL FINAL FIX — gold hero button text by active theme */
+
+/* Default / light mode: white text */
+.gold-hero-btn,
+.gold-hero-btn *,
+a.gold-hero-btn,
+a.gold-hero-btn * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.gold-hero-btn svg,
+a.gold-hero-btn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Dark mode: dark navy text */
+html.dark .gold-hero-btn,
+html.dark .gold-hero-btn *,
+body.dark .gold-hero-btn,
+body.dark .gold-hero-btn *,
+.dark .gold-hero-btn,
+.dark .gold-hero-btn *,
+[data-theme="dark"] .gold-hero-btn,
+[data-theme="dark"] .gold-hero-btn * {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
+
+html.dark .gold-hero-btn svg,
+body.dark .gold-hero-btn svg,
+.dark .gold-hero-btn svg,
+[data-theme="dark"] .gold-hero-btn svg {
+  color: #071a33 !important;
+  stroke: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
