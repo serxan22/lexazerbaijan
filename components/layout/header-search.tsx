@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Clock, Loader2, Search, Sparkles, X } from "lucide-react";
 
 type SearchResult = {
@@ -33,11 +33,12 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [closing, setClosing] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const openTimerRef = useRef<number | null>(null);
   const closeTimerRef = useRef<number | null>(null);
 
-  function clearSearchTimers() {
+  const clearSearchTimers = useCallback(() => {
     if (openTimerRef.current) {
       window.clearTimeout(openTimerRef.current);
       openTimerRef.current = null;
@@ -47,30 +48,44 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-  }
+  }, []);
 
-  function openSearchSmoothly() {
+  const openSearchSmoothly = useCallback(() => {
     clearSearchTimers();
 
+    setClosing(false);
     setExpanded(true);
 
     openTimerRef.current = window.setTimeout(() => {
       setOpen(true);
-    }, 110);
-  }
+    }, 180);
+  }, [clearSearchTimers]);
 
-  function closeSearchSmoothly() {
+  const closeSearchSmoothly = useCallback(({ force = false }: { force?: boolean } = {}) => {
     clearSearchTimers();
 
-    if (query.trim()) return;
+    if (!force && query.trim()) return;
+    const activeElement = document.activeElement;
+    if (!force && activeElement && wrapperRef.current?.contains(activeElement)) return;
+
+    setClosing(true);
 
     closeTimerRef.current = window.setTimeout(() => {
       setOpen(false);
       setExpanded(false);
-    }, 180);
-  }
+      setClosing(false);
+    }, 380);
+  }, [clearSearchTimers, query]);
 
-  const showSuggestions = open && expanded && query.trim().length < 2;
+  const closeSearchImmediately = useCallback(() => {
+    clearSearchTimers();
+    setClosing(false);
+    setOpen(false);
+    setExpanded(false);
+  }, [clearSearchTimers]);
+
+  const renderPanel = expanded && (open || closing);
+  const showSuggestions = renderPanel && query.trim().length < 2;
 
   useEffect(() => {
     try {
@@ -83,7 +98,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
 
   useEffect(() => {
     return () => clearSearchTimers();
-  }, []);
+  }, [clearSearchTimers]);
 
   function saveRecentSearch(value: string) {
     const clean = value.trim();
@@ -98,6 +113,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
   function handleSuggestion(value: string) {
     setQuery(value);
     saveRecentSearch(value);
+    setClosing(false);
     setOpen(true);
     setExpanded(true);
   }
@@ -105,14 +121,13 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (!wrapperRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-        if (!query) setExpanded(false);
+        closeSearchSmoothly({ force: true });
       }
     };
 
     window.addEventListener("mousedown", handleClickOutside);
     return () => window.removeEventListener("mousedown", handleClickOutside);
-  }, [query]);
+  }, [closeSearchSmoothly]);
 
   useEffect(() => {
     const value = query.trim();
@@ -124,6 +139,8 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
 
     const timer = window.setTimeout(async () => {
       setLoading(true);
+      setClosing(false);
+      setExpanded(true);
       setOpen(true);
 
       try {
@@ -144,11 +161,11 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
     <div
       ref={wrapperRef}
       onMouseEnter={openSearchSmoothly}
-      onMouseLeave={closeSearchSmoothly}
-      className={`relative transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] ${expanded ? "w-[260px]" : "w-11"}`}
+      onMouseLeave={() => closeSearchSmoothly()}
+      className={`header-search-shell relative ${expanded ? "w-[260px]" : "w-11"}`}
     >
       <div
-        className={`flex h-11 items-center gap-2 rounded-xl border bg-white px-3 shadow-sm transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] dark:bg-[#0b1728] ${
+        className={`header-search-control flex h-11 items-center gap-2 rounded-xl border px-3 ${
           expanded ? "border-[#b8894a]/70 dark:border-[#b8894a]/35" : "justify-center border-[#d9c79f]/70 dark:border-[#b8894a]/25"
         }`}
       >
@@ -158,16 +175,19 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onFocus={() => {
-            setExpanded(true);
-            setOpen(true);
+            openSearchSmoothly();
           }}
           onKeyDown={(event) => {
             if (event.key === "Enter" && query.trim()) {
               saveRecentSearch(query);
             }
+
+            if (event.key === "Escape") {
+              closeSearchSmoothly({ force: true });
+            }
           }}
           placeholder={placeholder}
-          className={`h-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] dark:text-white dark:placeholder:text-slate-500 ${
+          className={`header-search-input h-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500 ${
             expanded ? "w-full opacity-100" : "w-0 opacity-0"
           }`}
         />
@@ -178,7 +198,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
             onClick={() => {
               setQuery("");
               setResults([]);
-              setOpen(true);
+              openSearchSmoothly();
             }}
             className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
           >
@@ -187,8 +207,12 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
         ) : null}
       </div>
 
-      {open && expanded ? (
-        <div className="absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl border border-[#d9c79f]/70 bg-white shadow-xl dark:border-[#b8894a]/20 dark:bg-[#07111f] search-panel-smooth search-panel-smooth">
+      {renderPanel ? (
+        <div
+          className={`search-panel-smooth absolute right-0 top-14 z-50 w-[390px] overflow-hidden rounded-2xl ${
+            closing ? "search-panel-closing" : ""
+          }`}
+        >
           {showSuggestions ? (
             <div className="p-4">
               {recent.length ? (
@@ -246,8 +270,7 @@ export function HeaderSearch({ placeholder, noResults }: Props) {
                   href={`/articles/${item.slug}`}
                   onClick={() => {
                     saveRecentSearch(query);
-                    setOpen(false);
-                    setExpanded(false);
+                    closeSearchImmediately();
                   }}
                   className="block rounded-xl p-3 transition hover:bg-[#f5efe5] dark:hover:bg-[#172033]"
                 >

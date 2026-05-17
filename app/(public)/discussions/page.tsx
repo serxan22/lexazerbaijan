@@ -32,7 +32,7 @@ export default async function DiscussionsPage() {
           {threads.length ? (
             threads.map((thread) => (
               <Link key={thread.id} href={`/discussions/${thread.slug}`}>
-                <Card className="transition hover:-translate-y-0.5 hover:shadow-md">
+                <Card data-premium-reveal className="discussion-card transition hover:-translate-y-0.5 hover:shadow-md">
                   <CardContent className="p-5">
                     <div className="flex gap-4">
                       <Avatar className="h-11 w-11">

@@ -77,6 +77,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
 
   return (
     <motion.div
+      data-homepage-root
       initial={canAnimate ? { opacity: 0.96 } : false}
       animate={canAnimate ? { opacity: 1 } : undefined}
       transition={{ duration: 0.45, ease: homeEase }}
@@ -255,7 +256,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
               {copy.cases.map(([title, body, href], index) => {
                 const Icon = caseIcons[index] ?? Scale;
                 return (
-                  <HomeReveal key={href} delay={index * 0.08} y={30} mobileY={18}>
+                  <HomeReveal key={href} delay={index * 0.08} y={30} mobileY={18} blur={0} mobileBlur={0} rotateX={2}>
                     <motion.div
                       whileHover={canAnimate ? { x: 6, scale: 1.01 } : undefined}
                       transition={{ duration: 0.28, ease: homeEase }}
@@ -303,7 +304,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
 
           <div className="grid gap-4">
             {copy.discussionCards.map(([title, body], index) => (
-              <HomeReveal key={title} delay={index * 0.08}>
+              <HomeReveal key={title} delay={index * 0.08} blur={0} mobileBlur={0} rotateX={2}>
                 <div className="group rounded-lg border border-[#d9c79f]/70 bg-[#fffdf8]/80 p-5 shadow-[0_18px_50px_rgba(15,23,42,0.07)] dark:border-[#b8894a]/20 dark:bg-[#07111f]/80">
                   <div className="flex items-start gap-4">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#111827] text-[#f1d79d] dark:bg-[#f1d79d] dark:text-[#111827]">
@@ -365,7 +366,7 @@ export function PremiumHomepage({ dictionary, articles }: PremiumHomepageProps) 
               {copy.missionCards.map(([title, body], index) => {
                 const Icon = missionIcons[index] ?? Sparkles;
                 return (
-                  <HomeReveal key={title} delay={index * 0.07} y={32} mobileY={18}>
+                  <HomeReveal key={title} delay={index * 0.07} y={32} mobileY={18} blur={0} mobileBlur={0} rotateX={2}>
                     <motion.div
                       whileHover={canAnimate ? { y: -5 } : undefined}
                       transition={{ duration: 0.28, ease: homeEase }}

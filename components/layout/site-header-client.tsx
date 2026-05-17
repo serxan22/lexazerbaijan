@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BookOpen, ChevronDown, LayoutDashboard, LogIn, LogOut, Menu, PenSquare, ShieldCheck, UserRound } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
@@ -63,11 +63,38 @@ export function HeaderClient({
   const isAdmin = profile?.role === "admin";
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const profileCloseTimerRef = useRef<number | null>(null);
+
+  function clearProfileCloseTimer() {
+    if (profileCloseTimerRef.current) {
+      window.clearTimeout(profileCloseTimerRef.current);
+      profileCloseTimerRef.current = null;
+    }
+  }
+
+  function openProfileMenu() {
+    clearProfileCloseTimer();
+    setProfileMenuOpen(true);
+  }
+
+  function scheduleProfileMenuClose() {
+    clearProfileCloseTimer();
+    profileCloseTimerRef.current = window.setTimeout(() => {
+      setProfileMenuOpen(false);
+    }, 260);
+  }
+
+  useEffect(() => {
+    return () => clearProfileCloseTimer();
+  }, []);
 
   useEffect(() => {
     if (!profileMenuOpen) return;
 
-    const closeMenu = () => setProfileMenuOpen(false);
+    const closeMenu = () => {
+      clearProfileCloseTimer();
+      setProfileMenuOpen(false);
+    };
 
     window.addEventListener("scroll", closeMenu, true);
 
@@ -155,18 +182,26 @@ export function HeaderClient({
 
           {profile ? (
             <div
-              onMouseLeave={() => setProfileMenuOpen(false)}
+              className="profile-menu-shell"
+              onMouseEnter={openProfileMenu}
+              onMouseLeave={scheduleProfileMenuClose}
             >
               <DropdownMenu modal={false} open={profileMenuOpen} onOpenChange={setProfileMenuOpen}>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button variant="ghost" size="icon" className="profile-menu-trigger rounded-full">
                   <Avatar className="h-9 w-9">
                     <AvatarImage src={profile.avatarUrl ?? undefined} alt={profile.fullName ?? dictionary.nav.publicProfile} />
                     <AvatarFallback>{initials(profile.fullName)}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent
+                align="end"
+                sideOffset={10}
+                className="profile-menu-content w-72 p-2"
+                onMouseEnter={openProfileMenu}
+                onMouseLeave={scheduleProfileMenuClose}
+              >
                 <DropdownMenuLabel>
                   <span className="block">{profile.fullName ?? dictionary.site.fallbackMember}</span>
                   <span className="text-xs font-normal text-slate-500">@{profile.username ?? "profile"}</span>
@@ -193,8 +228,8 @@ export function HeaderClient({
                   </DropdownMenuItem>
                 ) : null}
                 <DropdownMenuSeparator />
-                <div className="flex items-center justify-between px-2 py-2">
-                  <span className="text-sm text-slate-600 dark:text-slate-200">Appearance</span>
+                <div className="profile-menu-appearance flex items-center justify-between gap-3 px-2 py-2">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Appearance</span>
                   <ThemeToggle />
                 </div>
                 <DropdownMenuSeparator />

@@ -1,10 +1,11 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -13,13 +14,24 @@ export function ThemeToggle() {
 
   if (!mounted) return null;
 
+  const isDark = resolvedTheme === "dark";
+  const label = isDark ? "Switch to Light" : "Switch to Dark";
+
   return (
     <button
       type="button"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="rounded-full border border-[#d9c79f]/70 bg-white px-4 py-2 text-sm font-medium text-[#172033] transition hover:scale-105 hover:border-[#b8894a] dark:border-[#b8894a]/30 dark:bg-[#0b1728] dark:text-[#f1d79d]"
+      aria-label={label}
+      title={label}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="premium-theme-toggle"
+      data-mode={isDark ? "dark" : "light"}
     >
-      {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+      <span className="premium-theme-toggle__track" aria-hidden="true">
+        <span className="premium-theme-toggle__knob">
+          {isDark ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
+        </span>
+      </span>
+      <span className="premium-theme-toggle__label">{label}</span>
     </button>
   );
 }

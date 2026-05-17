@@ -43,6 +43,10 @@ export function homeRevealVariants(options?: {
   mobileScale?: number;
   blur?: number;
   mobileBlur?: number;
+  rotateX?: number;
+  mobileRotateX?: number;
+  rotateY?: number;
+  mobileRotateY?: number;
   hiddenOpacity?: number;
   mobileHiddenOpacity?: number;
   isMobile?: boolean;
@@ -54,12 +58,16 @@ export function homeRevealVariants(options?: {
       opacity: isMobile ? options?.mobileHiddenOpacity ?? 0.9 : options?.hiddenOpacity ?? 0.86,
       y: isMobile ? options?.mobileY ?? 12 : options?.y ?? 18,
       scale: isMobile ? options?.mobileScale ?? 0.996 : options?.scale ?? 0.992,
-      filter: `blur(${isMobile ? options?.mobileBlur ?? 0 : options?.blur ?? 0}px)`
+      rotateX: isMobile ? options?.mobileRotateX ?? 0 : options?.rotateX ?? 4,
+      rotateY: isMobile ? options?.mobileRotateY ?? 0 : options?.rotateY ?? 0,
+      filter: `blur(${isMobile ? options?.mobileBlur ?? 1 : options?.blur ?? 2}px)`
     },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
+      rotateX: 0,
+      rotateY: 0,
       filter: "blur(0px)"
     }
   };
@@ -78,6 +86,10 @@ export function HomeReveal({
   mobileScale,
   blur,
   mobileBlur,
+  rotateX,
+  mobileRotateX,
+  rotateY,
+  mobileRotateY,
   hiddenOpacity,
   mobileHiddenOpacity
 }: {
@@ -93,6 +105,10 @@ export function HomeReveal({
   mobileScale?: number;
   blur?: number;
   mobileBlur?: number;
+  rotateX?: number;
+  mobileRotateX?: number;
+  rotateY?: number;
+  mobileRotateY?: number;
   hiddenOpacity?: number;
   mobileHiddenOpacity?: number;
 }) {
@@ -137,13 +153,17 @@ export function HomeReveal({
         mobileScale,
         blur,
         mobileBlur,
+        rotateX,
+        mobileRotateX,
+        rotateY,
+        mobileRotateY,
         hiddenOpacity,
         mobileHiddenOpacity,
         isMobile
       })}
       transition={{ delay, duration, ease: homeEase }}
       className={className}
-      style={canAnimate ? { willChange: "transform, opacity" } : undefined}
+      style={canAnimate ? { transformPerspective: 1200, transformStyle: "preserve-3d", willChange: "transform, opacity" } : undefined}
     >
       {children}
     </motion.div>

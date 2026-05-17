@@ -45,7 +45,7 @@ export function LexAiForm() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-      <Card className="flex h-[700px] flex-col">
+      <Card data-premium-reveal className="lexai-card flex h-[700px] flex-col">
         <CardHeader className="border-b">
           <CardTitle className="flex items-center gap-2">
             <Bot className="h-5 w-5 text-[#b8894a]" />
@@ -131,7 +131,7 @@ export function LexAiForm() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-premium-reveal className="lexai-card">
         <CardHeader>
           <CardTitle>What LexAI can help with</CardTitle>
         </CardHeader>

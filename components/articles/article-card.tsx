@@ -26,7 +26,7 @@ export function ArticleCard({ article, featured = false, showStatus = false, dic
   const category = localizeCategory(article.category, dictionary);
 
   return (
-    <Card className="group h-full overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-[#b8894a]/60 hover:shadow-[0_22px_70px_rgba(184,137,74,0.14)]">
+    <Card className="article-card group h-full overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-[#b8894a]/60 hover:shadow-[0_22px_70px_rgba(184,137,74,0.14)]">
       <Link href={`/articles/${article.slug}`} aria-label={article.title}>
         <div className={featured ? "relative aspect-[1.65] overflow-hidden bg-[#172033]" : "relative aspect-[1.85] overflow-hidden bg-[#172033]"}>
           {article.coverImageUrl ? (
