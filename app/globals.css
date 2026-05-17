@@ -2149,3 +2149,41 @@ body.dark .gold-hero-btn svg,
   stroke: #071a33 !important;
   -webkit-text-fill-color: #071a33 !important;
 }
+
+/* === SEARCH BOX PREMIUM SMOOTH OPEN === */
+.search-panel-smooth {
+  transform-origin: top right;
+  animation: searchPanelSmoothIn 320ms cubic-bezier(.22, 1, .36, 1) both;
+  will-change: opacity, transform, filter;
+}
+
+@keyframes searchPanelSmoothIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(.975);
+    filter: blur(8px);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.006);
+    filter: blur(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.search-panel-smooth input,
+.search-panel-smooth button,
+.search-panel-smooth a {
+  transition:
+    background-color 220ms cubic-bezier(.22, 1, .36, 1),
+    border-color 220ms cubic-bezier(.22, 1, .36, 1),
+    color 220ms cubic-bezier(.22, 1, .36, 1),
+    transform 220ms cubic-bezier(.22, 1, .36, 1),
+    opacity 220ms cubic-bezier(.22, 1, .36, 1) !important;
+}
