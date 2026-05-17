@@ -1761,3 +1761,58 @@ header [data-state="open"] {
   color: #071a33 !important;
   stroke: #071a33 !important;
 }
+
+/* ============================================================
+   GOLD CTA BUTTON — definitive override (EOF, highest priority)
+   ============================================================ */
+
+.lex-btn-gold,
+.lex-btn-gold:link,
+.lex-btn-gold:visited,
+.lex-btn-gold:hover,
+.lex-btn-gold:active,
+.lex-btn-gold:focus,
+.dark .lex-btn-gold,
+.dark .lex-btn-gold:link,
+.dark .lex-btn-gold:visited,
+.dark .lex-btn-gold:hover,
+.dark .lex-btn-gold:active,
+.dark .lex-btn-gold:focus {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+}
+
+.lex-btn-gold *,
+.lex-btn-gold span,
+.lex-btn-gold svg,
+.dark .lex-btn-gold *,
+.dark .lex-btn-gold span,
+.dark .lex-btn-gold svg {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+  fill: #071a33 !important;
+}
+
+.lex-home a.lex-gold-cta,
+.lex-home a.lex-gold-cta:link,
+.lex-home a.lex-gold-cta:visited,
+.lex-home a.lex-gold-cta:hover,
+.lex-home a.lex-gold-cta:active,
+.dark .lex-home a.lex-gold-cta,
+.dark .lex-home a.lex-gold-cta:link,
+.dark .lex-home a.lex-gold-cta:visited,
+.dark .lex-home a.lex-gold-cta:hover,
+.dark .lex-home a.lex-gold-cta:active {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+}
+
+.lex-home a.lex-gold-cta *,
+.dark .lex-home a.lex-gold-cta * {
+  color: #071a33 !important;
+  -webkit-text-fill-color: #071a33 !important;
+}
