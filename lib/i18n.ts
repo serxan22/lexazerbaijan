@@ -260,7 +260,86 @@ export const dictionaries = {
         "Receive editor-selected articles, case comments, and legal reform notes from Azerbaijan's young legal community.",
       dailyTermsEyebrow: "Daily Legal Learning",
       dailyTermsTitle: "Today's Legal Terms",
-      dailyTermsBody: "Learn important legal terminology through short professional explanations updated daily."
+      dailyTermsBody: "Learn important legal terminology through short professional explanations updated daily.",
+      premium: {
+        heroEyebrow: "Legal journal and research platform",
+        heroTitle: "Where Azerbaijan's legal ideas become public knowledge.",
+        heroLead:
+          "LexAzerbaijan brings legal articles, case-law research, serious discussions, and LexAI into one refined platform for students, lawyers, researchers, and legal writers.",
+        heroNote: "Reviewed publishing, comparative research, and legal-tech tools in one place.",
+        ctas: {
+          exploreArticles: "Explore Articles",
+          submitArticle: "Submit Article",
+          askLexAI: "Ask LexAI",
+          viewAllArticles: "View all articles",
+          exploreCases: "Explore cases",
+          joinDiscussions: "Join discussions",
+          readMission: "Read the mission"
+        },
+        stats: [
+          ["Live", "Legal articles", "Approved essays, case comments, and research notes."],
+          ["3", "Case streams", "US, ECHR, and EU case-law gateways."],
+          ["Open", "Discussions", "A public forum for legal gaps and reform ideas."],
+          ["AI", "LexAI assistant", "Structured legal research support."]
+        ],
+        marquee: [
+          "Legal Articles",
+          "Case Summaries",
+          "Comparative Law",
+          "Legal Research",
+          "Discussions",
+          "LexAI",
+          "Azerbaijani Legal Community"
+        ],
+        articlesEyebrow: "Article showcase",
+        articlesTitle: "Latest approved analysis with reader momentum.",
+        articlesLead:
+          "The homepage highlights recent approved work and high-signal writing from the existing article system, keeping every card connected to the full article page.",
+        articlesLabel: "Reviewed publication",
+        casesEyebrow: "Case-law storytelling",
+        casesTitle: "Move from doctrine to judgments without leaving the platform.",
+        casesLead:
+          "Cases turn legal research into a structured reading journey: search, summarize, compare, and return to the argument with clearer context.",
+        cases: [
+          ["US Cases", "Search American federal and state case-law through the existing CourtListener-powered route.", "/cases"],
+          ["ECHR Cases", "Explore European Court of Human Rights judgments and decisions through HUDOC-backed search.", "/echr-cases"],
+          ["EU Cases", "Research CJEU and General Court case-law, infringement actions, and preliminary references.", "/eu-cases"]
+        ],
+        discussionsEyebrow: "Community",
+        discussionsTitle: "A place for legal gaps, interpretation, and reform ideas.",
+        discussionsLead:
+          "LexAzerbaijan is not only a library. It is a professional discussion room where readers can test arguments, ask focused questions, and develop research ideas together.",
+        discussionCards: [
+          ["Legal gaps", "Turn uncertainty in legislation or practice into a precise research question."],
+          ["Interpretation", "Compare doctrines, judgments, and institutional practice with other readers."],
+          ["Reform notes", "Shape proposals before they become articles, case notes, or public commentary."]
+        ],
+        lexaiEyebrow: "LexAI",
+        lexaiTitle: "A calmer starting point for legal research.",
+        lexaiLead:
+          "LexAI helps structure arguments, summarize legal materials, and turn broad questions into research paths while keeping the final judgment with the lawyer or researcher.",
+        lexaiUser: "How should I compare an ECHR proportionality test with domestic administrative discretion?",
+        lexaiAnswer:
+          "Start with the legitimate aim, suitability, necessity, and balancing steps. Then compare how the domestic authority records reasons and whether review is meaningful.",
+        lexaiDesk: "LexAI Research Desk",
+        lexaiStatus: "Context-aware legal drafting support",
+        lexaiAnswerLabel: "LexAI answer",
+        lexaiSteps: ["Issue", "Rule", "Path"],
+        missionEyebrow: "Mission",
+        missionTitle: "A professional home for the next generation of legal writing.",
+        missionLead:
+          "The platform is built for students, lawyers, researchers, young legal writers, and legal professionals who want to publish, discover, discuss, and develop serious legal ideas.",
+        missionCards: [
+          ["Students", "Build a reviewed portfolio and learn to write with sources, structure, and professional restraint."],
+          ["Lawyers", "Publish practical analysis, case comments, and reform-minded notes beyond the pace of daily practice."],
+          ["Researchers", "Make doctrinal arguments easier to discover, cite, and improve through public discussion."],
+          ["Legal writers", "Develop a durable public voice inside an editorial environment built for legal reasoning."]
+        ],
+        finalEyebrow: "Start reading, writing, or asking",
+        finalTitle: "Bring one legal idea into the open.",
+        finalLead:
+          "Explore the library, publish a reviewed article, research cases, or use LexAI to shape the first outline of a serious argument."
+      }
     },
     pages: {
       articlesTitle: "Legal analysis library",
@@ -675,7 +754,86 @@ export const dictionaries = {
       newsletterBody: "Azərbaycanın gənc hüquq icmasından redaktor seçimi məqalələri, qərar şərhlərini və islahat qeydlərini al.",
       dailyTermsEyebrow: "Gündəlik hüquqi öyrənmə",
       dailyTermsTitle: "Bugünün hüquqi terminləri",
-      dailyTermsBody: "Hər gün yenilənən qısa və professional izahlarla hüquqi terminləri öyrənin."
+      dailyTermsBody: "Hər gün yenilənən qısa və professional izahlarla hüquqi terminləri öyrənin.",
+      premium: {
+        heroEyebrow: "Hüquqi jurnal və araşdırma platforması",
+        heroTitle: "Azərbaycanın hüquqi ideyalarının ictimai biliyə çevrildiyi məkan.",
+        heroLead:
+          "LexAzerbaijan hüquqi məqalələri, məhkəmə praktikası araşdırmasını, ciddi müzakirələri və LexAI-ni tələbələr, hüquqşünaslar, tədqiqatçılar və hüquqi müəlliflər üçün vahid peşəkar platformada birləşdirir.",
+        heroNote: "Redaktə olunan nəşr, müqayisəli araşdırma və legal-tech alətləri bir məkanda.",
+        ctas: {
+          exploreArticles: "Məqalələrə bax",
+          submitArticle: "Məqalə göndər",
+          askLexAI: "LexAI-dən soruş",
+          viewAllArticles: "Bütün məqalələr",
+          exploreCases: "Qərarlara bax",
+          joinDiscussions: "Müzakirələrə qoşul",
+          readMission: "Missiyanı oxu"
+        },
+        stats: [
+          ["Canlı", "Hüquqi məqalələr", "Təsdiqlənmiş esselər, qərar şərhləri və araşdırma qeydləri."],
+          ["3", "Qərar istiqaməti", "ABŞ, AİHM və Aİ məhkəmə praktikası keçidləri."],
+          ["Açıq", "Müzakirələr", "Hüquqi boşluqlar və islahat ideyaları üçün ictimai forum."],
+          ["AI", "LexAI köməkçisi", "Strukturlaşdırılmış hüquqi araşdırma dəstəyi."]
+        ],
+        marquee: [
+          "Hüquqi məqalələr",
+          "Qərar xülasələri",
+          "Müqayisəli hüquq",
+          "Hüquqi araşdırma",
+          "Müzakirələr",
+          "LexAI",
+          "Azərbaycan hüquq icması"
+        ],
+        articlesEyebrow: "Məqalə vitrini",
+        articlesTitle: "Oxucu marağı olan son təsdiqlənmiş təhlillər.",
+        articlesLead:
+          "Ana səhifə mövcud məqalə sistemindən son təsdiqlənmiş yazıları və yüksək siqnallı hüquqi mətnləri göstərir. Hər kart tam məqalə səhifəsinə aparır.",
+        articlesLabel: "Redaktə olunan nəşr",
+        casesEyebrow: "Qərarlarla hekayələndirmə",
+        casesTitle: "Doktrinadan məhkəmə qərarlarına platformadan çıxmadan keçin.",
+        casesLead:
+          "Cases hüquqi araşdırmanı strukturlaşdırılmış oxu yoluna çevirir: axtar, xülasə et, müqayisə apar və arqumentə daha aydın kontekstlə qayıt.",
+        cases: [
+          ["ABŞ qərarları", "CourtListener əsaslı mövcud marşrutla Amerika federal və ştat məhkəmə praktikasında axtarış edin.", "/cases"],
+          ["AİHM qərarları", "HUDOC əsaslı axtarışla Avropa İnsan Hüquqları Məhkəməsinin qərar və qərardadlarını araşdırın.", "/echr-cases"],
+          ["Aİ qərarları", "CJEU və General Court praktikası, pozuntu işləri və ilkin qərar prosedurlarını araşdırın.", "/eu-cases"]
+        ],
+        discussionsEyebrow: "İcma",
+        discussionsTitle: "Hüquqi boşluqlar, şərh və islahat ideyaları üçün məkan.",
+        discussionsLead:
+          "LexAzerbaijan yalnız kitabxana deyil. Oxucuların arqumentləri yoxladığı, dəqiq suallar verdiyi və araşdırma ideyalarını birlikdə inkişaf etdirdiyi peşəkar müzakirə otağıdır.",
+        discussionCards: [
+          ["Hüquqi boşluqlar", "Qanunvericilik və praktikadakı qeyri-müəyyənliyi dəqiq araşdırma sualına çevirin."],
+          ["Şərh", "Doktrinaları, qərarları və institusional praktikanı digər oxucularla müqayisə edin."],
+          ["İslahat qeydləri", "Təklifləri məqaləyə, qərar şərhinə və ya ictimai rəylərə çevrilmədən əvvəl formalaşdırın."]
+        ],
+        lexaiEyebrow: "LexAI",
+        lexaiTitle: "Hüquqi araşdırma üçün daha sakit başlanğıc.",
+        lexaiLead:
+          "LexAI arqumentləri strukturlaşdırmağa, hüquqi materialları xülasə etməyə və geniş sualları araşdırma yoluna çevirməyə kömək edir. Son hüquqi qiymətləndirmə isə hüquqşünas və ya tədqiqatçıda qalır.",
+        lexaiUser: "AİHM-in proporsionallıq testini daxili inzibati diskresiya ilə necə müqayisə etməliyəm?",
+        lexaiAnswer:
+          "Əvvəl qanuni məqsəd, uyğunluq, zərurilik və balanslaşdırma mərhələlərini ayırın. Sonra daxili orqanın səbəbləri necə əsaslandırdığını və baxışın effektiv olub-olmadığını müqayisə edin.",
+        lexaiDesk: "LexAI araşdırma masası",
+        lexaiStatus: "Kontekstə həssas hüquqi yazı dəstəyi",
+        lexaiAnswerLabel: "LexAI cavabı",
+        lexaiSteps: ["Məsələ", "Qayda", "Yol"],
+        missionEyebrow: "Missiya",
+        missionTitle: "Yeni nəsil hüquqi yazı üçün peşəkar ev.",
+        missionLead:
+          "Platforma hüquqi ideyaları dərc etmək, kəşf etmək, müzakirə etmək və inkişaf etdirmək istəyən tələbələr, hüquqşünaslar, tədqiqatçılar, gənc müəlliflər və hüquq peşəkarları üçün qurulub.",
+        missionCards: [
+          ["Tələbələr", "Mənbə, struktur və peşəkar tonla yazmağı öyrənərək redaktə olunan portfolio qurun."],
+          ["Hüquqşünaslar", "Gündəlik praktikanın tempindən kənarda praktik təhlil, qərar şərhi və islahat qeydləri dərc edin."],
+          ["Tədqiqatçılar", "Doktrinal arqumentləri ictimai müzakirə ilə tapılan, istinad edilən və inkişaf etdirilən edin."],
+          ["Hüquqi müəlliflər", "Hüquqi əsaslandırma üçün qurulmuş redaksiya mühitində davamlı ictimai səs formalaşdırın."]
+        ],
+        finalEyebrow: "Oxumağa, yazmağa və soruşmağa başlayın",
+        finalTitle: "Bir hüquqi ideyanı ictimai məkana gətirin.",
+        finalLead:
+          "Kitabxananı araşdırın, redaktə olunan məqalə dərc edin, qərarları öyrənin və ya LexAI ilə ciddi arqumentin ilk planını qurun."
+      }
     },
     pages: {
       articlesTitle: "Hüquqi təhlil kitabxanası",
@@ -1081,7 +1239,86 @@ export const dictionaries = {
       newsletterBody: "Получайте статьи, комментарии к судебным решениям и заметки о правовых реформах, выбранные редакцией.",
       dailyTermsEyebrow: "Ежедневное юридическое обучение",
       dailyTermsTitle: "Юридические термины дня",
-      dailyTermsBody: "Изучайте важные юридические термины через короткие профессиональные объяснения, обновляемые ежедневно."
+      dailyTermsBody: "Изучайте важные юридические термины через короткие профессиональные объяснения, обновляемые ежедневно.",
+      premium: {
+        heroEyebrow: "Юридический журнал и исследовательская платформа",
+        heroTitle: "Место, где правовые идеи Азербайджана становятся публичным знанием.",
+        heroLead:
+          "LexAzerbaijan объединяет юридические статьи, исследование судебной практики, серьезные дискуссии и LexAI в одной профессиональной платформе для студентов, юристов, исследователей и правовых авторов.",
+        heroNote: "Редактируемые публикации, сравнительное исследование и legal-tech инструменты в одном пространстве.",
+        ctas: {
+          exploreArticles: "Смотреть статьи",
+          submitArticle: "Подать статью",
+          askLexAI: "Спросить LexAI",
+          viewAllArticles: "Все статьи",
+          exploreCases: "Изучить дела",
+          joinDiscussions: "К дискуссиям",
+          readMission: "О миссии"
+        },
+        stats: [
+          ["Live", "Юридические статьи", "Одобренные эссе, комментарии к делам и исследовательские заметки."],
+          ["3", "Потока дел", "Маршруты по практике США, ЕСПЧ и ЕС."],
+          ["Открыто", "Дискуссии", "Публичный форум для пробелов в праве и идей реформ."],
+          ["AI", "Помощник LexAI", "Поддержка структурированного правового исследования."]
+        ],
+        marquee: [
+          "Юридические статьи",
+          "Краткие обзоры дел",
+          "Сравнительное право",
+          "Правовое исследование",
+          "Дискуссии",
+          "LexAI",
+          "Юридическое сообщество Азербайджана"
+        ],
+        articlesEyebrow: "Витрина статей",
+        articlesTitle: "Новые одобренные материалы с читательским интересом.",
+        articlesLead:
+          "Главная страница показывает новые одобренные публикации и сильные правовые тексты из существующей системы статей. Каждая карточка ведет на полную страницу материала.",
+        articlesLabel: "Редактируемая публикация",
+        casesEyebrow: "Судебная практика",
+        casesTitle: "Переходите от доктрины к решениям, не покидая платформу.",
+        casesLead:
+          "Cases превращает правовое исследование в структурированный маршрут чтения: поиск, резюме, сравнение и возвращение к аргументу с более ясным контекстом.",
+        cases: [
+          ["Дела США", "Ищите федеральную и штатную судебную практику США через существующий маршрут на основе CourtListener.", "/cases"],
+          ["Дела ЕСПЧ", "Изучайте решения и постановления Европейского суда по правам человека через поиск на основе HUDOC.", "/echr-cases"],
+          ["Дела ЕС", "Исследуйте практику CJEU и General Court, дела о нарушениях и преюдициальные запросы.", "/eu-cases"]
+        ],
+        discussionsEyebrow: "Сообщество",
+        discussionsTitle: "Пространство для пробелов в праве, толкования и идей реформ.",
+        discussionsLead:
+          "LexAzerbaijan не только библиотека. Это профессиональная комната обсуждения, где читатели проверяют аргументы, задают точные вопросы и вместе развивают исследовательские идеи.",
+        discussionCards: [
+          ["Пробелы в праве", "Превращайте неопределенность в законодательстве или практике в точный исследовательский вопрос."],
+          ["Толкование", "Сравнивайте доктрины, решения и институциональную практику с другими читателями."],
+          ["Идеи реформ", "Формируйте предложения до того, как они станут статьями, комментариями к делам или публичной позицией."]
+        ],
+        lexaiEyebrow: "LexAI",
+        lexaiTitle: "Более спокойная точка входа в правовое исследование.",
+        lexaiLead:
+          "LexAI помогает структурировать аргументы, резюмировать правовые материалы и превращать широкие вопросы в исследовательские маршруты, сохраняя окончательную оценку за юристом или исследователем.",
+        lexaiUser: "Как сравнить тест пропорциональности ЕСПЧ с внутренним административным усмотрением?",
+        lexaiAnswer:
+          "Начните с законной цели, пригодности, необходимости и балансирования. Затем сравните, как внутренний орган фиксирует мотивы и является ли пересмотр содержательным.",
+        lexaiDesk: "Исследовательский стол LexAI",
+        lexaiStatus: "Контекстная поддержка юридического письма",
+        lexaiAnswerLabel: "Ответ LexAI",
+        lexaiSteps: ["Вопрос", "Норма", "Путь"],
+        missionEyebrow: "Миссия",
+        missionTitle: "Профессиональный дом для нового поколения правового письма.",
+        missionLead:
+          "Платформа создана для студентов, юристов, исследователей, молодых авторов и правовых профессионалов, которые хотят публиковать, находить, обсуждать и развивать серьезные правовые идеи.",
+        missionCards: [
+          ["Студенты", "Создавайте редактируемое портфолио и учитесь писать с источниками, структурой и профессиональной сдержанностью."],
+          ["Юристы", "Публикуйте практический анализ, комментарии к делам и заметки о реформах вне темпа ежедневной практики."],
+          ["Исследователи", "Делайте доктринальные аргументы более доступными для поиска, цитирования и улучшения через публичную дискуссию."],
+          ["Правовые авторы", "Развивайте устойчивый публичный голос в редакционной среде, созданной для юридического рассуждения."]
+        ],
+        finalEyebrow: "Начните читать, писать или спрашивать",
+        finalTitle: "Выведите одну правовую идею в публичное пространство.",
+        finalLead:
+          "Изучайте библиотеку, публикуйте редактируемую статью, исследуйте дела или используйте LexAI, чтобы оформить первый план серьезного аргумента."
+      }
     },
     pages: {
       articlesTitle: "Библиотека правового анализа",
